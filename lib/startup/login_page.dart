@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   String _password = "";
 
   Widget buttonChild = new Text("Login");
+  Color buttonColor = mainColor;
 
   void emailField(input) {
     _email = input;
@@ -28,10 +29,10 @@ class _LoginPageState extends State<LoginPage> {
 
   void login() async {
     setState(() {
+      buttonColor = null;
       buttonChild = HeartbeatProgressIndicator(
         child: new Image.asset(
           'images/wblogo.png',
-          color: Colors.white,
           height: 13.0,
         ),
       );
@@ -44,7 +45,8 @@ class _LoginPageState extends State<LoginPage> {
     HttpClientResponse response = await request.close();
     String reply = await response.transform(utf8.decoder).join();
     httpClient.close();
-    print(reply);
+    authToken = reply.substring(10, reply.length - 2);
+    print("USER AUTH TOKEN: " + authToken);
   }
 
   @override
@@ -88,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
               new RaisedButton(
                 child: buttonChild,
                 onPressed: login,
-                color: mainColor,
+                color: buttonColor,
                 textColor: Colors.white,
               ),
               new Padding(padding: EdgeInsets.all(16.0)),
