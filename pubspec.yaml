@@ -19,6 +19,7 @@ dependencies:
   intro_views_flutter: ^2.4.0
   progress_indicators: ^0.1.2
   http: ^0.12.0
+  shared_preferences: ^0.4.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -50,6 +51,8 @@ flutter:
     - images/slide3.png
     - images/slide4.png
     - images/wblogo.png
+    - images/default-profile.png
+    - images/scout.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

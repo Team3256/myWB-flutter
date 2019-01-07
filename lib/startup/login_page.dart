@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:mywb_flutter/user_info.dart';
-import 'dart:io';
+import 'package:fluro/fluro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
@@ -16,8 +19,39 @@ class _LoginPageState extends State<LoginPage> {
   String _email = "";
   String _password = "";
 
-  Widget buttonChild = new Text("Login");
-  Color buttonColor = mainColor;
+  Widget loginWidget = new Padding(padding: EdgeInsets.all(20.0));
+
+  TextEditingController _emailTextField;
+  TextEditingController _passwordTextField;
+
+  _LoginPageState() {
+    loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: mainColor, textColor: Colors.white);
+  }
+
+  void errorDialog(String input) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Login Error"),
+          content: new Text(
+            "Ruh-roh! The following error occured while trying to log you in: $input",
+            style: TextStyle(fontSize: 14.0),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("GOT IT"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void emailField(input) {
     _email = input;
@@ -29,8 +63,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void login() async {
     setState(() {
-      buttonColor = null;
-      buttonChild = HeartbeatProgressIndicator(
+      loginWidget = HeartbeatProgressIndicator(
         child: new Image.asset(
           'images/wblogo.png',
           height: 13.0,
@@ -38,15 +71,34 @@ class _LoginPageState extends State<LoginPage> {
       );
     });
     var authUrl = "https://mywb.vcs.net/auth/generate-token";
-    HttpClient httpClient = new HttpClient();
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(authUrl));
-    request.headers.set('content-type', 'application/json');
-    request.add(utf8.encode(json.encode({"email": _email, "password": _password})));
-    HttpClientResponse response = await request.close();
-    String reply = await response.transform(utf8.decoder).join();
-    httpClient.close();
-    authToken = reply.substring(10, reply.length - 2);
-    print("USER AUTH TOKEN: " + authToken);
+    var userUrl = "https://mywb.vcs.net/api/hr/user/info";
+    http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
+      print(response.body);
+      var jsonResponse = json.decode(response.body);
+      if (jsonResponse["token"] != null) {
+        authToken = jsonResponse["token"];
+        print("USER AUTH TOKEN: $authToken");
+        http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) {
+          print(user.body);
+          var userJson = json.decode(user.body);
+          firstName = userJson["firstName"];
+          middleName = userJson["middleName"];
+          lastName = userJson["lastName"];
+          email = userJson["email"];
+          birthday = userJson["birthday"];
+          phone = userJson["cellPhone"];
+          gender = userJson["gender"];
+          role = userJson["type"];
+        });
+        router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true, replace: true);
+      }
+      else {
+        errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
+        setState(() {
+          loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: mainColor, textColor: Colors.white);
+        });
+      }
+    });
   }
 
   @override
@@ -67,10 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     icon: new Icon(Icons.email),
                     labelText: "Email",
-                    hintText: "Enter your email"
+                    hintText: "Enter your email",
                 ),
                 autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 textCapitalization: TextCapitalization.none,
                 onChanged: emailField,
               ),
@@ -78,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     icon: new Icon(Icons.lock),
                     labelText: "Password",
-                    hintText: "Enter a password"
+                    hintText: "Enter your password"
                 ),
                 autocorrect: false,
                 keyboardType: TextInputType.text,
@@ -86,13 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 onChanged: passwordField,
               ),
-              new Padding(padding: EdgeInsets.all(8.0)),
-              new RaisedButton(
-                child: buttonChild,
-                onPressed: login,
-                color: buttonColor,
-                textColor: Colors.white,
-              ),
+              new Padding(padding: EdgeInsets.all(16.0)),
+              loginWidget,
               new Padding(padding: EdgeInsets.all(16.0)),
               new FlatButton(
                 child: new Text(
@@ -102,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () {
-                  router.pop(context);
                 },
               )
             ],

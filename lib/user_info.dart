@@ -3,4 +3,16 @@ import 'package:fluro/fluro.dart';
 
 final router = Router();
 
-String authToken = "";
+String currentPage = "Home";
+
+String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5ZWV0QGV4YW1wbGUuZ292Iiwic2NvcGVzIjoiUk9MRV9TVFVERU5ULFJPTEVfVVNFUiIsImlhdCI6MTU0Njg5OTU4NiwiZXhwIjoxNTYyNjc5NTg2fQ.1W1D1UrenkUNQUIJq5B_DNAZRI67-EB9q0MPa8BoiOA";
+
+String firstName = "[ERROR]";
+String middleName = "[ERROR]";
+String lastName = "[ERROR]";
+String email = "[ERROR]";
+String birthday = "[ERROR]";
+String phone = "[ERROR]";
+String gender = "[ERROR]";
+
+String role = "[ERROR]";
