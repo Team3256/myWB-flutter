@@ -13,14 +13,14 @@ class _ScoutPageState extends State<ScoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Scout"),
+        title: new Text("Scouting"),
         backgroundColor: mainColor,
       ),
       drawer: new UserDrawer(),
       body: new Container(
         color: Colors.white,
         child: new Center(
-          child: new Text("Scout"),
+          child: new Text("Scouting"),
         ),
       ),
     );

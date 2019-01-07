@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:mywb_flutter/user_drawer.dart';
+import 'package:fluro/fluro.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
+        title: new Text("Settings"),
         backgroundColor: mainColor,
       ),
       drawer: new UserDrawer(),
@@ -32,8 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       firstName + " " + lastName,
                       style: TextStyle(
                           fontSize: 25.0,
-                          color: Colors.blue,
-                          fontFamily: "Product Sans",
+                          color: mainColor,
                           fontWeight: FontWeight.bold
                       ),
                     ),
@@ -43,24 +43,25 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: new Column(
                       children: <Widget>[
                         new ListTile(
-                          title: new Text("Email", style: TextStyle(fontFamily: "Product Sans"),),
-                          trailing: new Text(email, style: TextStyle(fontSize: 16.0, fontFamily: "Product Sans")),
+                          title: new Text("Email"),
+                          trailing: new Text(email, style: TextStyle(fontSize: 16.0)),
                         ),
                         new ListTile(
-                          title: new Text("Phone", style: TextStyle(fontFamily: "Product Sans",)),
-                          trailing: new Text(phone, style: TextStyle(fontSize: 16.0, fontFamily: "Product Sans")),
+                          title: new Text("Phone"),
+                          trailing: new Text(phone, style: TextStyle(fontSize: 16.0)),
                         ),
                         new ListTile(
-                          title: new Text("Birthday", style: TextStyle(fontFamily: "Product Sans",)),
-                          trailing: new Text(birthday, style: TextStyle(fontSize: 14.0, fontFamily: "Product Sans")),
+                          title: new Text("Birthday"),
+                          trailing: new Text(birthday, style: TextStyle(fontSize: 14.0)),
                         ),
                         new ListTile(
-                          title: new Text("Role", style: TextStyle(fontFamily: "Product Sans",)),
-                          trailing: new Text(role, style: TextStyle(fontSize: 16.0, fontFamily: "Product Sans")),
+                          title: new Text("Role"),
+                          trailing: new Text(role, style: TextStyle(fontSize: 16.0)),
                         ),
                         new ListTile(
-                          title: new Text("Update Profile", style: TextStyle(fontFamily: "Product Sans", color: Colors.blue), textAlign: TextAlign.center,),
+                          title: new Text("Update Profile", style: TextStyle(color: mainColor), textAlign: TextAlign.center,),
                           onTap: () {
+                            router.navigateTo(context, '/updateProfile', transition: TransitionType.nativeModal);
                           },
                         )
                       ],
@@ -76,25 +77,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   new Container(
                     padding: EdgeInsets.all(16.0),
-                    child: new Text("General", style: TextStyle(color: Colors.blue, fontFamily: "Product Sans", fontWeight: FontWeight.bold),),
+                    child: new Text("General", style: TextStyle(color: mainColor, fontFamily: "Product Sans", fontWeight: FontWeight.bold),),
                   ),
                   new ListTile(
                     title: new Text("About", style: TextStyle(fontFamily: "Product Sans",)),
-                    trailing: new Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                    trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                     onTap: () {
                     },
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                   new ListTile(
                     title: new Text("Help", style: TextStyle(fontFamily: "Product Sans",)),
-                    trailing: new Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                    trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                     onTap: () {
                     },
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                   new ListTile(
                       title: new Text("Legal", style: TextStyle(fontFamily: "Product Sans",)),
-                      trailing: new Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                      trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                       onTap: () {
 //                      showLicensePage(
 //                          context: context,
@@ -108,15 +109,10 @@ class _SettingsPageState extends State<SettingsPage> {
 //                      );
                       }
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                   new ListTile(
                     title: new Text("Sign Out", style: TextStyle(color: Colors.red, fontFamily: "Product Sans"),),
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
-                  new ListTile(
-                    title: new Text("\nDelete Account\n", style: TextStyle(color: Colors.red, fontFamily: "Product Sans"),),
-                    subtitle: new Text("Deleting your VC DECA Account will remove all the data linked to your account as well. You will be required to create a new account in order to sign in again.\n", style: TextStyle(fontSize: 12.0, fontFamily: "Product Sans")),
-                  )
                 ],
               ),
             ),
@@ -127,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   new Container(
                     padding: EdgeInsets.all(16.0),
-                    child: new Text("Preferences", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
+                    child: new Text("Preferences", style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
                   ),
                   new SwitchListTile(
                     title: new Text("Push Notifications", style: TextStyle(fontFamily: "Product Sans",)),
@@ -135,14 +131,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     onChanged: (bool value) {
                     },
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                   new SwitchListTile(
                     title: new Text("Chat Notifications", style: TextStyle(fontFamily: "Product Sans",)),
                     value: true,
                     onChanged: (bool value) {
                     },
                   ),
-//                new Divider(height: 0.0, color: Colors.blue),
+//                new Divider(height: 0.0, color: mainColor),
 //                new SwitchListTile(
 //                  title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans",)),
 //                  value: darkMode,
@@ -163,22 +159,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   new Container(
                     padding: EdgeInsets.all(16.0),
-                    child: new Text("Feedback", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
+                    child: new Text("Feedback", style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
                   ),
                   new ListTile(
                     title: new Text("Provide Feedback", style: TextStyle(fontFamily: "Product Sans",)),
-                    trailing: new Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                    trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                     onTap: () {
                     },
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                   new ListTile(
                     title: new Text("Report a Bug", style: TextStyle(fontFamily: "Product Sans",)),
-                    trailing: new Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                    trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                     onTap: () {
                     },
                   ),
-                  new Divider(height: 0.0, color: Colors.blue),
+                  new Divider(height: 0.0, color: mainColor),
                 ],
               ),
             ),
