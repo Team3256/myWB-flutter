@@ -1,0 +1,166 @@
+{
+  "scouting": {
+    "id": "2019cadm",
+    "name": "Del Mar Regional",
+    "matches": [
+      {
+        "id": 1,
+        "name": "Match 1",
+        "teamKeys": [3256, 115, 971, 1244, 1376, 313],
+        "teamInfo": [
+          {
+            "3256": {
+              "alliance": "blue",
+              "hatchesPicked": 17,
+              "hatchesScored": 12,
+              "hatchAvg": "10s",
+              "cargoPicked": 12,
+              "cargoScored": 11,
+              "cargoAvg": "7s",
+              "habStage": 2
+            }
+          },
+          {
+            "115": {
+              "alliance": "blue",
+              "hatchesPicked": 12,
+              "hatchesScored": 6,
+              "hatchAvg": "12s",
+              "cargoPicked": 15,
+              "cargoScored": 11,
+              "cargoAvg": "10s",
+              "habStage": 3
+            }
+          },
+          {
+            "971": {
+              "alliance": "blue",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "1244": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "1376": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "313": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Match 2",
+        "teamKeys": [3256, 115, 971, 1244, 1376, 313],
+        "teamInfo": [
+          {
+            "3256": {
+              "alliance": "blue",
+              "hatchesPicked": 17,
+              "hatchesScored": 12,
+              "hatchAvg": "10s",
+              "cargoPicked": 12,
+              "cargoScored": 11,
+              "cargoAvg": "7s",
+              "habStage": 2
+            }
+          },
+          {
+            "115": {
+              "alliance": "blue",
+              "hatchesPicked": 12,
+              "hatchesScored": 6,
+              "hatchAvg": "12s",
+              "cargoPicked": 15,
+              "cargoScored": 11,
+              "cargoAvg": "10s",
+              "habStage": 3
+            }
+          },
+          {
+            "971": {
+              "alliance": "blue",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "1244": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "1376": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          },
+          {
+            "313": {
+              "alliance": "red",
+              "hatchesPicked": 3,
+              "hatchesScored": 0,
+              "hatchAvg": "0s",
+              "cargoPicked": 9,
+              "cargoScored": 5,
+              "cargoAvg": "8s",
+              "habStage": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

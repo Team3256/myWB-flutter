@@ -10,6 +10,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  bool _notifs = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,28 +130,23 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   new SwitchListTile(
                     title: new Text("Push Notifications", style: TextStyle(fontFamily: "Product Sans",)),
-                    value: true,
+                    value: _notifs,
                     onChanged: (bool value) {
+                      setState(() {
+                        _notifs = value;
+                      });
                     },
                   ),
-                  new Divider(height: 0.0, color: mainColor),
-                  new SwitchListTile(
-                    title: new Text("Chat Notifications", style: TextStyle(fontFamily: "Product Sans",)),
-                    value: true,
-                    onChanged: (bool value) {
-                    },
-                  ),
-//                new Divider(height: 0.0, color: mainColor),
-//                new SwitchListTile(
-//                  title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans",)),
-//                  value: darkMode,
-//                  onChanged: (bool value) {
-//                    setState(() {
-//                      darkMode = value;
-//                      databaseRef.child("users").child(userID).update({"darkMode": darkMode});
-//                    });
-//                  },
-//                ),
+                new Divider(height: 0.0, color: mainColor),
+                new SwitchListTile(
+                  title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans",)),
+                  value: darkMode,
+                  onChanged: (bool value) {
+                    setState(() {
+                      darkMode = value;
+                    });
+                  },
+                ),
                 ],
               ),
             ),

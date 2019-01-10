@@ -18,6 +18,8 @@ dependencies:
   fluro: ^1.4.0
   intro_views_flutter: ^2.4.0
   progress_indicators: ^0.1.2
+  url_launcher: ^4.0.3
+  flutter_webview_plugin: ^0.3.0+2
   http: ^0.12.0
   shared_preferences: ^0.4.3
   # The following adds the Cupertino Icons font to your application.
