@@ -31,11 +31,10 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     points = 0;
     stopwatch.reset();
-    stopwatch.start();
+//    stopwatch.start();
     new Timer.periodic(new Duration(milliseconds: 100), getTimer);
   }
 
@@ -44,6 +43,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
       setState(() {
 //        print(stopwatch.elapsedMilliseconds / 1000);
         _progress = stopwatch.elapsedMilliseconds / 150000;
+        title = "Match $currMatch - ${((150000 - stopwatch.elapsedMilliseconds)/1000).round()} sec";
       });
     }
   }
@@ -58,6 +58,8 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         leading: new IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
+            autoLine = false;
+            dcList.clear();
             stopwatch.stop();
             stopwatch.reset();
             dcStopwatch.stop();
@@ -81,14 +83,16 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                     currTeam,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25.0
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35.0
                     ),
                   ),
                   new Text(
                     "$currAlliance Alliance",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25.0
+                        fontWeight: FontWeight.w100,
+                        fontSize: 35.0
                     ),
                   )
                 ],
@@ -150,10 +154,14 @@ class _SandStormState extends State<SandStorm> {
 
   //DC
   Color dcAdd = greyAccent;
-  Color dcSubtract = greyAccent;
-  double dcTimer = 0;
+  int dcTimer = 0;
   String dcImagePath = "images/add.png";
   bool reconnectVisible = false;
+
+  //Hatch
+  Color hatchAdd = greyAccent;
+  String hatchImagePath = "images/add.png";
+  int hatchTimer = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +190,8 @@ class _SandStormState extends State<SandStorm> {
                         autoLine = false;
                         yesColor = greyAccent;
                         noColor = mainColor;
-                        print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
+                        autoTime = 0;
+                        print("Points: $points - $autoTime");
                       });
                     },
                   ),
@@ -201,6 +210,7 @@ class _SandStormState extends State<SandStorm> {
                         autoLine = true;
                         yesColor = mainColor;
                         noColor = greyAccent;
+                        autoTime = stopwatch.elapsedMilliseconds/1000;
                         print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
                       });
                     },
@@ -210,9 +220,60 @@ class _SandStormState extends State<SandStorm> {
             ),
           ),
           new ExpansionTile(
-            title: new Text("Hatch"),
+            title: new Text("Hatch Panels"),
+            trailing: Container(
+              width: 100.0,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new Text(
+                    (dcList.length ~/ 2).toString(),
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  new IconButton(
+                    icon: new Image.asset(hatchImagePath, color: hatchAdd,),
+                    onPressed: null,
+                  )
+                ],
+              ),
+            ),
             children: <Widget>[
-
+              new Container(
+                height: 200.0,
+                color: Colors.greenAccent,
+                padding: EdgeInsets.all(8.0),
+                child: new Column(
+                  children: <Widget>[
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            child: new Container(
+                              color: greyAccent,
+                              child: new FlatButton(
+                                child: new Text("Human Player Station"),
+                              ),
+                            ),
+                          ),
+                        ),
+                        new Padding(padding: EdgeInsets.all(8.0)),
+                        new Expanded(
+                          child: new ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            child: new Container(
+                              color: greyAccent,
+                              child: new FlatButton(
+                                child: new Text("Ground"),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           new ExpansionTile(
@@ -223,7 +284,7 @@ class _SandStormState extends State<SandStorm> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                    dcList.length.toString(),
+                    (dcList.length ~/ 2).toString(),
                     style: TextStyle(fontSize: 20.0),
                   ),
                   new IconButton(
@@ -245,7 +306,7 @@ class _SandStormState extends State<SandStorm> {
                 new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                   if (dcStopwatch.isRunning) {
                     setState(() {
-                      dcTimer = dcStopwatch.elapsedMilliseconds / 1000;
+                      dcTimer = (dcStopwatch.elapsedMilliseconds / 1000).round();
                     });
                   }
                 });
@@ -280,8 +341,8 @@ class _SandStormState extends State<SandStorm> {
                               dcStopwatch.stop();
                               setState(() {
                                 dcList.add(stopwatch.elapsedMilliseconds/1000);
-                                dcList.add(dcTimer);
-                                print("Disconnect @ ${dcList.elementAt(dcList.length - 2)} for ${dcList.elementAt(dcList.length - 1)} seconds!");
+                                dcList.add(dcStopwatch.elapsedMilliseconds/1000);
+                                print("Robot Disconnect @ ${dcList.elementAt(dcList.length - 2)} for ${dcList.elementAt(dcList.length - 1)} seconds!");
                                 reconnectVisible = false;
                               });
                         }),

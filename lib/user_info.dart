@@ -27,6 +27,19 @@ int points = 0;
 
 int habLevel = 0;
 bool autoLine = false;
+double autoTime = 0;
 
 Stopwatch dcStopwatch = new Stopwatch();
 List<double> dcList = List();
+
+Stopwatch hatchStopwatch = new Stopwatch();
+List<Hatch> hatchList = new List();
+
+class Hatch {
+  String pickup;
+  String dropOff;
+  double pickupTime;
+  double cycleTime;
+
+  Hatch(this.pickup, this.dropOff, this.pickupTime, this.cycleTime);
+}
