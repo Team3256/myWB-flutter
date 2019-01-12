@@ -160,8 +160,14 @@ class _SandStormState extends State<SandStorm> {
 
   //Hatch
   Color hatchAdd = greyAccent;
+  Color hatchTitle = Colors.black;
   String hatchImagePath = "images/add.png";
   int hatchTimer = 0;
+  bool intakeVisible = true;
+  bool dropVisible = false;
+  double hatchContainerHeight = 0.0;
+  String intakeLocation = "";
+  String dropLocation = "";
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +175,7 @@ class _SandStormState extends State<SandStorm> {
       child: new Column(
         children: <Widget>[
           new ListTile(
-            title: new Text("Crossed Auto-Line?"),
+            title: new Text("Crossed Base-Line?"),
             trailing: Container(
               width: 100.0,
               child: new Row(
@@ -219,62 +225,231 @@ class _SandStormState extends State<SandStorm> {
               ),
             ),
           ),
-          new ExpansionTile(
-            title: new Text("Hatch Panels"),
+          new ListTile(
+            title: new Text("Hatch Panels", style: TextStyle(color: hatchTitle),),
             trailing: Container(
               width: 100.0,
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                    (dcList.length ~/ 2).toString(),
+                    (hatchList.length).toString(),
                     style: TextStyle(fontSize: 20.0),
                   ),
                   new IconButton(
                     icon: new Image.asset(hatchImagePath, color: hatchAdd,),
-                    onPressed: null,
+                    onPressed: () {
+                      if (hatchImagePath == "images/add.png") {
+                        hatchStopwatch.reset();
+                        hatchStopwatch.start();
+                        new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
+                          if (hatchStopwatch.isRunning) {
+                            setState(() {
+                              hatchTimer = (hatchStopwatch.elapsedMilliseconds / 1000).round();
+                            });
+                          }
+                        });
+                        setState(() {
+                          hatchAdd = mainColor;
+                          hatchTitle = mainColor;
+                          intakeVisible = true;
+                          dropVisible = false;
+                          hatchImagePath = "images/subtract.png";
+                          hatchContainerHeight = 155.0;
+                        });
+                      }
+                      else {
+                        hatchStopwatch.stop();
+                        hatchStopwatch.reset();
+                        dropLocation = "";
+                        intakeLocation = "";
+                        setState(() {
+                          hatchTitle = Colors.black;
+                          hatchAdd = greyAccent;
+                          hatchImagePath = "images/add.png";
+                          hatchContainerHeight = 0.0;
+                          intakeVisible = true;
+                          dropVisible = false;
+                        });
+                      }
+                    },
                   )
                 ],
               ),
             ),
-            children: <Widget>[
-              new Container(
-                height: 200.0,
-                color: Colors.greenAccent,
-                padding: EdgeInsets.all(8.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            child: new Container(
-                              color: greyAccent,
-                              child: new FlatButton(
-                                child: new Text("Human Player Station"),
-                              ),
+          ),
+          new AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            height: hatchContainerHeight,
+            padding: EdgeInsets.all(8.0),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Text("Intake Location: $intakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Visibility(visible: intakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: intakeVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Human Player Station"),
+                              onPressed: () {
+                                setState(() {
+                                  intakeLocation = "Human Player Station";
+                                  dropVisible = true;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 290.0;
+                                });
+                              },
                             ),
                           ),
                         ),
-                        new Padding(padding: EdgeInsets.all(8.0)),
-                        new Expanded(
-                          child: new ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            child: new Container(
-                              color: greyAccent,
-                              child: new FlatButton(
-                                child: new Text("Ground"),
-                              ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Ground"),
+                              onPressed: () {
+
+                              },
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                new Padding(padding: EdgeInsets.all(4.0)),
+                new Visibility(visible: dropVisible, child: new Text("Drop Location: $dropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: dropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Cargo Ship"),
+                              onPressed: () {
+                                hatchStopwatch.stop();
+                                hatchStopwatch.reset();
+                                setState(() {
+                                  dropLocation = "Cargo Ship";
+                                  dropVisible = false;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 0.0;
+                                  hatchAdd = greyAccent;
+                                  hatchTitle = Colors.black;
+                                  hatchImagePath = "images/add.png";
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 1"),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: dropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 2"),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 3"),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: dropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: Colors.red,
+                            child: new FlatButton(
+                              child: new Text("Droppped"),
+                              textColor: Colors.white,
+                              onPressed: () {
+
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  child: new Container(
+                    color: greyAccent,
+                    child: new ListTile(
+                      title: new Text("$hatchTimer sec"),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           new ExpansionTile(
             title: new Text("Robot Disconnected?"),
@@ -303,7 +478,7 @@ class _SandStormState extends State<SandStorm> {
                 });
                 dcStopwatch.reset();
                 dcStopwatch.start();
-                new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
+                new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
                   if (dcStopwatch.isRunning) {
                     setState(() {
                       dcTimer = (dcStopwatch.elapsedMilliseconds / 1000).round();
