@@ -40,6 +40,10 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
 
   void getTimer(Timer timer) {
     if (stopwatch.isRunning) {
+      if (stopwatch.elapsedMilliseconds >= 15000 && stopwatch.elapsedMilliseconds <= 15300) {
+        print("SANDSTORM OVER!");
+        _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
       setState(() {
 //        print(stopwatch.elapsedMilliseconds / 1000);
         _progress = stopwatch.elapsedMilliseconds / 150000;
@@ -60,10 +64,16 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
           onPressed: () {
             autoLine = false;
             dcList.clear();
+            hatchList.clear();
+            cargoList.clear();
             stopwatch.stop();
             stopwatch.reset();
             dcStopwatch.stop();
             dcStopwatch.reset();
+            hatchStopwatch.stop();
+            hatchStopwatch.reset();
+            cargoStopwatch.stop();
+            cargoStopwatch.reset();
             router.navigateTo(context, '/scout', clearStack: true, transition: TransitionType.inFromLeft);
           },
         ),
@@ -159,15 +169,28 @@ class _SandStormState extends State<SandStorm> {
   bool reconnectVisible = false;
 
   //Hatch
+  int hatchCounter = 0;
   Color hatchAdd = greyAccent;
   Color hatchTitle = Colors.black;
   String hatchImagePath = "images/add.png";
   int hatchTimer = 0;
-  bool intakeVisible = true;
+  bool intakeVisible = false;
   bool dropVisible = false;
   double hatchContainerHeight = 0.0;
-  String intakeLocation = "";
-  String dropLocation = "";
+  String hatchIntakeLocation = "";
+  String hatchDropLocation = "";
+
+  //Cargo
+  int cargoCounter = 0;
+  Color cargoAdd = greyAccent;
+  Color cargoTitle = Colors.black;
+  String cargoImagePath = "images/add.png";
+  int cargoTimer = 0;
+  bool cargoIntakeVisible = false;
+  bool cargoDropVisible = false;
+  double cargoContainerHeight = 0.0;
+  String cargoIntakeLocation = "";
+  String cargoDropLocation = "";
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +256,7 @@ class _SandStormState extends State<SandStorm> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                    (hatchList.length).toString(),
+                    (hatchCounter).toString(),
                     style: TextStyle(fontSize: 20.0),
                   ),
                   new IconButton(
@@ -261,8 +284,8 @@ class _SandStormState extends State<SandStorm> {
                       else {
                         hatchStopwatch.stop();
                         hatchStopwatch.reset();
-                        dropLocation = "";
-                        intakeLocation = "";
+                        hatchDropLocation = "";
+                        hatchIntakeLocation = "";
                         setState(() {
                           hatchTitle = Colors.black;
                           hatchAdd = greyAccent;
@@ -286,7 +309,7 @@ class _SandStormState extends State<SandStorm> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new Text("Intake Location: $intakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Text("Intake Location: $hatchIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
                 new Visibility(visible: intakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: intakeVisible,
@@ -301,7 +324,7 @@ class _SandStormState extends State<SandStorm> {
                               child: new Text("Human Player Station"),
                               onPressed: () {
                                 setState(() {
-                                  intakeLocation = "Human Player Station";
+                                  hatchIntakeLocation = "Human Player Station";
                                   dropVisible = true;
                                   intakeVisible = false;
                                   hatchContainerHeight = 290.0;
@@ -320,7 +343,12 @@ class _SandStormState extends State<SandStorm> {
                             child: new FlatButton(
                               child: new Text("Ground"),
                               onPressed: () {
-
+                                setState(() {
+                                  hatchIntakeLocation = "Ground";
+                                  dropVisible = true;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 290.0;
+                                });
                               },
                             ),
                           ),
@@ -330,7 +358,7 @@ class _SandStormState extends State<SandStorm> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(4.0)),
-                new Visibility(visible: dropVisible, child: new Text("Drop Location: $dropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: dropVisible, child: new Text("Drop Location: $hatchDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
                 new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: dropVisible,
@@ -344,10 +372,11 @@ class _SandStormState extends State<SandStorm> {
                             child: new FlatButton(
                               child: new Text("Cargo Ship"),
                               onPressed: () {
+                                hatchDropLocation = "Cargo Ship";
                                 hatchStopwatch.stop();
-                                hatchStopwatch.reset();
                                 setState(() {
-                                  dropLocation = "Cargo Ship";
+                                  hatchCounter++;
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -355,6 +384,8 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                hatchStopwatch.reset();
+                                print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
                             ),
                           ),
@@ -369,7 +400,20 @@ class _SandStormState extends State<SandStorm> {
                             child: new FlatButton(
                               child: new Text("Rocket Lvl 1"),
                               onPressed: () {
-
+                                hatchDropLocation = "Rocket Lvl 1";
+                                hatchStopwatch.stop();
+                                setState(() {
+                                  hatchCounter++;
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  dropVisible = false;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 0.0;
+                                  hatchAdd = greyAccent;
+                                  hatchTitle = Colors.black;
+                                  hatchImagePath = "images/add.png";
+                                });
+                                hatchStopwatch.reset();
+                                print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
                             ),
                           ),
@@ -391,7 +435,20 @@ class _SandStormState extends State<SandStorm> {
                             child: new FlatButton(
                               child: new Text("Rocket Lvl 2"),
                               onPressed: () {
-
+                                hatchDropLocation = "Rocket Lvl 2";
+                                hatchStopwatch.stop();
+                                setState(() {
+                                  hatchCounter++;
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  dropVisible = false;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 0.0;
+                                  hatchAdd = greyAccent;
+                                  hatchTitle = Colors.black;
+                                  hatchImagePath = "images/add.png";
+                                });
+                                hatchStopwatch.reset();
+                                print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
                             ),
                           ),
@@ -406,7 +463,20 @@ class _SandStormState extends State<SandStorm> {
                             child: new FlatButton(
                               child: new Text("Rocket Lvl 3"),
                               onPressed: () {
-
+                                hatchDropLocation = "Rocket Lvl 3";
+                                hatchStopwatch.stop();
+                                setState(() {
+                                  hatchCounter++;
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  dropVisible = false;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 0.0;
+                                  hatchAdd = greyAccent;
+                                  hatchTitle = Colors.black;
+                                  hatchImagePath = "images/add.png";
+                                });
+                                hatchStopwatch.reset();
+                                print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
                             ),
                           ),
@@ -429,7 +499,19 @@ class _SandStormState extends State<SandStorm> {
                               child: new Text("Droppped"),
                               textColor: Colors.white,
                               onPressed: () {
-
+                                hatchDropLocation = "Dropped";
+                                hatchStopwatch.stop();
+                                setState(() {
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  dropVisible = false;
+                                  intakeVisible = false;
+                                  hatchContainerHeight = 0.0;
+                                  hatchAdd = greyAccent;
+                                  hatchTitle = Colors.black;
+                                  hatchImagePath = "images/add.png";
+                                });
+                                hatchStopwatch.reset();
+                                print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
                             ),
                           ),
@@ -445,6 +527,293 @@ class _SandStormState extends State<SandStorm> {
                     color: greyAccent,
                     child: new ListTile(
                       title: new Text("$hatchTimer sec"),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          new ListTile(
+            title: new Text("Hatch Panels", style: TextStyle(color: cargoTitle),),
+            trailing: Container(
+              width: 100.0,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new Text(
+                    (cargoCounter).toString(),
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  new IconButton(
+                    icon: new Image.asset(cargoImagePath, color: cargoAdd,),
+                    onPressed: () {
+                      if (cargoImagePath == "images/add.png") {
+                        cargoStopwatch.reset();
+                        cargoStopwatch.start();
+                        new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
+                          if (cargoStopwatch.isRunning) {
+                            setState(() {
+                              cargoTimer = (cargoStopwatch.elapsedMilliseconds / 1000).round();
+                            });
+                          }
+                        });
+                        setState(() {
+                          cargoDropLocation = "";
+                          cargoIntakeLocation = "";
+                          cargoAdd = mainColor;
+                          cargoTitle = mainColor;
+                          cargoIntakeVisible = true;
+                          cargoDropVisible = false;
+                          cargoImagePath = "images/subtract.png";
+                          cargoContainerHeight = 155.0;
+                        });
+                      }
+                      else {
+                        cargoStopwatch.stop();
+                        cargoStopwatch.reset();
+                        cargoDropLocation = "";
+                        cargoIntakeLocation = "";
+                        setState(() {
+                          cargoTitle = Colors.black;
+                          cargoAdd = greyAccent;
+                          cargoImagePath = "images/add.png";
+                          cargoContainerHeight = 0.0;
+                          cargoIntakeVisible = true;
+                          cargoDropVisible = false;
+                        });
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+          new AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            height: cargoContainerHeight,
+            padding: EdgeInsets.all(8.0),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Text("Intake Location: $cargoIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Visibility(visible: cargoIntakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: cargoIntakeVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Human Player Station"),
+                              onPressed: () {
+                                setState(() {
+                                  cargoIntakeLocation = "Human Player Station";
+                                  cargoDropVisible = true;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 290.0;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Ground"),
+                              onPressed: () {
+                                setState(() {
+                                  cargoIntakeLocation = "Ground";
+                                  cargoDropVisible = true;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 290.0;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Padding(padding: EdgeInsets.all(4.0)),
+                new Visibility(visible: cargoDropVisible, child: new Text("Drop Location: $cargoDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: cargoDropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Cargo Ship"),
+                              onPressed: () {
+                                cargoDropLocation = "Cargo Ship";
+                                cargoStopwatch.stop();
+                                setState(() {
+                                  cargoCounter++;
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoDropVisible = false;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 0.0;
+                                  cargoAdd = greyAccent;
+                                  cargoTitle = Colors.black;
+                                  cargoImagePath = "images/add.png";
+                                });
+                                cargoStopwatch.reset();
+                                print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 1"),
+                              onPressed: () {
+                                cargoDropLocation = "Rocket Lvl 1";
+                                cargoStopwatch.stop();
+                                setState(() {
+                                  cargoCounter++;
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoDropVisible = false;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 0.0;
+                                  cargoAdd = greyAccent;
+                                  cargoTitle = Colors.black;
+                                  cargoImagePath = "images/add.png";
+                                });
+                                cargoStopwatch.reset();
+                                print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: cargoDropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 2"),
+                              onPressed: () {
+                                cargoDropLocation = "Rocket Lvl 2";
+                                cargoStopwatch.stop();
+                                setState(() {
+                                  cargoCounter++;
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoDropVisible = false;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 0.0;
+                                  cargoAdd = greyAccent;
+                                  cargoTitle = Colors.black;
+                                  cargoImagePath = "images/add.png";
+                                });
+                                cargoStopwatch.reset();
+                                print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: greyAccent,
+                            child: new FlatButton(
+                              child: new Text("Rocket Lvl 3"),
+                              onPressed: () {
+                                cargoDropLocation = "Rocket Lvl 3";
+                                cargoStopwatch.stop();
+                                setState(() {
+                                  cargoCounter++;
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoDropVisible = false;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 0.0;
+                                  cargoAdd = greyAccent;
+                                  cargoTitle = Colors.black;
+                                  cargoImagePath = "images/add.png";
+                                });
+                                cargoStopwatch.reset();
+                                print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new Visibility(
+                  visible: cargoDropVisible,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: Colors.red,
+                            child: new FlatButton(
+                              child: new Text("Droppped"),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                cargoDropLocation = "Dropped";
+                                cargoStopwatch.stop();
+                                setState(() {
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoDropVisible = false;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 0.0;
+                                  cargoAdd = greyAccent;
+                                  cargoTitle = Colors.black;
+                                  cargoImagePath = "images/add.png";
+                                });
+                                cargoStopwatch.reset();
+                                print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
+                new ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  child: new Container(
+                    color: greyAccent,
+                    child: new ListTile(
+                      title: new Text("$cargoTimer sec"),
                     ),
                   ),
                 )
