@@ -16,3 +16,16 @@ String phone = "[ERROR]";
 String gender = "[ERROR]";
 
 String role = "[ERROR]";
+
+String currTeam = "";
+String currAlliance = "";
+String currMatch = "";
+
+Stopwatch stopwatch = new Stopwatch();
+
+int points = 0;
+
+int habLevel = 0;
+bool autoLine = false;
+
+List<double> dcList = List();

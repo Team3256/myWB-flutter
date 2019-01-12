@@ -139,7 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                 onChanged: passwordField,
               ),
               new Padding(padding: EdgeInsets.all(16.0)),
-              loginWidget,
+              new AnimatedContainer(
+                child: loginWidget,
+                duration: new Duration(milliseconds: 300),
+              ),
               new Padding(padding: EdgeInsets.all(16.0)),
               new FlatButton(
                 child: new Text(
