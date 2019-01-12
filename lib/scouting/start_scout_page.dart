@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:mywb_flutter/user_info.dart';
+import 'package:flutter/cupertino.dart';
 
 class ScoutPageOne extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
     super.initState();
     points = 0;
     stopwatch.reset();
-//    stopwatch.start();
+    stopwatch.start();
     new Timer.periodic(new Duration(milliseconds: 100), getTimer);
   }
 
@@ -59,27 +60,13 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
           onPressed: () {
             stopwatch.stop();
             stopwatch.reset();
+            dcStopwatch.stop();
+            dcStopwatch.reset();
             router.navigateTo(context, '/scout', clearStack: true, transition: TransitionType.inFromLeft);
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.arrow_forward_ios),
-        onPressed: () {
-          setState(() {
-            if (state%2 == 0) {
-              state++;
-              _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
-              _progress = 0.5;
-            }
-            else {
-              state++;
-              _pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
-              _progress = 0.0;
-            }
-          });
-        },
-      ),
+      backgroundColor: Colors.white,
       body: new Container(
         child: new Column(
           children: <Widget>[
@@ -118,7 +105,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                     child: new Container(
                       height: 20.0,
                       child: new LinearProgressIndicator(
-                        backgroundColor: Colors.grey,
+                        backgroundColor: greyAccent,
                         value: _progress,
                       ),
                     ),
@@ -158,12 +145,15 @@ class SandStorm extends StatefulWidget {
 class _SandStormState extends State<SandStorm> {
 
   //Auto-line
-  Color noColor = Colors.grey;
-  Color yesColor = Colors.grey;
+  Color noColor = mainColor;
+  Color yesColor = greyAccent;
 
   //DC
-  Color dcYes = Colors.grey;
-  Color dcNo = Colors.grey;
+  Color dcAdd = greyAccent;
+  Color dcSubtract = greyAccent;
+  double dcTimer = 0;
+  String dcImagePath = "images/add.png";
+  bool reconnectVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +165,7 @@ class _SandStormState extends State<SandStorm> {
             trailing: Container(
               width: 100.0,
               child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new IconButton(
                     icon: new Image.asset('images/no.png', color: noColor,),
@@ -190,7 +180,7 @@ class _SandStormState extends State<SandStorm> {
                           }
                         }
                         autoLine = false;
-                        yesColor = Colors.grey;
+                        yesColor = greyAccent;
                         noColor = mainColor;
                         print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
                       });
@@ -210,7 +200,7 @@ class _SandStormState extends State<SandStorm> {
                         }
                         autoLine = true;
                         yesColor = mainColor;
-                        noColor = Colors.grey;
+                        noColor = greyAccent;
                         print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
                       });
                     },
@@ -225,55 +215,83 @@ class _SandStormState extends State<SandStorm> {
 
             ],
           ),
-          new ListTile(
+          new ExpansionTile(
             title: new Text("Robot Disconnected?"),
             trailing: Container(
               width: 100.0,
               child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  new IconButton(
-                    icon: new Image.asset('images/no.png', color: noColor,),
-                    onPressed: () {
-                      setState(() {
-                        if (autoLine) {
-                          if (habLevel == 1) {
-                            points -= 3;
-                          }
-                          else if (habLevel == 2) {
-                            points -=6;
-                          }
-                        }
-                        autoLine = false;
-                        yesColor = Colors.grey;
-                        noColor = mainColor;
-                        print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
-                      });
-                    },
+                  new Text(
+                    dcList.length.toString(),
+                    style: TextStyle(fontSize: 20.0),
                   ),
                   new IconButton(
-                    icon: new Image.asset('images/yes.png', color: yesColor,),
-                    onPressed: () {
-                      setState(() {
-                        if (!autoLine) {
-                          if (habLevel == 1) {
-                            points += 3;
-                          }
-                          else if (habLevel == 2) {
-                            points +=6;
-                          }
-                        }
-                        autoLine = true;
-                        yesColor = mainColor;
-                        noColor = Colors.grey;
-                        print("Points: $points - ${stopwatch.elapsedMilliseconds/1000}");
-                      });
-                    },
+                    icon: new Image.asset(dcImagePath, color: dcAdd,),
+                    onPressed: null,
                   )
                 ],
               ),
             ),
-          ),
+            onExpansionChanged: (isExpanded) {
+              if (isExpanded) {
+                setState(() {
+                  dcImagePath = "images/subtract.png";
+                  dcAdd = mainColor;
+                  reconnectVisible = true;
+                });
+                dcStopwatch.reset();
+                dcStopwatch.start();
+                new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
+                  if (dcStopwatch.isRunning) {
+                    setState(() {
+                      dcTimer = dcStopwatch.elapsedMilliseconds / 1000;
+                    });
+                  }
+                });
+              }
+              else {
+                setState(() {
+                  dcTimer = 0;
+                  dcAdd = greyAccent;
+                  dcImagePath = "images/add.png";
+                  reconnectVisible = false;
+                });
+                dcStopwatch.stop();
+                dcStopwatch.reset();
+              }
+            },
+            children: <Widget>[
+              new Container(
+                padding: EdgeInsets.all(8.0),
+                child: new ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  child: new Container(
+                    color: greyAccent,
+                    child: new ListTile(
+                      title: new Text("$dcTimer sec"),
+                      trailing: new Visibility(
+                        visible: reconnectVisible,
+                        child: new FlatButton(
+                            child: new Text("RECONNECTED"),
+                            textColor: Colors.white,
+                            color: Colors.red,
+                            onPressed: () {
+                              dcStopwatch.stop();
+                              setState(() {
+                                dcList.add(stopwatch.elapsedMilliseconds/1000);
+                                dcList.add(dcTimer);
+                                print("Disconnect @ ${dcList.elementAt(dcList.length - 2)} for ${dcList.elementAt(dcList.length - 1)} seconds!");
+                                reconnectVisible = false;
+                              });
+                        }),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

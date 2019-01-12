@@ -58,6 +58,8 @@ flutter:
     - images/scout.png
     - images/yes.png
     - images/no.png
+    - images/add.png
+    - images/subtract.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

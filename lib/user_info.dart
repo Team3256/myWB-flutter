@@ -28,4 +28,5 @@ int points = 0;
 int habLevel = 0;
 bool autoLine = false;
 
+Stopwatch dcStopwatch = new Stopwatch();
 List<double> dcList = List();
