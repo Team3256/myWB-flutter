@@ -21,9 +21,11 @@ String currTeam = "";
 String currAlliance = "";
 String currMatch = "";
 
+String scoutState = "";
+
 Stopwatch stopwatch = new Stopwatch();
 
-int points = 0;
+List<Fowl> fowlList = new List();
 
 int habLevel = 0;
 bool autoLine = false;
@@ -57,4 +59,11 @@ class Cargo {
   String gamePart;
 
   Cargo(this.pickup, this.dropOff, this.pickupTime, this.cycleTime, this.gamePart);
+}
+
+class Fowl {
+  String reason;
+  double time;
+
+  Fowl(this.time, this.reason);
 }
