@@ -25,6 +25,8 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   Color teleopColor = greyAccent;
   Color gameOver = greyAccent;
 
+  Widget doneButton = null;
+
   Color getAllianceColor() {
     if (currAlliance == "Blue") {
       return Colors.lightBlue;
@@ -50,9 +52,35 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         teleopColor = mainColor;
         _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
-      if (stopwatch.elapsedMilliseconds >= 150000 && stopwatch.elapsedMilliseconds <= 150300) {
+      if (stopwatch.elapsedMilliseconds >= 16000 && stopwatch.elapsedMilliseconds <= 16300) {
         print("MATCH OVER!");
-
+        stopwatch.stop();
+        stopwatch.reset();
+        setState(() {
+          teleopColor = greyAccent;
+          gameOver = mainColor;
+          doneButton = new FloatingActionButton.extended(
+            icon: Icon(Icons.save),
+            label: new Text("Save", style: TextStyle(color: Colors.white),),
+            onPressed: () {
+              //TODO: Handle database upload
+              autoLine = false;
+              dcList.clear();
+              hatchList.clear();
+              cargoList.clear();
+              fowlList.clear();
+              stopwatch.stop();
+              stopwatch.reset();
+              dcStopwatch.stop();
+              dcStopwatch.reset();
+              hatchStopwatch.stop();
+              hatchStopwatch.reset();
+              cargoStopwatch.stop();
+              cargoStopwatch.reset();
+              router.navigateTo(context, '/scout', transition: TransitionType.fadeIn, clearStack: true);
+            },
+          );
+        });
       }
       setState(() {
 //        print(stopwatch.elapsedMilliseconds / 1000);
@@ -89,6 +117,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
           },
         ),
       ),
+      floatingActionButton: doneButton,
       backgroundColor: Colors.white,
       body: new Container(
         child: new Column(

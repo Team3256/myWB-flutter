@@ -41,6 +41,8 @@ List<Hatch> hatchList = new List();
 Stopwatch cargoStopwatch = new Stopwatch();
 List<Cargo> cargoList = new List();
 
+List<Match> matchList = new List();
+
 class Hatch {
   String pickup;
   String dropOff;
@@ -66,4 +68,11 @@ class Fowl {
   double time;
 
   Fowl(this.time, this.reason);
+}
+
+class Match {
+  String teamName;
+  String matchNumber;
+  String alliance;
+
 }
