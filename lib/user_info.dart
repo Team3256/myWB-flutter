@@ -25,7 +25,7 @@ String scoutState = "";
 
 Stopwatch stopwatch = new Stopwatch();
 
-List<Fowl> fowlList = new List();
+List<Foul> foulList = new List();
 
 int habLevel = 0;
 bool autoLine = false;
@@ -33,7 +33,7 @@ double autoTime = 0;
 bool auto = false;
 
 Stopwatch dcStopwatch = new Stopwatch();
-List<double> dcList = List();
+List<Disconnect> dcList = List();
 
 Stopwatch hatchStopwatch = new Stopwatch();
 List<Hatch> hatchList = new List();
@@ -42,6 +42,15 @@ Stopwatch cargoStopwatch = new Stopwatch();
 List<Cargo> cargoList = new List();
 
 List<Match> matchList = new List();
+
+var matchEventList = [];
+
+class Disconnect {
+  double startTime;
+  double duration;
+
+  Disconnect(this.startTime, this.duration);
+}
 
 class Hatch {
   String pickup;
@@ -63,11 +72,11 @@ class Cargo {
   Cargo(this.pickup, this.dropOff, this.pickupTime, this.cycleTime, this.gamePart);
 }
 
-class Fowl {
+class Foul {
   String reason;
   double time;
 
-  Fowl(this.time, this.reason);
+  Foul(this.time, this.reason);
 }
 
 class Match {

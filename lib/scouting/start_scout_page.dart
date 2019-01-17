@@ -46,16 +46,15 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
 
   void getTimer(Timer timer) {
     if (stopwatch.isRunning) {
+      //TODO: Update debug timer values
       if (stopwatch.elapsedMilliseconds >= 15000 && stopwatch.elapsedMilliseconds <= 15300) {
         print("SANDSTORM OVER!");
         sandstormColor = greyAccent;
         teleopColor = mainColor;
         _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
-      if (stopwatch.elapsedMilliseconds >= 16000 && stopwatch.elapsedMilliseconds <= 16300) {
+      if (stopwatch.elapsedMilliseconds >= 25000 && stopwatch.elapsedMilliseconds <= 25300) {
         print("MATCH OVER!");
-        stopwatch.stop();
-        stopwatch.reset();
         setState(() {
           teleopColor = greyAccent;
           gameOver = mainColor;
@@ -64,30 +63,66 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
             label: new Text("Save", style: TextStyle(color: Colors.white),),
             onPressed: () {
               //TODO: Handle database upload
-              autoLine = false;
-              dcList.clear();
-              hatchList.clear();
-              cargoList.clear();
-              fowlList.clear();
-              stopwatch.stop();
-              stopwatch.reset();
-              dcStopwatch.stop();
-              dcStopwatch.reset();
-              hatchStopwatch.stop();
-              hatchStopwatch.reset();
-              cargoStopwatch.stop();
-              cargoStopwatch.reset();
-              router.navigateTo(context, '/scout', transition: TransitionType.fadeIn, clearStack: true);
+              print("${matchEventList.length} EVENTS DETECTED");
+              router.navigateTo(context, '/breakdown', transition: TransitionType.native);
             },
           );
         });
+        stopwatch.stop();
+        stopwatch.reset();
       }
       setState(() {
+        //TODO: Update debug timer progress value
 //        print(stopwatch.elapsedMilliseconds / 1000);
         _progress = stopwatch.elapsedMilliseconds / 150000;
         title = "Match $currMatch - ${((150000 - stopwatch.elapsedMilliseconds)/1000).round()} sec";
       });
     }
+  }
+
+  void exitScoutingBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder){
+          return SafeArea(
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                new ListTile(
+                  title: new Text("Are you sure you want to exit this match?", style: TextStyle(fontFamily: "Product Sans")),
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.check),
+                  title: new Text('Yes, get me outta here!'),
+                  onTap: () {
+                    autoLine = false;
+                    dcList.clear();
+                    hatchList.clear();
+                    cargoList.clear();
+                    foulList.clear();
+                    stopwatch.stop();
+                    stopwatch.reset();
+                    dcStopwatch.stop();
+                    dcStopwatch.reset();
+                    hatchStopwatch.stop();
+                    hatchStopwatch.reset();
+                    cargoStopwatch.stop();
+                    cargoStopwatch.reset();
+                    router.navigateTo(context, '/scout', clearStack: true, transition: TransitionType.inFromLeft);
+                  },
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.clear),
+                  title: new Text('Cancel', style: TextStyle(fontFamily: "Product Sans")),
+                  onTap: () {
+                    router.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+    );
   }
 
   @override
@@ -100,20 +135,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         leading: new IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            autoLine = false;
-            dcList.clear();
-            hatchList.clear();
-            cargoList.clear();
-            fowlList.clear();
-            stopwatch.stop();
-            stopwatch.reset();
-            dcStopwatch.stop();
-            dcStopwatch.reset();
-            hatchStopwatch.stop();
-            hatchStopwatch.reset();
-            cargoStopwatch.stop();
-            cargoStopwatch.reset();
-            router.navigateTo(context, '/scout', clearStack: true, transition: TransitionType.inFromLeft);
+            exitScoutingBottomSheet();
           },
         ),
       ),

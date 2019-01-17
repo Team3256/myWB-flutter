@@ -46,15 +46,15 @@ class _SandStormState extends State<SandStorm> {
   String cargoIntakeLocation = "";
   String cargoDropLocation = "";
 
-  //Fowls
-  String fowlImagePath = "images/add.png";
-  Color fowlAdd = greyAccent;
-  Color fowlText = Colors.black;
-  String fowlReason = "";
-  double fowlTime = 0.0;
-  double fowlContainerHeight = 0.0;
+  //Fouls
+  String foulImagePath = "images/add.png";
+  Color foulAdd = greyAccent;
+  Color foulText = Colors.black;
+  String foulReason = "";
+  double foulTime = 0.0;
+  double foulContainerHeight = 0.0;
   FocusNode _focusController = new FocusNode();
-  TextEditingController _fowlController = new TextEditingController();
+  TextEditingController _foulController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +233,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -261,6 +262,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -296,6 +298,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -324,6 +327,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -359,6 +363,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -520,6 +525,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -548,6 +554,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -583,6 +590,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -611,6 +619,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -646,6 +655,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -733,11 +743,11 @@ class _SandStormState extends State<SandStorm> {
                             onPressed: () {
                               dcStopwatch.stop();
                               setState(() {
-                                dcList.add(stopwatch.elapsedMilliseconds/1000);
-                                dcList.add(dcStopwatch.elapsedMilliseconds/1000);
-                                print("Robot Disconnect @ ${dcList.elementAt(dcList.length - 2)} for ${dcList.elementAt(dcList.length - 1)} seconds!");
+                                dcList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
+                                print("Robot Disconnect @ ${dcList[dcList.length - 1].startTime} for ${dcList[dcList.length - 1].duration} seconds!");
                                 reconnectVisible = false;
                               });
+                              matchEventList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
                             }),
                       ),
                     ),
@@ -747,38 +757,38 @@ class _SandStormState extends State<SandStorm> {
             ],
           ),
           new ListTile(
-            title: new Text("Fowls", style: TextStyle(color: fowlText),),
+            title: new Text("Fouls", style: TextStyle(color: foulText),),
             trailing: new Container(
               width: 100.0,
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                    (fowlList.length).toString(),
+                    (foulList.length).toString(),
                     style: TextStyle(fontSize: 20.0),
                   ),
                   new IconButton(
-                    icon: new Image.asset(fowlImagePath, color: fowlAdd,),
+                    icon: new Image.asset(foulImagePath, color: foulAdd,),
                     onPressed: () {
-                      if (fowlImagePath == "images/add.png") {
-                        fowlTime = stopwatch.elapsedMilliseconds / 1000;
+                      if (foulImagePath == "images/add.png") {
+                        foulTime = stopwatch.elapsedMilliseconds / 1000;
                         setState(() {
-                          fowlText = mainColor;
-                          fowlContainerHeight = 95;
-                          fowlImagePath = "images/subtract.png";
-                          fowlAdd = mainColor;
+                          foulText = mainColor;
+                          foulContainerHeight = 95;
+                          foulImagePath = "images/subtract.png";
+                          foulAdd = mainColor;
                         });
                       }
                       else {
-                        fowlTime = 0;
-                        fowlReason = "";
-                        _fowlController.clear();
+                        foulTime = 0;
+                        foulReason = "";
+                        _foulController.clear();
                         FocusScope.of(context).requestFocus(new FocusNode());
                         setState(() {
-                          fowlText = Colors.black;
-                          fowlContainerHeight = 0.0;
-                          fowlImagePath = "images/add.png";
-                          fowlAdd = greyAccent;
+                          foulText = Colors.black;
+                          foulContainerHeight = 0.0;
+                          foulImagePath = "images/add.png";
+                          foulAdd = greyAccent;
                         });
                       }
                     },
@@ -791,7 +801,7 @@ class _SandStormState extends State<SandStorm> {
             duration: new Duration(milliseconds: 300),
             curve: Curves.easeOut,
             padding: EdgeInsets.all(8.0),
-            height: fowlContainerHeight,
+            height: foulContainerHeight,
             child: new ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               child: Container(
@@ -799,32 +809,34 @@ class _SandStormState extends State<SandStorm> {
                 color: greyAccent,
                 child: new TextField(
                   focusNode: _focusController,
-                  controller: _fowlController,
+                  controller: _foulController,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (input) {
                     if (input == "") {
                       setState(() {
-                        fowlList.add(new Fowl(fowlTime, "Unknown Reason"));
+                        foulList.add(new Foul(foulTime, "Unknown Reason"));
                       });
+                      matchEventList.add(new Foul(foulTime, "Unknown Reason"));
                     }
                     else {
                       setState(() {
-                        fowlList.add(new Fowl(fowlTime, input));
+                        foulList.add(new Foul(foulTime, input));
                       });
+                      matchEventList.add(new Foul(foulTime, input));
                     }
-                    print("Fowl @ ${fowlList[fowlList.length - 1].time} for ${fowlList[fowlList.length - 1].reason}");
-                    fowlTime = 0;
-                    fowlReason = "";
-                    _fowlController.clear();
+                    print("foul @ ${foulList[foulList.length - 1].time} for ${foulList[foulList.length - 1].reason}");
+                    foulTime = 0;
+                    foulReason = "";
+                    _foulController.clear();
                     setState(() {
-                      fowlContainerHeight = 0.0;
-                      fowlText = Colors.black;
-                      fowlImagePath = "images/add.png";
-                      fowlAdd = greyAccent;
+                      foulContainerHeight = 0.0;
+                      foulText = Colors.black;
+                      foulImagePath = "images/add.png";
+                      foulAdd = greyAccent;
                     });
                   },
                   decoration: InputDecoration(
-                      labelText: "Fowl Reason",
+                      labelText: "Foul Reason",
                       hintText: "Leave empty if you don't know"
                   ),
                 ),

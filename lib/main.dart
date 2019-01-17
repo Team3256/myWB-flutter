@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mywb_flutter/home/home_page.dart';
 import 'package:mywb_flutter/inventory/inventory_page.dart';
 import 'package:mywb_flutter/outreach/outreach_page.dart';
+import 'package:mywb_flutter/scouting/breakdown_page.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/scouting/start_scout_page.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
@@ -30,6 +31,10 @@ void main() {
 
   router.define('/scoutOne', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new ScoutPageOne();
+  }));
+
+  router.define('/breakdown', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new BreakdownPage();
   }));
 
   router.define('/outreach', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
