@@ -8,5 +8,5 @@ final greyAccent = Color(0xFFDFE0E5);
 
 final mainTheme = new ThemeData(
   primaryColor: mainColor,
-  accentColor: mainColor
+  accentColor: mainColor,
 );

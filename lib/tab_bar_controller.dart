@@ -36,7 +36,7 @@ class _TabBarControllerState extends State<TabBarController> {
         title = "Settings";
       }
     });
-    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    _pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
   }
 
   @override
@@ -62,12 +62,10 @@ class _TabBarControllerState extends State<TabBarController> {
         children: <Widget>[
           new SafeArea(
             child: new FancyBottomNavigation(
-              textColor: Colors.white,
-              barBackgroundColor: mainColor,
-              inactiveIconColor: Colors.white,
+              textColor: mainColor,
               onTabChangedListener: onTabTapped,
               tabs: [
-                TabData(iconData: Icons.score, title: "Scouting"),
+                TabData(iconData: Icons.track_changes, title: "Scouting"),
                 TabData(iconData: Icons.people, title: "Outreach"),
                 TabData(iconData: Icons.storage, title: "Inventory"),
                 TabData(iconData: Icons.settings, title: "Settings"),
@@ -76,7 +74,7 @@ class _TabBarControllerState extends State<TabBarController> {
           ),
           new Container(
             height: MediaQuery.of(context).padding.bottom,
-            color: mainColor,
+            color: Colors.white,
           )
         ],
       ),

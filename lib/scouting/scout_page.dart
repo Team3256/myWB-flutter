@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:mywb_flutter/theme.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:fluro/fluro.dart';
 
 class ScoutPage extends StatefulWidget {
@@ -15,33 +16,30 @@ class ScoutPage extends StatefulWidget {
 class Match {
 
   int id;
-  String name;
-  List<String> teamKeys;
+  String teamNumber;
+  String alliance;
 
-  Match({this.id, this.name, this.teamKeys});
-
-  factory Match.fromJson(Map<String, dynamic> json) {
-    return Match(
-      id: json["id"] as int,
-      name: json["name"] as String,
-      teamKeys: json["teamKeys"] as List<String>
-    );
-  }
-
+  Match(this.id, this.teamNumber, this.alliance);
 }
 
 class _ScoutPageState extends State<ScoutPage> {
+  
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   final scoutSource = "https://raw.githubusercontent.com/Team3256/myWB-flutter/master/lib/scouting/example.json";
   List<Match> matchList = new List();
 
   _ScoutPageState() {
-    http.get(scoutSource).then((response) {
-      var scoutingJson = json.decode(response.body);
+    matchList.add(new Match(1, "3256", "Blue"));
+    databaseRef.child("scouting").child("").child("currRegional").once().then((DataSnapshot snapshot) {
       setState(() {
-        matchList.add(Match.fromJson({"id": 1, "name": "Match 1", "teamKeys": ["3256", "971", "115", "3126", "123", "525"]}));
-        matchList.add(Match.fromJson({"id": 2, "name": "Match 2", "teamKeys": ["3126", "123", "525", "3126", "123", "525"]}));
-        matchList.add(Match.fromJson({"id": 3, "name": "Match 3", "teamKeys": ["1750", "2384", "137", "3126", "123", "525"]}));
+        currRegional = snapshot.value;
+      });
+    });
+    databaseRef.child("scouting").child(currRegional).child("currMatched").onChildAdded.listen((Event event) {
+      print(event.snapshot.value);
+      setState(() {
+
       });
     });
   }
@@ -64,6 +62,9 @@ class _ScoutPageState extends State<ScoutPage> {
               child: new Text("SCOUT"),
               onPressed: () {
                 if (currAlliance != "" && currTeam != "" && currMatch != "" && habLevel != 0) {
+                  databaseRef.child("scouting").child(currRegional).child("currMatches").child(currMatch).child(currAlliance).child(currTeam).update({
+                    "habStart": habLevel
+                  });
                   router.navigateTo(context, '/scoutOne', transition: TransitionType.native, clearStack: true);
                 }
               },
@@ -90,81 +91,69 @@ class _ScoutPageState extends State<ScoutPage> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Colors.white,
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Text("Current", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-          new Padding(padding: EdgeInsets.all(8.0)),
-          new GestureDetector(
-            onTap: () {
-              scoutDialog();
-            },
-            child: new Image.asset(
-              "images/new.png",
-              height: 200.0,
-              width: 200.0,
-            ),
-          ),
-          new Padding(padding: EdgeInsets.all(8.0)),
-          new Divider(color: mainColor,),
-          new Padding(padding: EdgeInsets.all(8.0)),
-          new Text("Previous Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-          new Padding(padding: EdgeInsets.all(8.0)),
-          new Container(
-            height: 150.0,
-            child: new ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: new ClipRRect(
-                    child: new Container(
-                      color: Colors.blue,
-                      padding: EdgeInsets.only(top: 8.0),
-                      width: 130.0,
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          new Text(
-                            matchList[index].name,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                              padding: EdgeInsets.all(4.0),
-                              color: Colors.blue,
-                              child: new Text(
-                                matchList[index].teamKeys.toString().substring(1, (matchList[index].teamKeys.toString().length / 2).toInt() - 1),
-                                style: TextStyle(color: Colors.white, fontSize: 18.0),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                              padding: EdgeInsets.all(4.0),
-                              color: Colors.red,
-                              child: new Text(
-                                matchList[index].teamKeys.toString().substring((matchList[index].teamKeys.toString().length / 2).toInt(), matchList[index].teamKeys.toString().length - 1),
-                                style: TextStyle(color: Colors.white, fontSize: 18.0),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        ],
+      child: new SingleChildScrollView(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Text("Current - $currRegional", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+            new Padding(padding: EdgeInsets.all(8.0)),
+            new Container(
+              height: 150.0,
+              child: new ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Container(
+                    width: 150.0,
+                    child: new GestureDetector(
+                      onTap: () {
+                        scoutDialog();
+                      },
+                      child: new Image.asset(
+                        "images/new.png",
+                        height: 200.0,
+                        width: 200.0,
                       ),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
-                );
-              },
-              itemCount: matchList.length,
+                ],
+              ),
             ),
-          ),
-          new Divider(color: mainColor,),
-        ],
+            new Divider(color: mainColor,),
+            new Padding(padding: EdgeInsets.all(8.0)),
+            new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+            new Padding(padding: EdgeInsets.all(8.0)),
+            new Container(
+              height: 150.0,
+            ),
+            new Divider(color: mainColor, height: 0.0,),
+            new ListTile(
+              title: new Text("All Matches"),
+              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+              onTap: () {
+
+              },
+            ),
+            new Divider(color: mainColor, height: 0.0,),
+            new ListTile(
+              title: new Text("Team Statistics"),
+              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+              onTap: () {
+
+              },
+            ),
+            new Divider(color: mainColor, height: 0.0,),
+            new ListTile(
+              title: new Text("Pit Scouting"),
+              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+              onTap: () {
+
+              },
+            ),
+            new Divider(color: mainColor, height: 0.0,),
+            new ListTile(),
+          ],
+        ),
       ),
     );
   }
@@ -176,6 +165,8 @@ class ScoutingDialog extends StatefulWidget {
 }
 
 class _ScoutingDialogState extends State<ScoutingDialog> {
+  
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   Color blueBtnColor = Colors.white;
   Color redBtnColor = Colors.white;

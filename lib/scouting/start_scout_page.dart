@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mywb_flutter/scouting/sandstorm.dart';
 import 'package:mywb_flutter/scouting/teleop.dart';
 import 'package:mywb_flutter/theme.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -15,6 +16,7 @@ class ScoutPageOne extends StatefulWidget {
 class _ScoutPageOneState extends State<ScoutPageOne> {
 
   final _pageController = new PageController();
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   String title = "Match $currMatch - ";
   int state = 0;
@@ -94,6 +96,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                   leading: new Icon(Icons.check),
                   title: new Text('Yes, get me outta here!'),
                   onTap: () {
+                    databaseRef.child("scouting").child(currRegional).child("currMatches").child(currMatch).child(currAlliance).child(currTeam).remove();
                     autoLine = false;
                     dcList.clear();
                     hatchList.clear();
@@ -107,7 +110,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                     hatchStopwatch.reset();
                     cargoStopwatch.stop();
                     cargoStopwatch.reset();
-                    router.navigateTo(context, '/scout', clearStack: true, transition: TransitionType.inFromLeft);
+                    router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
                   },
                 ),
                 new ListTile(

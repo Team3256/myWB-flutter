@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "743644688766",
+    "firebase_url": "https://mywb-realtime-db.firebaseio.com",
+    "project_id": "mywb-realtime-db",
+    "storage_bucket": "mywb-realtime-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743644688766:android:3455a5b26f63bfcd",
+        "android_client_info": {
+          "package_name": "com.bk1031.mywb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743644688766-82lp5jvrrq85igh23tn5nijuddoplhju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmkLxXcQhD8IeZI_CzTc4OejLKuA22T-I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

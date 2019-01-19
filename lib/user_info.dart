@@ -20,6 +20,7 @@ String role = "[ERROR]";
 String currTeam = "";
 String currAlliance = "";
 String currMatch = "";
+String currRegional = "";
 
 String scoutState = "";
 

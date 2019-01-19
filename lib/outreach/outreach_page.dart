@@ -12,10 +12,17 @@ class _OutreachPageState extends State<OutreachPage> {
   @override
   Widget build(BuildContext context) {
     return new Container(
+      padding: EdgeInsets.all(16.0),
       color: Colors.white,
-      child: new Center(
-        child: new Text("Outreach"),
-      ),
+      child: new SingleChildScrollView(
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Text("Current", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+
+          ],
+        ),
+      )
     );
   }
 }

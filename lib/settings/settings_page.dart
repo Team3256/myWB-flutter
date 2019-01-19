@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:mywb_flutter/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:mywb_flutter/user_drawer.dart';
 import 'package:fluro/fluro.dart';
 
@@ -131,16 +132,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     });
                   },
                 ),
-                new Divider(height: 0.0, color: mainColor),
-                new SwitchListTile(
-                  title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans",)),
-                  value: darkMode,
-                  onChanged: (bool value) {
-                    setState(() {
-                      darkMode = value;
-                    });
-                  },
-                ),
               ],
             ),
           ),
@@ -154,19 +145,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: new Text("Feedback", style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
                 ),
                 new ListTile(
-                  title: new Text("Provide Feedback", style: TextStyle(fontFamily: "Product Sans",)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
-                  onTap: () {
-                  },
-                ),
-                new Divider(height: 0.0, color: mainColor),
-                new ListTile(
                   title: new Text("Report a Bug", style: TextStyle(fontFamily: "Product Sans",)),
                   trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                   onTap: () {
+                    launch("https://github.com/Team3256/myWB-flutter/issues");
                   },
                 ),
-                new Divider(height: 0.0, color: mainColor),
               ],
             ),
           ),
