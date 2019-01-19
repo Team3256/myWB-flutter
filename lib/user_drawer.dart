@@ -136,65 +136,6 @@ class _UserDrawerState extends State<UserDrawer> {
                       title: new Text(role, style: TextStyle(fontSize: 16.0)),
                       leading: Icon(Icons.verified_user),
                     ),
-                    new Divider(
-                      color: Colors.grey,
-                      height: 20.0,
-                    ),
-                    new ListTile(
-                      title: new Text("Home", style: TextStyle(fontSize: 16.0, color: getTileColor("Home"))),
-                      leading: Icon(Icons.home, color: getTileColor("Home"), size: 25.0,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = "Home";
-                          router.pop(context);
-                          router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true);
-                        });
-                      },
-                    ),
-                    new ListTile(
-                      title: new Text("Scouting", style: TextStyle(fontSize: 16.0, color: getTileColor("Scouting"))),
-                      leading: new Image.asset('images/scout.png', color: getTileColor("Scouting"), height: 25.0,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = "Scouting";
-                          router.pop(context);
-                          router.navigateTo(context, '/scout', transition: TransitionType.fadeIn, clearStack: true);
-                        });
-                      },
-                    ),
-                    new ListTile(
-                      title: new Text("Outreach", style: TextStyle(fontSize: 16.0, color: getTileColor("Outreach"))),
-                      leading: Icon(Icons.people, color: getTileColor("Outreach"), size: 25.0,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = "Outreach";
-                          router.pop(context);
-                          router.navigateTo(context, '/outreach', transition: TransitionType.fadeIn, clearStack: true);
-                        });
-                      },
-                    ),
-                    new ListTile(
-                      title: new Text("Inventory", style: TextStyle(fontSize: 16.0, color: getTileColor("Inventory"))),
-                      leading: Icon(Icons.storage, color: getTileColor("Inventory"), size: 25.0,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = "Inventory";
-                          router.pop(context);
-                          router.navigateTo(context, '/inventory', transition: TransitionType.fadeIn, clearStack: true);
-                        });
-                      },
-                    ),
-                    new ListTile(
-                      title: new Text("Settings", style: TextStyle(fontSize: 16.0, color: getTileColor("Settings"))),
-                      leading: Icon(Icons.settings, color: getTileColor("Settings"), size: 25.0,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = "Settings";
-                          router.pop(context);
-                          router.navigateTo(context, '/settings', transition: TransitionType.fadeIn, clearStack: true);
-                        });
-                      },
-                    ),
                   ],
                 ),
               )

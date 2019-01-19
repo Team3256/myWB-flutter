@@ -85,91 +85,87 @@ class _ScoutPageState extends State<ScoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Scouting"),
-        backgroundColor: mainColor,
-      ),
-      floatingActionButton: new FloatingActionButton(
-        child: new Icon(Icons.add),
-        backgroundColor: mainColor,
-        onPressed: () {
-          scoutDialog();
-        },
-      ),
-      drawer: new UserDrawer(),
-      body: new Container(
-        padding: EdgeInsets.all(16.0),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.white,
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text("Current", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Divider(color: mainColor,),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Text("Previous Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Container(
-              height: 150.0,
-              child: new ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: new ClipRRect(
-                      child: new Container(
-                        color: Colors.blue,
-                        padding: EdgeInsets.only(top: 8.0),
-                        width: 130.0,
-                        child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            new Text(
-                              matchList[index].name,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            new Expanded(
-                              child: new Container(
-                                padding: EdgeInsets.all(4.0),
-                                color: Colors.blue,
-                                child: new Text(
-                                  matchList[index].teamKeys.toString().substring(1, (matchList[index].teamKeys.toString().length / 2).toInt() - 1),
-                                  style: TextStyle(color: Colors.white, fontSize: 18.0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            new Expanded(
-                              child: new Container(
-                                padding: EdgeInsets.all(4.0),
-                                color: Colors.red,
-                                child: new Text(
-                                  matchList[index].teamKeys.toString().substring((matchList[index].teamKeys.toString().length / 2).toInt(), matchList[index].teamKeys.toString().length - 1),
-                                  style: TextStyle(color: Colors.white, fontSize: 18.0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                  );
-                },
-                itemCount: matchList.length,
-              ),
+    return new Container(
+      padding: EdgeInsets.all(16.0),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.white,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Text("Current", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+          new Padding(padding: EdgeInsets.all(8.0)),
+          new GestureDetector(
+            onTap: () {
+              scoutDialog();
+            },
+            child: new Image.asset(
+              "images/new.png",
+              height: 200.0,
+              width: 200.0,
             ),
-            new Divider(color: mainColor,),
-          ],
-        ),
-      )
+          ),
+          new Padding(padding: EdgeInsets.all(8.0)),
+          new Divider(color: mainColor,),
+          new Padding(padding: EdgeInsets.all(8.0)),
+          new Text("Previous Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+          new Padding(padding: EdgeInsets.all(8.0)),
+          new Container(
+            height: 150.0,
+            child: new ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: new ClipRRect(
+                    child: new Container(
+                      color: Colors.blue,
+                      padding: EdgeInsets.only(top: 8.0),
+                      width: 130.0,
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            matchList[index].name,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          new Expanded(
+                            child: new Container(
+                              padding: EdgeInsets.all(4.0),
+                              color: Colors.blue,
+                              child: new Text(
+                                matchList[index].teamKeys.toString().substring(1, (matchList[index].teamKeys.toString().length / 2).toInt() - 1),
+                                style: TextStyle(color: Colors.white, fontSize: 18.0),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          new Expanded(
+                            child: new Container(
+                              padding: EdgeInsets.all(4.0),
+                              color: Colors.red,
+                              child: new Text(
+                                matchList[index].teamKeys.toString().substring((matchList[index].teamKeys.toString().length / 2).toInt(), matchList[index].teamKeys.toString().length - 1),
+                                style: TextStyle(color: Colors.white, fontSize: 18.0),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                );
+              },
+              itemCount: matchList.length,
+            ),
+          ),
+          new Divider(color: mainColor,),
+        ],
+      ),
     );
   }
 }

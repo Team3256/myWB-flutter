@@ -248,9 +248,235 @@ class _BreakdownPageState extends State<BreakdownPage> {
     }
   }
 
+  Widget getFoulBreakdown(index) {
+    return new Container(
+      decoration: BoxDecoration(
+          border: Border(
+              left: BorderSide(
+                  color: getAllianceColor(),
+                  width: 3.0
+              )
+          )
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Container(
+            padding: EdgeInsets.only(left: 16.0),
+            child: new Text(
+              "${matchEventList[index].time.toString()} - Team $currTeam Got a Foul!",
+              style: TextStyle(
+                  color: getAllianceColor(),
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          new Card(
+            margin: EdgeInsets.all(16.0),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              width: 1000,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                      "Reason: ${matchEventList[index].reason}"
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getDisconnectBreakdown(index) {
+    return new Container(
+      decoration: BoxDecoration(
+          border: Border(
+              left: BorderSide(
+                  color: getAllianceColor(),
+                  width: 3.0
+              )
+          )
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Container(
+            padding: EdgeInsets.only(left: 16.0),
+            child: new Text(
+              "${matchEventList[index].startTime.toString()} - Robot Disconnected!",
+              style: TextStyle(
+                  color: getAllianceColor(),
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          new Container(
+            padding: EdgeInsets.only(left: 16.0),
+            child: new Text(
+              "${matchEventList[index].pickupTime + matchEventList[index].cycleTime} - Robot Reconnected!",
+              style: TextStyle(
+                  color: getAllianceColor(),
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getAutoLineBreakdown() {
+    if (autoLine) {
+      return new Container(
+        decoration: BoxDecoration(
+            border: Border(
+                left: BorderSide(
+                    color: getAllianceColor(),
+                    width: 3.0
+                )
+            )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(left: 16.0),
+              child: new Text(
+                "${autoTime.toString()} - Crossed Base-Line",
+                style: TextStyle(
+                    color: getAllianceColor(),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            new Card(
+              margin: EdgeInsets.all(16.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                width: 1000,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                        "HAB Position: $habLevel"
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget getClimbBreakdown(index) {
+    if (matchEventList[index].dropped) {
+      return new Container(
+        decoration: BoxDecoration(
+            border: Border(
+                left: BorderSide(
+                    color: getAllianceColor(),
+                    width: 3.0
+                )
+            )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(left: 16.0),
+              child: new Text(
+                "${matchEventList[index].time.toString()} - Started Climbing",
+                style: TextStyle(
+                    color: getAllianceColor(),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            new Card(
+              margin: EdgeInsets.all(16.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                width: 1000,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                        "Can Support?: ${matchEventList[index].canSupport.toString()}"
+                    ),
+                    new Padding(padding: EdgeInsets.all(4.0)),
+                    new Text(
+                        "HAB Level: ${matchEventList[index].habLevel}"
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            new Container(
+              padding: EdgeInsets.only(left: 16.0),
+              child: new Text(
+                "${matchEventList[index].time + matchEventList[index].cycleTime} - Successfully Climbed!",
+                style: TextStyle(
+                    color: getAllianceColor(),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    else {
+      return new Container(
+        decoration: BoxDecoration(
+            border: Border(
+                left: BorderSide(
+                    color: getAllianceColor(),
+                    width: 3.0
+                )
+            )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(left: 16.0),
+              child: new Text(
+                "${matchEventList[index].time.toString()} - Started Climbing",
+                style: TextStyle(
+                    color: getAllianceColor(),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            new Container(
+              padding: EdgeInsets.only(left: 16.0),
+              child: new Text(
+                "${matchEventList[index].time + matchEventList[index].cycleTime} - Fell off while climbing lul",
+                style: TextStyle(
+                    color: getAllianceColor(),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    widgetList.add(getAutoLineBreakdown());
     for(int i = 0; i < matchEventList.length; i++) {
       print(matchEventList[i]);
       if (matchEventList[i].runtimeType == Hatch) {
@@ -260,6 +486,16 @@ class _BreakdownPageState extends State<BreakdownPage> {
       else if (matchEventList[i].runtimeType == Cargo) {
         print("CARGO");
         widgetList.add(getCargoBreakdown(i));
+      }
+      else if (matchEventList[i].runtimeType == Foul) {
+        print("FOWL");
+        widgetList.add(getFoulBreakdown(i));
+      }
+      else if (matchEventList[i].runtimeType == Disconnect) {
+        widgetList.add(getDisconnectBreakdown(i));
+      }
+      else if (matchEventList[i].runtimeType == Climb) {
+        widgetList.add(getClimbBreakdown(i));
       }
       widgetList.add(new Padding(padding: EdgeInsets.all(4.0)));
     }

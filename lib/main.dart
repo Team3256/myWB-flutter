@@ -11,6 +11,7 @@ import 'package:mywb_flutter/startup/auth_checker.dart';
 import 'package:mywb_flutter/startup/onboarding_page.dart';
 import 'package:mywb_flutter/startup/login_page.dart';
 import 'package:fluro/fluro.dart';
+import 'package:mywb_flutter/tab_bar_controller.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'user_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,7 @@ void main() {
   }));
 
   router.define('/logged', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return new HomePage();
+    return new TabBarController();
   }));
 
   router.define('/scout', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {

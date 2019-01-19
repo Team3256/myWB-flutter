@@ -41,6 +41,9 @@ List<Hatch> hatchList = new List();
 Stopwatch cargoStopwatch = new Stopwatch();
 List<Cargo> cargoList = new List();
 
+Stopwatch climbStopwatch = new Stopwatch();
+List<Climb> climbList = new List();
+
 List<Match> matchList = new List();
 
 var matchEventList = [];
@@ -77,6 +80,16 @@ class Foul {
   double time;
 
   Foul(this.time, this.reason);
+}
+
+class Climb {
+  double time;
+  double cycleTime;
+  int habLevel;
+  bool canSupport;
+  bool dropped;
+
+  Climb(this.time, this.cycleTime, this.habLevel, this.canSupport, this.dropped);
 }
 
 class Match {

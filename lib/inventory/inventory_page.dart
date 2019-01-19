@@ -11,17 +11,10 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Inventory"),
-        backgroundColor: mainColor,
-      ),
-      drawer: new UserDrawer(),
-      body: new Container(
-        color: Colors.white,
-        child: new Center(
-          child: new Text("Inventory"),
-        ),
+    return new Container(
+      color: Colors.white,
+      child: new Center(
+        child: new Text("Inventory"),
       ),
     );
   }

@@ -11,17 +11,10 @@ class OutreachPage extends StatefulWidget {
 class _OutreachPageState extends State<OutreachPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Outreach"),
-        backgroundColor: mainColor,
-      ),
-      drawer: new UserDrawer(),
-      body: new Container(
-        color: Colors.white,
-        child: new Center(
-          child: new Text("Outreach"),
-        ),
+    return new Container(
+      color: Colors.white,
+      child: new Center(
+        child: new Text("Outreach"),
       ),
     );
   }

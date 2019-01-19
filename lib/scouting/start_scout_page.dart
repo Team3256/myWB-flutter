@@ -53,7 +53,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         teleopColor = mainColor;
         _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
-      if (stopwatch.elapsedMilliseconds >= 25000 && stopwatch.elapsedMilliseconds <= 25300) {
+      if (stopwatch.elapsedMilliseconds >= 150000 && stopwatch.elapsedMilliseconds <= 150300) {
         print("MATCH OVER!");
         setState(() {
           teleopColor = greyAccent;
@@ -69,7 +69,6 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
           );
         });
         stopwatch.stop();
-        stopwatch.reset();
       }
       setState(() {
         //TODO: Update debug timer progress value

@@ -52,6 +52,18 @@ class _TeleOpState extends State<TeleOp> {
   FocusNode _focusController = new FocusNode();
   TextEditingController _foulController = new TextEditingController();
 
+  //Endgame
+  String climbImagePath = "images/yes.png";
+  Color climbAdd = greyAccent;
+  Color climbText = Colors.black;
+  int climbTimer = 0;
+  int endHabLevel = 0;
+  double climbContainerHeight = 0.0;
+  bool canSupport = false;
+  bool dropped = false;
+  Color canSupportYes = greyAccent;
+  Color canSupportNo = greyAccent;
+
   @override
   Widget build(BuildContext context) {
     return new SingleChildScrollView(
@@ -801,6 +813,201 @@ class _TeleOpState extends State<TeleOp> {
                   ),
                 ),
               ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Parked?", style: TextStyle(color: climbText),),
+            trailing: new IconButton(
+              icon: new Image.asset(climbImagePath, color: climbAdd,),
+              onPressed: () {
+                if (climbImagePath == "images/yes.png") {
+                  climbStopwatch.reset();
+                  climbStopwatch.start();
+                  setState(() {
+                    canSupportYes = greyAccent;
+                    canSupportNo = mainColor;
+                    climbImagePath = "images/no.png";
+                    climbText = mainColor;
+                    climbAdd = mainColor;
+                    climbContainerHeight = 250.0;
+                  });
+                  new Timer.periodic(const Duration(milliseconds: 300), (Timer timer) {
+                    if (climbStopwatch.isRunning) {
+                      setState(() {
+                        climbTimer = (climbStopwatch.elapsedMilliseconds / 1000).round();
+                      });
+                    }
+                  });
+                }
+                else {
+                  climbStopwatch.stop();
+                  climbStopwatch.reset();
+                  setState(() {
+                    climbImagePath = "images/yes.png";
+                    climbText = Colors.black;
+                    climbAdd = greyAccent;
+                    climbContainerHeight = 0.0;
+                  });
+                }
+              },
+            ),
+          ),
+          new AnimatedContainer(
+            duration: new Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            padding: EdgeInsets.all(8.0),
+            height: climbContainerHeight,
+            color: Colors.white,
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new ListTile(
+                  title: new Text("Can Support?"),
+                  trailing: Container(
+                    width: 100.0,
+                    child: new Row(
+                      children: <Widget>[
+                        new IconButton(
+                          icon: new Image.asset('images/yes.png', color: canSupportYes,),
+                          color: canSupportYes,
+                          onPressed: () {
+                            canSupport = true;
+                            setState(() {
+                              canSupportYes = mainColor;
+                              canSupportNo = greyAccent;
+                            });
+                          },
+                        ),
+                        new IconButton(
+                          icon: new Image.asset('images/no.png', color: canSupportNo,),
+                          onPressed: () {
+                            canSupport = false;
+                            setState(() {
+                              canSupportYes = greyAccent;
+                              canSupportNo = mainColor;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        child: new Container(
+                          color: greyAccent,
+                          child: new FlatButton(
+                            child: new Text("Lvl 1"),
+                            onPressed: () {
+                              climbStopwatch.stop();
+                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              setState(() {
+                                climbImagePath = "images/yes.png";
+                                climbText = Colors.black;
+                                climbAdd = greyAccent;
+                                climbContainerHeight = 0.0;
+                              });
+                              climbStopwatch.reset();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    new Padding(padding: EdgeInsets.all(4.0)),
+                    new Expanded(
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        child: new Container(
+                          color: greyAccent,
+                          child: new FlatButton(
+                            child: new Text("Lvl 2"),
+                            onPressed: () {
+                              climbStopwatch.stop();
+                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              setState(() {
+                                climbImagePath = "images/yes.png";
+                                climbText = Colors.black;
+                                climbAdd = greyAccent;
+                                climbContainerHeight = 0.0;
+                              });
+                              climbStopwatch.reset();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    new Padding(padding: EdgeInsets.all(4.0)),
+                    new Expanded(
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        child: new Container(
+                          color: greyAccent,
+                          child: new FlatButton(
+                            child: new Text("Lvl 3"),
+                            onPressed: () {
+                              climbStopwatch.stop();
+                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              setState(() {
+                                climbImagePath = "images/yes.png";
+                                climbText = Colors.black;
+                                climbAdd = greyAccent;
+                                climbContainerHeight = 0.0;
+                              });
+                              climbStopwatch.reset();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                new Padding(padding: EdgeInsets.all(4.0)),
+                new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        child: new Container(
+                          color: Colors.red,
+                          child: new FlatButton(
+                            child: new Text("Droppped"),
+                            textColor: Colors.white,
+                            onPressed: () {
+                              climbStopwatch.stop();
+                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              dropped = true;
+                              setState(() {
+                                climbImagePath = "images/yes.png";
+                                climbText = Colors.black;
+                                climbAdd = greyAccent;
+                                climbContainerHeight = 0.0;
+                              });
+                              climbStopwatch.reset();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                new Padding(padding: EdgeInsets.all(4.0)),
+                new ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  child: new Container(
+                    color: greyAccent,
+                    child: new ListTile(
+                      title: new Text("$climbTimer sec"),
+                    ),
+                  ),
+                )
+              ],
             ),
           )
         ],
