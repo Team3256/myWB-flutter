@@ -318,7 +318,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
           new Container(
             padding: EdgeInsets.only(left: 16.0),
             child: new Text(
-              "${matchEventList[index].pickupTime + matchEventList[index].cycleTime} - Robot Reconnected!",
+              "${matchEventList[index].startTime + matchEventList[index].duration} - Robot Reconnected!",
               style: TextStyle(
                   color: getAllianceColor(),
                   fontWeight: FontWeight.bold
@@ -377,7 +377,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   }
 
   Widget getClimbBreakdown(index) {
-    if (matchEventList[index].dropped) {
+    if (!matchEventList[index].dropped) {
       return new Container(
         decoration: BoxDecoration(
             border: Border(
@@ -540,9 +540,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
             ),
             new Expanded(
               child: new ListView(
-                padding: EdgeInsets.all(16.0),
-                children: widgetList
-              )
+                children: widgetList,
+              ),
             )
           ],
         ),
