@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:mywb_flutter/user_drawer.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 import 'package:mywb_flutter/theme.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:fluro/fluro.dart';
 
 class ScoutPage extends StatefulWidget {
@@ -13,33 +14,36 @@ class ScoutPage extends StatefulWidget {
   _ScoutPageState createState() => _ScoutPageState();
 }
 
-class Match {
-
-  int id;
-  String teamNumber;
+class CurrentMatch {
+  String team;
+  String match;
   String alliance;
 
-  Match(this.id, this.teamNumber, this.alliance);
+  CurrentMatch(this.alliance, this.match, this.team);
+
 }
 
 class _ScoutPageState extends State<ScoutPage> {
-  
-  final databaseRef = FirebaseDatabase.instance.reference();
 
-  final scoutSource = "https://raw.githubusercontent.com/Team3256/myWB-flutter/master/lib/scouting/example.json";
-  List<Match> matchList = new List();
+  final databaseRef = FirebaseDatabase.instance.reference();
+  String regionalName = "";
+
+  List<CurrentMatch> currMatchList = new List();
 
   _ScoutPageState() {
-    matchList.add(new Match(1, "3256", "Blue"));
-    databaseRef.child("scouting").child("").child("currRegional").once().then((DataSnapshot snapshot) {
-      setState(() {
-        currRegional = snapshot.value;
+    databaseRef.child("regionals").orderByChild("current").equalTo(true).once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> regionalMap = snapshot.value;
+      regionalMap.forEach((key, value) {
+        setState(() {
+          currRegional = key;
+          regionalName = value["name"];
+        });
       });
     });
-    databaseRef.child("scouting").child(currRegional).child("currMatched").onChildAdded.listen((Event event) {
-      print(event.snapshot.value);
+    databaseRef.child("regionals").child(currRegional).child("currMatches").onValue.listen((Event event) {
       setState(() {
-
+        currMatchList.clear();
+        
       });
     });
   }
@@ -62,8 +66,10 @@ class _ScoutPageState extends State<ScoutPage> {
               child: new Text("SCOUT"),
               onPressed: () {
                 if (currAlliance != "" && currTeam != "" && currMatch != "" && habLevel != 0) {
-                  databaseRef.child("scouting").child(currRegional).child("currMatches").child(currMatch).child(currAlliance).child(currTeam).update({
-                    "habStart": habLevel
+                  databaseRef.child("regionals").child(currRegional).child("currMatches").push().set({
+                    "team": currTeam,
+                    "alliance": currAlliance,
+                    "match": currMatch
                   });
                   router.navigateTo(context, '/scoutOne', transition: TransitionType.native, clearStack: true);
                 }
@@ -96,7 +102,25 @@ class _ScoutPageState extends State<ScoutPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text("Current - $currRegional", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text(
+                  "Current",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)
+                ),
+                new Card(
+                  color: mainColor,
+                  child: new Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: new Text(
+                      regionalName,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ),
             new Padding(padding: EdgeInsets.all(8.0)),
             new Container(
               height: 150.0,
@@ -165,8 +189,6 @@ class ScoutingDialog extends StatefulWidget {
 }
 
 class _ScoutingDialogState extends State<ScoutingDialog> {
-  
-  final databaseRef = FirebaseDatabase.instance.reference();
 
   Color blueBtnColor = Colors.white;
   Color redBtnColor = Colors.white;

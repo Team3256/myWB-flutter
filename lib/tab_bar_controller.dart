@@ -5,6 +5,7 @@ import 'user_info.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/outreach/outreach_page.dart';
 import 'package:mywb_flutter/inventory/inventory_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
 import 'theme.dart';
 
@@ -16,6 +17,7 @@ class TabBarController extends StatefulWidget {
 class _TabBarControllerState extends State<TabBarController> {
   
   PageController _pageController = new PageController();
+  final firestoreRef = Firestore.instance;
 
   int currentTab = 0;
   String title = "Scouting";
@@ -38,13 +40,18 @@ class _TabBarControllerState extends State<TabBarController> {
     });
     _pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
   }
+  
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: mainColor,
-        title: new Text(title, style: TextStyle(fontWeight: FontWeight.bold),),
+        title: new Text(title,),
       ),
       drawer: new UserDrawer(),
       body: new PageView(
