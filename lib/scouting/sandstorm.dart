@@ -75,7 +75,7 @@ class _SandStormState extends State<SandStorm> {
                         autoLine = false;
                         yesColor = greyAccent;
                         noColor = mainColor;
-                        autoTime = 0;
+                        auto = new AutoLine(habLevel, 0.0, false);
                       });
                     },
                   ),
@@ -87,8 +87,8 @@ class _SandStormState extends State<SandStorm> {
                           autoLine = true;
                           yesColor = mainColor;
                           noColor = greyAccent;
-                          autoTime = stopwatch.elapsedMilliseconds/1000;
-                          print("Crossed Baseline - ${stopwatch.elapsedMilliseconds/1000}");
+                          auto = new AutoLine(habLevel, stopwatch.elapsedMilliseconds / 1000, true);
+                          print("Crossed Baseline @ ${auto.time} from HAB Lvl ${auto.habLevel}");
                         });
                       }
                     },

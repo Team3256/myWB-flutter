@@ -42,6 +42,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
     stopwatch.reset();
     stopwatch.start();
     new Timer.periodic(new Duration(milliseconds: 100), getTimer);
+    auto = new AutoLine(habLevel, 0.0, false);
   }
 
   void getTimer(Timer timer) {

@@ -30,8 +30,7 @@ List<Foul> foulList = new List();
 
 int habLevel = 0;
 bool autoLine = false;
-double autoTime = 0;
-bool auto = false;
+AutoLine auto;
 
 Stopwatch dcStopwatch = new Stopwatch();
 List<Disconnect> dcList = List();
@@ -49,11 +48,34 @@ List<Match> matchList = new List();
 
 var matchEventList = [];
 
+class AutoLine {
+  int habLevel;
+  double time;
+  bool crossed;
+
+  AutoLine(this.habLevel, this.time, this.crossed);
+
+  Map toJson() {
+    Map map = new Map();
+    map["habLevel"] = this.habLevel;
+    map["time"] = this.time;
+    map["crossed"] = this.crossed;
+    return map;
+  }
+}
+
 class Disconnect {
   double startTime;
   double duration;
 
   Disconnect(this.startTime, this.duration);
+
+  Map toJson() {
+    Map map = new Map();
+    map["startTime"] = this.startTime;
+    map["duration"] = this.duration;
+    return map;
+  }
 }
 
 class Hatch {
@@ -64,6 +86,15 @@ class Hatch {
   String gamePart;
 
   Hatch(this.pickup, this.dropOff, this.pickupTime, this.cycleTime, this.gamePart);
+
+  Map toJson() {
+    Map map = new Map();
+    map["pickup"] = this.pickup;
+    map["dropOff"] = this.dropOff;
+    map["pickupTime"] = this.pickupTime;
+    map["cycleTime"] = this.cycleTime;
+    return map;
+  }
 }
 
 class Cargo {
@@ -74,6 +105,15 @@ class Cargo {
   String gamePart;
 
   Cargo(this.pickup, this.dropOff, this.pickupTime, this.cycleTime, this.gamePart);
+
+  Map toJson() {
+    Map map = new Map();
+    map["pickup"] = this.pickup;
+    map["dropOff"] = this.dropOff;
+    map["pickupTime"] = this.pickupTime;
+    map["cycleTime"] = this.cycleTime;
+    return map;
+  }
 }
 
 class Foul {
@@ -81,6 +121,13 @@ class Foul {
   double time;
 
   Foul(this.time, this.reason);
+
+  Map toJson() {
+    Map map = new Map();
+    map["time"] = this.time;
+    map["reason"] = this.reason;
+    return map;
+  }
 }
 
 class Climb {
@@ -91,6 +138,16 @@ class Climb {
   bool dropped;
 
   Climb(this.time, this.cycleTime, this.habLevel, this.canSupport, this.dropped);
+
+  Map toJson() {
+    Map map = new Map();
+    map["time"] = this.time;
+    map["cycleTime"] = this.cycleTime;
+    map["habLevel"] = this.habLevel;
+    map["canSupport"] = this.canSupport;
+    map["dropped"] = this.dropped;
+    return map;
+  }
 }
 
 class Match {

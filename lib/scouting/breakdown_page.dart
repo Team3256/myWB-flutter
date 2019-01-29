@@ -26,6 +26,16 @@ class _BreakdownPageState extends State<BreakdownPage> {
   @override
   void initState() {
     super.initState();
+    print(jsonEncode(auto));
+    setState(() {
+      jsonSummary += "${jsonEncode(auto).toString()}";
+    });
+    for (int i = 0; i < matchEventList.length; i++) {
+      print(jsonEncode(matchEventList[i]));
+      setState(() {
+        jsonSummary += "/n${jsonEncode(matchEventList[i]).toString()}";
+      });
+    }
   }
 
   @override
