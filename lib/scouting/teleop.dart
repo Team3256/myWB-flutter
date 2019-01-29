@@ -86,7 +86,7 @@ class _TeleOpState extends State<TeleOp> {
                       if (hatchImagePath == "images/add.png") {
                         hatchStopwatch.reset();
                         hatchStopwatch.start();
-                        new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
+                        new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (hatchStopwatch.isRunning) {
                             setState(() {
                               hatchTimer = (hatchStopwatch.elapsedMilliseconds / 1000).round();
@@ -376,7 +376,7 @@ class _TeleOpState extends State<TeleOp> {
                       if (cargoImagePath == "images/add.png") {
                         cargoStopwatch.reset();
                         cargoStopwatch.start();
-                        new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
+                        new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (cargoStopwatch.isRunning) {
                             setState(() {
                               cargoTimer = (cargoStopwatch.elapsedMilliseconds / 1000).round();
@@ -678,7 +678,7 @@ class _TeleOpState extends State<TeleOp> {
                 });
                 dcStopwatch.reset();
                 dcStopwatch.start();
-                new Timer.periodic(new Duration(milliseconds: 500), (Timer timer) {
+                new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                   if (dcStopwatch.isRunning) {
                     setState(() {
                       dcTimer = (dcStopwatch.elapsedMilliseconds / 1000).round();

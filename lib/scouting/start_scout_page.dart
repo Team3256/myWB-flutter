@@ -63,7 +63,6 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
             icon: Icon(Icons.save),
             label: new Text("Save", style: TextStyle(color: Colors.white),),
             onPressed: () {
-              //TODO: Handle database upload
               print("${matchEventList.length} EVENTS DETECTED");
               router.navigateTo(context, '/breakdown', transition: TransitionType.native);
             },
@@ -72,8 +71,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         stopwatch.stop();
       }
       setState(() {
-        //TODO: Update debug timer progress value
-//        print(stopwatch.elapsedMilliseconds / 1000);
+        print(stopwatch.elapsedMilliseconds / 1000);
         _progress = stopwatch.elapsedMilliseconds / 150000;
         title = "Match $currMatch - ${((150000 - stopwatch.elapsedMilliseconds)/1000).round()} sec";
       });
