@@ -18,12 +18,14 @@ class _SandStormState extends State<SandStorm> {
 
   //DC
   Color dcAdd = greyAccent;
+  double dcStartTime = 0.0;
   int dcTimer = 0;
   String dcImagePath = "images/add.png";
   bool reconnectVisible = false;
 
   //Hatch
   int hatchCounter = 0;
+  double hatchPickupTime = 0.0;
   Color hatchAdd = greyAccent;
   Color hatchTitle = Colors.black;
   String hatchImagePath = "images/add.png";
@@ -36,6 +38,7 @@ class _SandStormState extends State<SandStorm> {
 
   //Cargo
   int cargoCounter = 0;
+  double cargoPickupTime = 0.0;
   Color cargoAdd = greyAccent;
   Color cargoTitle = Colors.black;
   String cargoImagePath = "images/add.png";
@@ -114,6 +117,7 @@ class _SandStormState extends State<SandStorm> {
                       if (hatchImagePath == "images/add.png") {
                         hatchStopwatch.reset();
                         hatchStopwatch.start();
+                        hatchPickupTime = stopwatch.elapsedMilliseconds / 1000;
                         new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (hatchStopwatch.isRunning) {
                             setState(() {
@@ -225,7 +229,7 @@ class _SandStormState extends State<SandStorm> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -233,7 +237,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -254,7 +258,7 @@ class _SandStormState extends State<SandStorm> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -262,7 +266,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -290,7 +294,7 @@ class _SandStormState extends State<SandStorm> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -298,7 +302,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -319,7 +323,7 @@ class _SandStormState extends State<SandStorm> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -327,7 +331,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -355,7 +359,7 @@ class _SandStormState extends State<SandStorm> {
                                 hatchDropLocation = "Dropped";
                                 hatchStopwatch.stop();
                                 setState(() {
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -363,7 +367,7 @@ class _SandStormState extends State<SandStorm> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -404,6 +408,7 @@ class _SandStormState extends State<SandStorm> {
                       if (cargoImagePath == "images/add.png") {
                         cargoStopwatch.reset();
                         cargoStopwatch.start();
+                        cargoPickupTime = stopwatch.elapsedMilliseconds / 1000;
                         new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (cargoStopwatch.isRunning) {
                             setState(() {
@@ -517,7 +522,7 @@ class _SandStormState extends State<SandStorm> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -525,7 +530,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -546,7 +551,7 @@ class _SandStormState extends State<SandStorm> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -554,7 +559,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -582,7 +587,7 @@ class _SandStormState extends State<SandStorm> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -590,7 +595,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -611,7 +616,7 @@ class _SandStormState extends State<SandStorm> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -619,7 +624,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -647,7 +652,7 @@ class _SandStormState extends State<SandStorm> {
                                 cargoDropLocation = "Dropped";
                                 cargoStopwatch.stop();
                                 setState(() {
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -655,7 +660,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -706,6 +711,7 @@ class _SandStormState extends State<SandStorm> {
                 });
                 dcStopwatch.reset();
                 dcStopwatch.start();
+                dcStartTime = stopwatch.elapsedMilliseconds / 1000;
                 new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                   if (dcStopwatch.isRunning) {
                     setState(() {
@@ -743,11 +749,11 @@ class _SandStormState extends State<SandStorm> {
                             onPressed: () {
                               dcStopwatch.stop();
                               setState(() {
-                                dcList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
+                                dcList.add(new Disconnect(dcStartTime, dcStopwatch.elapsedMilliseconds/1000));
                                 print("Robot Disconnect @ ${dcList[dcList.length - 1].startTime} for ${dcList[dcList.length - 1].duration} seconds!");
                                 reconnectVisible = false;
                               });
-                              matchEventList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
+                              matchEventList.add(new Disconnect(dcStartTime, dcStopwatch.elapsedMilliseconds/1000));
                             }),
                       ),
                     ),

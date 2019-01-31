@@ -63,7 +63,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
             icon: Icon(Icons.save),
             label: new Text("Save", style: TextStyle(color: Colors.white),),
             onPressed: () {
-              print("${matchEventList.length} EVENTS DETECTED");
+              print("${matchEventList.length + 1} EVENTS DETECTED");
               router.navigateTo(context, '/breakdown', transition: TransitionType.native);
             },
           );

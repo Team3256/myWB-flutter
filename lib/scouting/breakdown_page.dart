@@ -28,12 +28,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
     super.initState();
     print(jsonEncode(auto));
     setState(() {
-      jsonSummary += "${jsonEncode(auto).toString()}";
+      jsonSummary += "Event 1:\n${jsonEncode(auto).toString()}";
     });
     for (int i = 0; i < matchEventList.length; i++) {
       print(jsonEncode(matchEventList[i]));
       setState(() {
-        jsonSummary += "/n${jsonEncode(matchEventList[i]).toString()}";
+        jsonSummary += "Event ${i + 2}:\n${jsonEncode(matchEventList[i]).toString()}\n";
       });
     }
   }
@@ -76,7 +76,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               ),
             ),
             new Expanded(
-              child: Center(
+              child: SingleChildScrollView(
                 child: new Text(jsonSummary)
               ),
             )

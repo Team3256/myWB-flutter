@@ -14,12 +14,14 @@ class _TeleOpState extends State<TeleOp> {
 
   //DC
   Color dcAdd = greyAccent;
+  double dcStartTime = 0.0;
   int dcTimer = 0;
   String dcImagePath = "images/add.png";
   bool reconnectVisible = false;
 
   //Hatch
   int hatchCounter = 0;
+  double hatchPickupTime = 0.0;
   Color hatchAdd = greyAccent;
   Color hatchTitle = Colors.black;
   String hatchImagePath = "images/add.png";
@@ -32,6 +34,7 @@ class _TeleOpState extends State<TeleOp> {
 
   //Cargo
   int cargoCounter = 0;
+  double cargoPickupTime = 0.0;
   Color cargoAdd = greyAccent;
   Color cargoTitle = Colors.black;
   String cargoImagePath = "images/add.png";
@@ -54,6 +57,7 @@ class _TeleOpState extends State<TeleOp> {
 
   //Endgame
   String climbImagePath = "images/yes.png";
+  double climbStartTime = 0.0;
   Color climbAdd = greyAccent;
   Color climbText = Colors.black;
   int climbTimer = 0;
@@ -820,24 +824,28 @@ class _TeleOpState extends State<TeleOp> {
             trailing: new IconButton(
               icon: new Image.asset(climbImagePath, color: climbAdd,),
               onPressed: () {
+                dropped = false;
                 if (climbImagePath == "images/yes.png") {
-                  climbStopwatch.reset();
-                  climbStopwatch.start();
-                  setState(() {
-                    canSupportYes = greyAccent;
-                    canSupportNo = mainColor;
-                    climbImagePath = "images/no.png";
-                    climbText = mainColor;
-                    climbAdd = mainColor;
-                    climbContainerHeight = 250.0;
-                  });
-                  new Timer.periodic(const Duration(milliseconds: 300), (Timer timer) {
-                    if (climbStopwatch.isRunning) {
-                      setState(() {
-                        climbTimer = (climbStopwatch.elapsedMilliseconds / 1000).round();
-                      });
-                    }
-                  });
+                  if (climbList.length == 0 || climbList[climbList.length - 1].dropped == true) {
+                    climbStopwatch.reset();
+                    climbStopwatch.start();
+                    climbStartTime = stopwatch.elapsedMilliseconds / 1000;
+                    setState(() {
+                      canSupportYes = greyAccent;
+                      canSupportNo = mainColor;
+                      climbImagePath = "images/no.png";
+                      climbText = mainColor;
+                      climbAdd = mainColor;
+                      climbContainerHeight = 250.0;
+                    });
+                    new Timer.periodic(const Duration(milliseconds: 100), (Timer timer) {
+                      if (climbStopwatch.isRunning) {
+                        setState(() {
+                          climbTimer = (climbStopwatch.elapsedMilliseconds / 1000).round();
+                        });
+                      }
+                    });
+                  }
                 }
                 else {
                   climbStopwatch.stop();
@@ -903,12 +911,11 @@ class _TeleOpState extends State<TeleOp> {
                             child: new Text("Lvl 1"),
                             onPressed: () {
                               climbStopwatch.stop();
-                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
                                 climbText = Colors.black;
-                                climbAdd = greyAccent;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -927,12 +934,11 @@ class _TeleOpState extends State<TeleOp> {
                             child: new Text("Lvl 2"),
                             onPressed: () {
                               climbStopwatch.stop();
-                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
                                 climbText = Colors.black;
-                                climbAdd = greyAccent;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -951,12 +957,11 @@ class _TeleOpState extends State<TeleOp> {
                             child: new Text("Lvl 3"),
                             onPressed: () {
                               climbStopwatch.stop();
-                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
                                 climbText = Colors.black;
-                                climbAdd = greyAccent;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -979,10 +984,10 @@ class _TeleOpState extends State<TeleOp> {
                             child: new Text("Droppped"),
                             textColor: Colors.white,
                             onPressed: () {
-                              climbStopwatch.stop();
-                              climbList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(stopwatch.elapsedMilliseconds/1000, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               dropped = true;
+                              climbStopwatch.stop();
+                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
                                 climbText = Colors.black;
