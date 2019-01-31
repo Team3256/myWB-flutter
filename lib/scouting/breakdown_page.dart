@@ -46,6 +46,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
         backgroundColor: getAllianceColor(),
         elevation: 0.0,
       ),
+      floatingActionButton: new FloatingActionButton.extended(
+        icon: new Icon(Icons.save),
+        label: new Text("Save"),
+        onPressed: () {
+          // TODO: handle database upload here
+        },
+      ),
       body: new Container(
         child: new Column(
           children: <Widget>[

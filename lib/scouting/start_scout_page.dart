@@ -60,8 +60,8 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
           teleopColor = greyAccent;
           gameOver = mainColor;
           doneButton = new FloatingActionButton.extended(
-            icon: Icon(Icons.save),
-            label: new Text("Save", style: TextStyle(color: Colors.white),),
+            icon: new Text(""),
+            label: new Text("Review ", style: TextStyle(color: Colors.white),),
             onPressed: () {
               print("${matchEventList.length + 1} EVENTS DETECTED");
               router.navigateTo(context, '/breakdown', transition: TransitionType.native);
