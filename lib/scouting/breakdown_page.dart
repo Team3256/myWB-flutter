@@ -31,7 +31,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
       jsonSummary += "Event 1:\n${jsonEncode(auto).toString()}";
     });
     for (int i = 0; i < matchEventList.length; i++) {
-      print(jsonEncode(matchEventList[i]));
+      print("${matchEventList[i].runtimeType}: ${jsonEncode(matchEventList[i])}");
       setState(() {
         jsonSummary += "Event ${i + 2}:\n${jsonEncode(matchEventList[i]).toString()}\n";
       });

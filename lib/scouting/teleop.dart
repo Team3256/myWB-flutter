@@ -90,6 +90,7 @@ class _TeleOpState extends State<TeleOp> {
                       if (hatchImagePath == "images/add.png") {
                         hatchStopwatch.reset();
                         hatchStopwatch.start();
+                        hatchPickupTime = stopwatch.elapsedMilliseconds / 1000;
                         new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (hatchStopwatch.isRunning) {
                             setState(() {
@@ -201,7 +202,7 @@ class _TeleOpState extends State<TeleOp> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -209,7 +210,7 @@ class _TeleOpState extends State<TeleOp> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -230,7 +231,7 @@ class _TeleOpState extends State<TeleOp> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -238,7 +239,7 @@ class _TeleOpState extends State<TeleOp> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -266,7 +267,7 @@ class _TeleOpState extends State<TeleOp> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -274,7 +275,7 @@ class _TeleOpState extends State<TeleOp> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -295,7 +296,7 @@ class _TeleOpState extends State<TeleOp> {
                                 hatchStopwatch.stop();
                                 setState(() {
                                   hatchCounter++;
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -303,7 +304,7 @@ class _TeleOpState extends State<TeleOp> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -331,7 +332,7 @@ class _TeleOpState extends State<TeleOp> {
                                 hatchDropLocation = "Dropped";
                                 hatchStopwatch.stop();
                                 setState(() {
-                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  hatchList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
@@ -339,7 +340,7 @@ class _TeleOpState extends State<TeleOp> {
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, stopwatch.elapsedMilliseconds/1000, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 hatchStopwatch.reset();
                                 print("${hatchList[hatchList.length-1].pickup} to ${hatchList[hatchList.length-1].dropOff} @ ${hatchList[hatchList.length-1].pickupTime} for ${hatchList[hatchList.length-1].cycleTime}");
                               },
@@ -380,6 +381,7 @@ class _TeleOpState extends State<TeleOp> {
                       if (cargoImagePath == "images/add.png") {
                         cargoStopwatch.reset();
                         cargoStopwatch.start();
+                        cargoPickupTime = stopwatch.elapsedMilliseconds / 1000;
                         new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                           if (cargoStopwatch.isRunning) {
                             setState(() {
@@ -493,7 +495,7 @@ class _TeleOpState extends State<TeleOp> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -501,7 +503,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -522,7 +524,7 @@ class _TeleOpState extends State<TeleOp> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -530,7 +532,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -558,7 +560,7 @@ class _TeleOpState extends State<TeleOp> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -566,7 +568,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -587,7 +589,7 @@ class _TeleOpState extends State<TeleOp> {
                                 cargoStopwatch.stop();
                                 setState(() {
                                   cargoCounter++;
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -595,7 +597,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -623,7 +625,7 @@ class _TeleOpState extends State<TeleOp> {
                                 cargoDropLocation = "Dropped";
                                 cargoStopwatch.stop();
                                 setState(() {
-                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                  cargoList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
@@ -631,7 +633,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
-                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, stopwatch.elapsedMilliseconds/1000, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
+                                matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
                                 cargoStopwatch.reset();
                                 print("${cargoList[cargoList.length-1].pickup} to ${cargoList[cargoList.length-1].dropOff} @ ${cargoList[cargoList.length-1].pickupTime} for ${cargoList[cargoList.length-1].cycleTime}");
                               },
@@ -682,6 +684,7 @@ class _TeleOpState extends State<TeleOp> {
                 });
                 dcStopwatch.reset();
                 dcStopwatch.start();
+                dcStartTime = stopwatch.elapsedMilliseconds / 1000;
                 new Timer.periodic(new Duration(milliseconds: 100), (Timer timer) {
                   if (dcStopwatch.isRunning) {
                     setState(() {
@@ -719,11 +722,11 @@ class _TeleOpState extends State<TeleOp> {
                             onPressed: () {
                               dcStopwatch.stop();
                               setState(() {
-                                dcList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
-                                print("Robot Disconnect @ ${dcList.elementAt(dcList.length - 2)} for ${dcList.elementAt(dcList.length - 1)} seconds!");
+                                dcList.add(new Disconnect(dcStartTime, dcStopwatch.elapsedMilliseconds/1000));
+                                print("Robot Disconnect @ ${dcList[dcList.length - 1].startTime} for ${dcList[dcList.length - 1].duration} seconds!");
                                 reconnectVisible = false;
                               });
-                              matchEventList.add(new Disconnect(stopwatch.elapsedMilliseconds/1000, dcStopwatch.elapsedMilliseconds/1000));
+                              matchEventList.add(new Disconnect(dcStartTime, dcStopwatch.elapsedMilliseconds/1000));
                             }),
                       ),
                     ),
