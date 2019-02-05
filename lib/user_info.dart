@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:fluro/fluro.dart';
 
 final router = Router();
@@ -151,8 +152,42 @@ class Climb {
 }
 
 class Match {
-  String teamName;
-  String matchNumber;
+  int matchNumber;
+  String regionalKey;
+  String teamKey;
   String alliance;
 
+  List hatches;
+  double avgHatch;
+  int hatchCount;
+
+  List cargoes;
+  double avgCargo;
+  int cargoCount;
+
+  List disconnects;
+  List fouls;
+  List climbs;
+  AutoLine auto;
+
+  Map toJson() {
+    Map map = new Map();
+    map["matchNumber"] = this.matchNumber;
+    map["regionalKey"] = this.regionalKey;
+    map["teamKey"] = this.teamKey;
+    map["alliance"] = this.alliance;
+    map["matchData"] = {
+      "hatch": this.hatches,
+      "cargo": this.cargoes,
+      "disconnect": this.disconnects,
+      "foul": this.fouls,
+      "climb": this.climbs,
+      "auto": this.auto.toJson()
+    };
+    map["avgHatch"] = avgHatch;
+    map["avgCargo"] = avgCargo;
+    map["hatchCount"] = hatchCount;
+    map["cargoCount"] = cargoCount;
+    return map;
+  }
 }

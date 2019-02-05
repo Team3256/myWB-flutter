@@ -13,7 +13,8 @@ class BreakdownPage extends StatefulWidget {
 class _BreakdownPageState extends State<BreakdownPage> {
   
   String jsonSummary = "";
-  
+  Match myMatch = new Match();
+
   Color getAllianceColor() {
     if (currAlliance == "Blue") {
       return Colors.lightBlue;
@@ -27,6 +28,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   void initState() {
     super.initState();
     print(jsonEncode(auto));
+    myMatch.matchName = "";
     setState(() {
       jsonSummary += "Event 1:\n${jsonEncode(auto).toString()}";
     });
