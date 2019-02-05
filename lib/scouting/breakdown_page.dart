@@ -27,8 +27,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
   @override
   void initState() {
     super.initState();
+    // Initialize Match Object
+    myMatch.matchNumber = int.parse(currMatch);
+    myMatch.regionalKey = currRegional;
+    myMatch.teamKey = int.parse(currTeam);
+    myMatch.alliance = currAlliance;
     print(jsonEncode(auto));
-    myMatch.matchName = "";
     setState(() {
       jsonSummary += "Event 1:\n${jsonEncode(auto).toString()}";
     });

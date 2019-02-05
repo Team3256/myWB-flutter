@@ -154,7 +154,7 @@ class Climb {
 class Match {
   int matchNumber;
   String regionalKey;
-  String teamKey;
+  int teamKey;
   String alliance;
 
   List hatches;
@@ -169,6 +169,8 @@ class Match {
   List fouls;
   List climbs;
   AutoLine auto;
+
+  Match({this.hatchCount, this.avgCargo, this.avgHatch, this.auto, this.fouls, this.disconnects, this.cargoes, this.hatches, this.alliance, this.teamKey, this.regionalKey, this.matchNumber, this.cargoCount, this.climbs});
 
   Map toJson() {
     Map map = new Map();
