@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:mywb_flutter/user_info.dart';
-import 'package:timeline_list/timeline.dart';
 import 'dart:convert';
+import 'package:timeline/timeline.dart';
+import 'package:timeline/model/timeline_model.dart';
 import 'package:fluro/fluro.dart';
 
 class BreakdownPage extends StatefulWidget {
@@ -12,7 +13,6 @@ class BreakdownPage extends StatefulWidget {
 
 class _BreakdownPageState extends State<BreakdownPage> {
   
-  String jsonSummary = "";
   Match myMatch = new Match();
 
   Color getAllianceColor() {
@@ -24,6 +24,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
     }
   }
 
+  List<TimelineModel> breakdownList = new List();
+
   @override
   void initState() {
     super.initState();
@@ -33,15 +35,38 @@ class _BreakdownPageState extends State<BreakdownPage> {
     myMatch.teamKey = int.parse(currTeam);
     myMatch.alliance = currAlliance;
     print(jsonEncode(auto));
-    setState(() {
-      jsonSummary += "Event 1:\n${jsonEncode(auto).toString()}";
-    });
     for (int i = 0; i < matchEventList.length; i++) {
       print("${matchEventList[i].runtimeType}: ${jsonEncode(matchEventList[i])}");
-      setState(() {
-        jsonSummary += "Event ${i + 2}:\n${jsonEncode(matchEventList[i]).toString()}\n";
-      });
+      if (matchEventList[i].runtimeType == Disconnect) {
+        // Add disconnect stuff to timeline
+        setState(() {
+          breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].startTime} - Robot Disconnected", description: "Team $currTeam's robot disconnected for ${matchEventList[i].duration} seconds."));
+        });
+      }
+      else if (matchEventList[i].runtimeType == Hatch || matchEventList[i].runtimeType == Cargo) {
+        // Add hatch stuff to timeline
+        setState(() {
+          breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].pickupTime} - Picked up ${matchEventList[i].runtimeType} from ${matchEventList[i].pickup}", description: ""));
+          if (matchEventList[i].dropOff != "Dropped") {
+            breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].pickupTime + matchEventList[i].cycleTime} - Dropped off ${matchEventList[i].runtimeType} at ${matchEventList[i].dropOff}", description: ""));
+          }
+          else {
+            breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].pickupTime + matchEventList[i].cycleTime} - Dropped ${matchEventList[i].runtimeType}", description: ""));
+          }
+        });
+      }
+      else if (matchEventList[i].runtimeType == Foul) {
+        setState(() {
+          breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].time} - Foul", description: "Reason for foul: ${matchEventList[i].reason}"));
+        });
+      }
+      else if (matchEventList[i].runtimeType == Climb) {
+        setState(() {
+          breakdownList.add(new TimelineModel(id: i.toString(), title: "${matchEventList[i].time} - ", description: ""));
+        });
+      }
     }
+    print(jsonEncode(myMatch));
   }
 
   @override
@@ -89,8 +114,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
               ),
             ),
             new Expanded(
-              child: SingleChildScrollView(
-                child: new Text(jsonSummary)
+              child: new TimelineComponent(
+                timelineList: breakdownList,
               ),
             )
           ],

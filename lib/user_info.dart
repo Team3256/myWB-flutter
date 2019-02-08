@@ -178,14 +178,6 @@ class Match {
     map["regionalKey"] = this.regionalKey;
     map["teamKey"] = this.teamKey;
     map["alliance"] = this.alliance;
-    map["matchData"] = {
-      "hatch": this.hatches,
-      "cargo": this.cargoes,
-      "disconnect": this.disconnects,
-      "foul": this.fouls,
-      "climb": this.climbs,
-      "auto": this.auto.toJson()
-    };
     map["avgHatch"] = avgHatch;
     map["avgCargo"] = avgCargo;
     map["hatchCount"] = hatchCount;
