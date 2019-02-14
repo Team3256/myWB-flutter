@@ -30,6 +30,40 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   List<TimelineModel> breakdownList = new List();
 
+  void uploadErrorDialog(String error) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Ruh-roh!"),
+          content: new Text(
+            "It looks like an error occurred trying to upload your match: $error",
+          ),
+        );
+      },
+    );
+  }
+
+  void matchExistError() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Bruh, that's a wong move"),
+          content: new Text(
+            "Scouting data for this match already exists. LOL, how did you screw up this badly?",
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +104,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         icon: new Icon(Icons.save),
         label: new Text("Save"),
         onPressed: () async {
-          // TODO: handle database upload here
+          // Handle DB Upload
           var postMatchUrl = "${dbHost}api/scouting/match/";
           try {
             http.post(postMatchUrl, body: jsonEncode(myMatch), headers: {HttpHeaders.authorizationHeader: "Bearer $authToken", HttpHeaders.contentTypeHeader: "application/json"}).then((response) {
@@ -78,6 +112,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
               var uploadResponse = jsonDecode(response.body);
               if (uploadResponse["error"] != null) {
                 // Whoops, an error occurred!
+                if (uploadResponse["error"] == "Conflict") {
+                  matchExistError();
+                }
+                else {
+                  uploadErrorDialog(uploadResponse["message"]);
+                }
+              }
+              else {
 
               }
             });
