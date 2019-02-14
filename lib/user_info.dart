@@ -7,6 +7,7 @@ final router = Router();
 String currentPage = "Home";
 
 String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5ZWV0QGV4YW1wbGUuZ292Iiwic2NvcGVzIjoiUk9MRV9TVFVERU5ULFJPTEVfVVNFUiIsImlhdCI6MTU0Njg5OTU4NiwiZXhwIjoxNTYyNjc5NTg2fQ.1W1D1UrenkUNQUIJq5B_DNAZRI67-EB9q0MPa8BoiOA";
+String dbHost = "http://localhost:8080/";
 
 String firstName = "[ERROR]";
 String middleName = "[ERROR]";
@@ -157,20 +158,9 @@ class Match {
   int teamKey;
   String alliance;
 
-  List hatches;
-  double avgHatch;
-  int hatchCount;
+  MatchData matchData;
 
-  List cargoes;
-  double avgCargo;
-  int cargoCount;
-
-  List disconnects;
-  List fouls;
-  List climbs;
-  AutoLine auto;
-
-  Match({this.hatchCount, this.avgCargo, this.avgHatch, this.auto, this.fouls, this.disconnects, this.cargoes, this.hatches, this.alliance, this.teamKey, this.regionalKey, this.matchNumber, this.cargoCount, this.climbs});
+  Match({this.alliance, this.teamKey, this.regionalKey, this.matchNumber});
 
   Map toJson() {
     Map map = new Map();
@@ -178,8 +168,29 @@ class Match {
     map["regionalKey"] = this.regionalKey;
     map["teamKey"] = this.teamKey;
     map["alliance"] = this.alliance;
-    map["avgHatch"] = avgHatch;
-    map["avgCargo"] = avgCargo;
+    map["matchData"] = matchData;
+    return map;
+  }
+}
+
+class MatchData {
+
+  double avgHatch = 0;
+  int hatchCount = 0;
+
+  double avgCargo = 0;
+  int cargoCount = 0;
+
+  Map toJson() {
+    Map map = new Map();
+    map["auto"] = auto;
+    map["hatch"] = hatchList;
+    map["cargo"] = cargoList;
+    map["climb"] = climbList;
+    map["disconnnect"] = dcList;
+    map["foul"] = foulList;
+    map["averageHatch"] = avgHatch;
+    map["averageCargo"] = avgCargo;
     map["hatchCount"] = hatchCount;
     map["cargoCount"] = cargoCount;
     return map;

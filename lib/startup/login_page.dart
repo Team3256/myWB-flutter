@@ -70,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     });
-    var authUrl = "https://mywb.vcs.net/auth/generate-token";
-    var userUrl = "https://mywb.vcs.net/api/hr/user/info";
+    var authUrl = "${dbHost}auth/generate-token";
+    var userUrl = "${dbHost}api/hr/user/info";
     http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
       print(response.body);
       var jsonResponse = json.decode(response.body);

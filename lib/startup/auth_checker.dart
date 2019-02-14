@@ -35,26 +35,33 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
   Future<void> checkUserLogged() async {
     if (authToken != "") {
       print("USER LOGGED");
-      var userUrl = "https://mywb.vcs.net/api/hr/user/info";
+      var userUrl = "${dbHost}api/hr/user/info";
       try {
         await http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) async {
           print(user.body);
-          var userJson = json.decode(user.body);
-          firstName = userJson["firstName"];
-          middleName = userJson["middleName"];
-          lastName = userJson["lastName"];
-          email = userJson["email"];
-          birthday = userJson["birthday"];
-          phone = userJson["cellPhone"];
-          gender = userJson["gender"];
-          role = userJson["type"];
-          await new Future.delayed(const Duration(milliseconds: 1500));
           print("Connected!");
-          router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true);
+          var userJson = json.decode(user.body);
+          if (userJson["error"] != null) {
+            // Ruh-roh Auth Token went Breah-Brat
+            print("USER NOT LOGGED");
+            router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
+          }
+          else {
+            firstName = userJson["firstName"];
+            middleName = userJson["middleName"];
+            lastName = userJson["lastName"];
+            email = userJson["email"];
+            birthday = userJson["birthday"];
+            phone = userJson["cellPhone"];
+            gender = userJson["gender"];
+            role = userJson["type"];
+            await new Future.delayed(const Duration(milliseconds: 1500));
+            router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true);
+          }
         });
       }
       catch (error) {
-        await new Future.delayed(const Duration(milliseconds: 1500));
+        await new Future.delayed(const Duration(milliseconds: 300));
         print("Connection Failed!");
         serverConnectionDialog();
       }
