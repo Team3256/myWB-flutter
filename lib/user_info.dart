@@ -7,7 +7,7 @@ final router = Router();
 String currentPage = "Home";
 
 String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5ZWV0QGV4YW1wbGUuZ292Iiwic2NvcGVzIjoiUk9MRV9TVFVERU5ULFJPTEVfVVNFUiIsImlhdCI6MTU0Njg5OTU4NiwiZXhwIjoxNTYyNjc5NTg2fQ.1W1D1UrenkUNQUIJq5B_DNAZRI67-EB9q0MPa8BoiOA";
-String dbHost = "http://localhost:8080/";
+String dbHost = "https://mywb.vcs.net/";
 
 String firstName = "[ERROR]";
 String middleName = "[ERROR]";
@@ -23,6 +23,9 @@ String currTeam = "";
 String currAlliance = "";
 String currMatch = "";
 String currRegional = "";
+
+String selectedTeam = "";
+String selectedMatch = "";
 
 String scoutState = "";
 

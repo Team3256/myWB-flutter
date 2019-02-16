@@ -9,27 +9,18 @@ import 'package:http/http.dart' as http;
 import 'package:mywb_flutter/theme.dart';
 import 'package:fluro/fluro.dart';
 
+List<String> teamsList = new List();
+
 class ScoutPage extends StatefulWidget {
   @override
   _ScoutPageState createState() => _ScoutPageState();
-}
-
-class CurrentMatch {
-  String team;
-  String match;
-  String alliance;
-
-  CurrentMatch(this.alliance, this.match, this.team);
-
 }
 
 class _ScoutPageState extends State<ScoutPage> {
 
   final databaseRef = FirebaseDatabase.instance.reference();
   String regionalName = "";
-
-  List<CurrentMatch> currMatchList = new List();
-
+  
   _ScoutPageState() {
     databaseRef.child("regionals").orderByChild("current").equalTo(true).once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> regionalMap = snapshot.value;
@@ -37,13 +28,22 @@ class _ScoutPageState extends State<ScoutPage> {
         setState(() {
           currRegional = key;
           regionalName = value["name"];
+          print(currRegional);
+          var teamsUrl = "${dbHost}api/scouting/regional/${currRegional}/teams";
+          try {
+            http.get(teamsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+              print(response.body);
+              var teamsJson = jsonDecode(response.body);
+              for (int i = 0; i < teamsJson.length; i++) {
+                teamsList.add(teamsJson[i]["key"].toString().substring(3));
+              }
+              print("TeamsList: $teamsList");
+            });
+          }
+          catch (error) {
+            print("RRRRRIP, failed to pull the teams list!");
+          }
         });
-      });
-    });
-    databaseRef.child("regionals").child(currRegional).child("currMatches").onValue.listen((Event event) {
-      setState(() {
-        currMatchList.clear();
-        
       });
     });
   }
@@ -66,12 +66,14 @@ class _ScoutPageState extends State<ScoutPage> {
               child: new Text("SCOUT"),
               onPressed: () {
                 if (currAlliance != "" && currTeam != "" && currMatch != "" && habLevel != 0) {
-                  databaseRef.child("regionals").child(currRegional).child("currMatches").push().set({
-                    "team": currTeam,
-                    "alliance": currAlliance,
-                    "match": currMatch
-                  });
-                  router.navigateTo(context, '/scoutOne', transition: TransitionType.native, clearStack: true);
+                  if (teamsList.contains(currTeam)) {
+                    databaseRef.child("regionals").child(currRegional).child("currMatches").push().set({
+                      "team": currTeam,
+                      "alliance": currAlliance,
+                      "match": currMatch
+                    });
+                    router.navigateTo(context, '/scoutOne', transition: TransitionType.native, clearStack: true);
+                  }
                 }
               },
             )
@@ -160,7 +162,7 @@ class _ScoutPageState extends State<ScoutPage> {
             ),
             new Divider(color: mainColor, height: 0.0,),
             new ListTile(
-              title: new Text("Team Statistics"),
+              title: new Text("All Teams"),
               trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
               onTap: () {
 
@@ -200,6 +202,10 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
   Color oneBtnTxtColor = Colors.black;
   Color twoBtn1TxtColor = Colors.black;
 
+  bool errVisible = false;
+  Color errColor = Colors.redAccent;
+  String errText = "";
+
   _ScoutingDialogState() {
     currAlliance = "";
     currMatch = "";
@@ -211,7 +217,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
   Widget build(BuildContext context) {
     return new Container(
       color: Colors.white,
-      height: 210.0,
+      height: 235.0,
       child: new Column(
         children: <Widget>[
           new Row(
@@ -245,12 +251,37 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       border: InputBorder.none
                   ),
                   onChanged: (input) {
+                    setState(() {
+                      errVisible = true;
+                      errText = "";
+                    });
                     currTeam = input;
+                    if (currTeam == "") {
+                      setState(() {
+                        errVisible = false;
+                      });
+                    }
+                    else if (teamsList.contains(currTeam)) {
+                      setState(() {
+                        errColor = Colors.greenAccent;
+                        errVisible = true;
+                        errText = "Team is valid";
+                      });
+                    }
+                    else {
+                      setState(() {
+                        errColor = Colors.redAccent;
+                        errVisible = true;
+                        errText = "Team isn't at this regional";
+                      });
+                    }
                   },
                 ),
               ),
             ],
           ),
+          new Visibility(visible: errVisible, child: new Text(errText, style: TextStyle(color: errColor),)),
+          new Visibility(visible: errVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
           new Text("Alliance:", style: TextStyle(fontWeight: FontWeight.bold),),
           new Row(
             mainAxisAlignment: MainAxisAlignment.center,

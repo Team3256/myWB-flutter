@@ -33,8 +33,9 @@ android {
 
     defaultConfig {
         applicationId "com.bk1031.mywb"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
