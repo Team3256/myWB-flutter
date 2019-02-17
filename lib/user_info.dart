@@ -24,11 +24,14 @@ String gender = "[ERROR]";
 
 String role = "[ERROR]";
 
+List<String> teamsList = new List();
+List<Regional> regionalList = new List();
+
 String currTeam = "";
 String currAlliance = "";
 String currMatch = "";
 String currMatchKey = "";
-String currRegional = "";
+Regional currRegional = new Regional("", "", "");
 
 String selectedTeam = "";
 String selectedMatch = "";
@@ -203,5 +206,17 @@ class MatchData {
     map["hatchCount"] = hatchCount;
     map["cargoCount"] = cargoCount;
     return map;
+  }
+}
+
+class Regional {
+  String key;
+  String name;
+  String shortName;
+
+  Regional(this.key, this.name, this.shortName);
+
+  toString() {
+    return ("$key - $name ($shortName)");
   }
 }

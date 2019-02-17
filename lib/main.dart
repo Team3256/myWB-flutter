@@ -3,6 +3,7 @@ import 'package:mywb_flutter/home/home_page.dart';
 import 'package:mywb_flutter/inventory/inventory_page.dart';
 import 'package:mywb_flutter/outreach/outreach_page.dart';
 import 'package:mywb_flutter/scouting/breakdown_page.dart';
+import 'package:mywb_flutter/scouting/filter_regional_page.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/scouting/start_scout_page.dart';
 import 'package:mywb_flutter/settings/about_page.dart';
@@ -62,6 +63,10 @@ void main() {
 
   router.define('/helpPage', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new HelpPage();
+  }));
+
+  router.define('/filterRegional', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new FilterRegionalPage();
   }));
 
   runApp(

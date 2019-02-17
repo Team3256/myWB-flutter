@@ -69,7 +69,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
     super.initState();
     // Initialize Match Object
     myMatch.matchNumber = int.parse(currMatch);
-    myMatch.regionalKey = currRegional;
+    myMatch.regionalKey = currRegional.key;
     myMatch.teamKey = int.parse(currTeam);
     myMatch.alliance = currAlliance;
     // Calculate Match Stats

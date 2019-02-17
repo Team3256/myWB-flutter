@@ -8,6 +8,8 @@ import 'package:mywb_flutter/inventory/inventory_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'dart:io';
 import 'theme.dart';
 
@@ -88,6 +90,26 @@ class _TabBarControllerState extends State<TabBarController> {
         appStatus = " Beta $appBuild";
       }
     });
+    regionalList.clear();
+    try {
+      var regionalsUrl = "${dbHost}api/scouting/regional/";
+      http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+        var regionalsJson = jsonDecode(response.body);
+        for (int i = 0; i < regionalsJson.length; i++) {
+          setState(() {
+            regionalList.add(new Regional(regionalsJson[i]["key"], regionalsJson[i]["name"], regionalsJson[i]["shortName"]));
+          });
+        }
+        print("RegionalsList: $regionalList");
+        // Initialize Regional
+        setState(() {
+          currRegional = regionalList[0];
+        });
+      });
+    }
+    catch (error) {
+      print("Failed to get regionals");
+    }
   }
 
   @override

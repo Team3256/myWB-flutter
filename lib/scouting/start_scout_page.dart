@@ -108,7 +108,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                     hatchStopwatch.reset();
                     cargoStopwatch.stop();
                     cargoStopwatch.reset();
-//                    databaseRef.child("regionals").child(currRegional).child("currMatches").child(currMatchKey).remove();
+                    databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
                     router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
                   },
                 ),

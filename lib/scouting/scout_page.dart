@@ -9,24 +9,9 @@ import 'package:http/http.dart' as http;
 import 'package:mywb_flutter/theme.dart';
 import 'package:fluro/fluro.dart';
 
-List<String> teamsList = new List();
-List<Regional> regionalList = new List();
-
 class ScoutPage extends StatefulWidget {
   @override
   _ScoutPageState createState() => _ScoutPageState();
-}
-
-class Regional {
-  String key;
-  String name;
-  String shortName;
-
-  Regional(this.key, this.name, this.shortName);
-
-  toString() {
-    return ("$key - $name ($shortName)");
-  }
 }
 
 class CurrMatch {
@@ -51,55 +36,25 @@ class _ScoutPageState extends State<ScoutPage> {
   String regionalName = "";
 
   List<CurrMatch> currMatchList = new List();
-  
-  _ScoutPageState() {
-    regionalList.clear();
-    try {
-      var regionalsUrl = "${dbHost}api/scouting/regional/";
-      http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
-        var regionalsJson = jsonDecode(response.body);
-        for (int i = 0; i < regionalsJson.length; i++) {
-          regionalList.add(new Regional(regionalsJson[i]["key"], regionalsJson[i]["name"], regionalsJson[i]["shortName"]));
-        }
-        print("RegionalsList: $regionalList");
-        setState(() {
-          currRegional = regionalList[0].key;
-          regionalName = regionalList[0].shortName + " Regional";
-        });
-//        getTeamsList(currRegional);
-      });
-    }
-    catch (error) {
-      print("Failed to get regionals");
-    }
-    // Populate Current Match List
-    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildAdded.listen((Event event) {
-      setState(() {
-        currMatchList.add(new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key));
-      });
-    });
-    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildChanged.listen((Event event) {
-      var oldValue = currMatchList.singleWhere((entry) =>
-      entry.key == event.snapshot.key);
-      setState(() {
-        currMatchList[currMatchList.indexOf(oldValue)] =
-        new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key);
-      });
-    });
-    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildRemoved.listen((Event event) {
-      var oldValue =
-      currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
-      setState(() {
-        currMatchList.removeAt(currMatchList.indexOf(oldValue));
-      });
-    });
+
+  var currMatchAddSub;
+  var currMatchChangeSub;
+  var currMatchRemoveSub;
+
+  @override
+  void initState() {
+    super.initState();
+    currMatchAddSub = databaseRef.child("fake").onChildAdded.listen((event) {});
+    currMatchChangeSub = databaseRef.child("fake").onChildAdded.listen((event) {});
+    currMatchRemoveSub = databaseRef.child("fake").onChildAdded.listen((event) {});
+    onRefresh();
   }
 
-  void getTeamsList(String regionalKey) {
+  Future getTeamsList(String regionalKey) async {
     teamsList.clear();
     var teamsUrl = "${dbHost}api/scouting/regional/$regionalKey/teams";
     try {
-      http.get(teamsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+      await http.get(teamsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
         var teamsJson = jsonDecode(response.body);
         for (int i = 0; i < teamsJson.length; i++) {
           teamsList.add(teamsJson[i]["key"].toString().substring(3));
@@ -108,44 +63,9 @@ class _ScoutPageState extends State<ScoutPage> {
       });
     }
     catch (error) {
-      print("Failed to pull the teams list!");
-    }
-  }
+      print("Failed to pull the teams list! - $error");
 
-  void selectRegional() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Select Regional"),
-          content: Container(
-            height: 300.0,
-            child: new ListView.builder(
-              itemCount: regionalList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return new Container(
-                  height: 30.0,
-                  child: new Column(
-                    children: <Widget>[
-                      new ListTile(
-                        title: new Text(regionalList[index].shortName),
-                        subtitle: new Text(regionalList[index].key),
-                      ),
-                      new Divider(
-                        color: mainColor,
-                        height: 0.0,
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          )
-        );
-      },
-    );
+    }
   }
 
   void scoutDialog() {
@@ -168,7 +88,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 if (currAlliance != "" && currTeam != "" && currMatch != "" && habLevel != 0) {
                   if (teamsList.contains(currTeam)) {
                     currMatchKey = databaseRef.push().key;
-                    databaseRef.child("regionals").child(currRegional).child("currMatches").child(currMatchKey).set({
+                    databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).set({
                       "team": currTeam,
                       "alliance": currAlliance,
                       "match": currMatch
@@ -182,6 +102,39 @@ class _ScoutPageState extends State<ScoutPage> {
         );
       }
     );
+  }
+
+  Future<void> onRefresh() async {
+    print("Refreshing");
+    await getTeamsList(currRegional.key);
+    setState(() {
+      currMatchList.clear();
+    });
+    // Cancel Previous Subscriptions
+    currMatchAddSub.cancel();
+    currMatchChangeSub.cancel();
+    currMatchRemoveSub.cancel();
+    // Populate Current Match List
+    currMatchAddSub = databaseRef.child("regionals").child(currRegional.key).child("currMatches").onChildAdded.listen((Event event) {
+      setState(() {
+        currMatchList.add(new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key));
+      });
+    });
+    currMatchChangeSub = databaseRef.child("regionals").child(currRegional.key).child("currMatches").onChildChanged.listen((Event event) {
+      var oldValue = currMatchList.singleWhere((entry) =>
+      entry.key == event.snapshot.key);
+      setState(() {
+        currMatchList[currMatchList.indexOf(oldValue)] =
+        new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key);
+      });
+    });
+    currMatchRemoveSub = databaseRef.child("regionals").child(currRegional.key).child("currMatches").onChildRemoved.listen((Event event) {
+      var oldValue =
+      currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
+      setState(() {
+        currMatchList.removeAt(currMatchList.indexOf(oldValue));
+      });
+    });
   }
 
   Color getAllianceColor(String input) {
@@ -200,129 +153,138 @@ class _ScoutPageState extends State<ScoutPage> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Colors.white,
-      child: new SingleChildScrollView(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                new Text(
-                  "Current",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)
-                ),
-                new GestureDetector(
-                  onTap: () {
-                    selectRegional();
-                  },
-                  child: new Card(
-                    color: mainColor,
-                    child: new Container(
-                      padding: EdgeInsets.all(4.0),
-                      child: new Text(
-                        regionalName,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+      child: new RefreshIndicator(
+        onRefresh: onRefresh,
+        backgroundColor: mainColor,
+        color: Colors.white,
+        displacement: 10.0,
+        child: new SingleChildScrollView(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Text(
+                    "Current",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)
                   ),
-                )
-              ],
-            ),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Container(
-              height: 150.0,
-              child: new ListView.builder(
-                itemCount: currMatchList == null ? 1 : currMatchList.length + 1,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return new Container(
-                      width: 150.0,
-                      child: new GestureDetector(
-                        onTap: () {
-                          scoutDialog();
-                        },
-                        child: new Image.asset(
-                          "images/new.png",
-                          height: 200.0,
-                          width: 200.0,
+                  new GestureDetector(
+                    onTap: () {
+                      router.navigateTo(context, '/filterRegional', transition: TransitionType.nativeModal);
+                    },
+                    child: new Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        child: Container(
+                          padding: EdgeInsets.all(4.0),
+                          color: mainColor,
+                          child: new Text(currRegional.shortName + " Regional", style: TextStyle(color: Colors.white),)
+                        ),
+                      )
+                    ),
+                  )
+                ],
+              ),
+              new Padding(padding: EdgeInsets.all(8.0)),
+              new Container(
+                height: 150.0,
+                child: new ListView.builder(
+                  itemCount: currMatchList == null ? 1 : currMatchList.length + 1,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      return new Container(
+                        width: 150.0,
+                        child: new GestureDetector(
+                          onTap: () {
+                            if (currRegional.key != "") {
+                              scoutDialog();
+                            }
+                          },
+                          child: new Image.asset(
+                            "images/new.png",
+                            height: 200.0,
+                            width: 200.0,
+                          ),
+                        ),
+                      );
+                    }
+                    index -= 1;
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: new Card(
+                        color: getAllianceColor(currMatchList[index].alliance),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                        child: new Container(
+                          padding: EdgeInsets.all(8.0),
+                          height: 125.0,
+                          width: 125.0,
+                          child: new Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              new Text(
+                                currMatchList[index].match,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.w100
+                                ),
+                              ),
+                              new Text(
+                                currMatchList[index].team,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );
-                  }
-                  index -= 1;
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: new Card(
-                      color: getAllianceColor(currMatchList[index].alliance),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                      child: new Container(
-                        padding: EdgeInsets.all(8.0),
-                        height: 125.0,
-                        width: 125.0,
-                        child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            new Text(
-                              currMatchList[index].match,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w100
-                              ),
-                            ),
-                            new Text(
-                              currMatchList[index].team,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  },
+                ),
+              ),
+              new Divider(color: mainColor,),
+              new Padding(padding: EdgeInsets.all(8.0)),
+              new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+              new Padding(padding: EdgeInsets.all(8.0)),
+              new Container(
+                height: 150.0,
+              ),
+              new Divider(color: mainColor, height: 0.0,),
+              new ListTile(
+                title: new Text("All Matches"),
+                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                onTap: () {
+
                 },
               ),
-            ),
-            new Divider(color: mainColor,),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-            new Padding(padding: EdgeInsets.all(8.0)),
-            new Container(
-              height: 150.0,
-            ),
-            new Divider(color: mainColor, height: 0.0,),
-            new ListTile(
-              title: new Text("All Matches"),
-              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
-              onTap: () {
+              new Divider(color: mainColor, height: 0.0,),
+              new ListTile(
+                title: new Text("All Teams"),
+                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                onTap: () {
 
-              },
-            ),
-            new Divider(color: mainColor, height: 0.0,),
-            new ListTile(
-              title: new Text("All Teams"),
-              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
-              onTap: () {
+                },
+              ),
+              new Divider(color: mainColor, height: 0.0,),
+              new ListTile(
+                title: new Text("Pit Scouting"),
+                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                onTap: () {
 
-              },
-            ),
-            new Divider(color: mainColor, height: 0.0,),
-            new ListTile(
-              title: new Text("Pit Scouting"),
-              trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
-              onTap: () {
-
-              },
-            ),
-            new Divider(color: mainColor, height: 0.0,),
-            new ListTile(),
-          ],
+                },
+              ),
+              new Divider(color: mainColor, height: 0.0,),
+              new ListTile(),
+            ],
+          ),
         ),
       ),
     );
