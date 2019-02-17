@@ -40,6 +40,9 @@ class _ScoutPageState extends State<ScoutPage> {
   var currMatchAddSub;
   var currMatchChangeSub;
   var currMatchRemoveSub;
+  
+  double refreshErrorHeight = 0;
+  bool refreshVisible = false;
 
   @override
   void initState() {
@@ -64,7 +67,10 @@ class _ScoutPageState extends State<ScoutPage> {
     }
     catch (error) {
       print("Failed to pull the teams list! - $error");
-
+      setState(() {
+        refreshVisible = true;
+        refreshErrorHeight = 100;
+      });
     }
   }
 
@@ -106,6 +112,10 @@ class _ScoutPageState extends State<ScoutPage> {
 
   Future<void> onRefresh() async {
     print("Refreshing");
+    setState(() {
+      refreshVisible = false;
+      refreshErrorHeight = 0.0;
+    });
     await getTeamsList(currRegional.key);
     setState(() {
       currMatchList.clear();
@@ -163,6 +173,25 @@ class _ScoutPageState extends State<ScoutPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              new AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.bounceIn,
+                height: refreshErrorHeight,
+                child: new Card(
+                  color: Colors.black.withOpacity(0.65),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  child: new Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        new Visibility(visible: refreshVisible, child: new Icon(Icons.error_outline, color: Colors.red,)),
+                        new Padding(padding: EdgeInsets.all(4.0)),
+                        new Visibility(visible: refreshVisible, child: Container(width: MediaQuery.of(context).size.width - 100, child: new Text("Ruh-roh! It looks like we were unable to fetch the list of teams from this regional. Please refresh before scouting.", style: TextStyle(color: Colors.white),))),
+                      ],
+                    )
+                  ),
+                ),
+              ),
               new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
