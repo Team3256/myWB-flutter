@@ -81,6 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: new Text("About", style: TextStyle(fontFamily: "Product Sans",)),
                   trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                   onTap: () {
+                    router.navigateTo(context, '/aboutPage', transition: TransitionType.native);
                   },
                 ),
                 new Divider(height: 0.0, color: mainColor),
@@ -88,6 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: new Text("Help", style: TextStyle(fontFamily: "Product Sans",)),
                   trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
                   onTap: () {
+                    router.navigateTo(context, '/helpPage', transition: TransitionType.native);
                   },
                 ),
                 new Divider(height: 0.0, color: mainColor),

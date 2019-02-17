@@ -5,6 +5,8 @@ import 'package:mywb_flutter/outreach/outreach_page.dart';
 import 'package:mywb_flutter/scouting/breakdown_page.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/scouting/start_scout_page.dart';
+import 'package:mywb_flutter/settings/about_page.dart';
+import 'package:mywb_flutter/settings/help_page.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
 import 'package:mywb_flutter/settings/update_profile.dart';
 import 'package:mywb_flutter/startup/auth_checker.dart';
@@ -52,6 +54,14 @@ void main() {
 
   router.define('/updateProfile', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new UpdateProfilePage();
+  }));
+
+  router.define('/aboutPage', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new AboutPage();
+  }));
+
+  router.define('/helpPage', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new HelpPage();
   }));
 
   runApp(

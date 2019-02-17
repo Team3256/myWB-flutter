@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mywb_flutter/scouting/sandstorm.dart';
 import 'package:mywb_flutter/scouting/teleop.dart';
 import 'package:mywb_flutter/theme.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -15,6 +16,7 @@ class ScoutPageOne extends StatefulWidget {
 class _ScoutPageOneState extends State<ScoutPageOne> {
 
   final _pageController = new PageController();
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   String title = "Match $currMatch - ";
   int state = 0;
@@ -47,7 +49,6 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
 
   void getTimer(Timer timer) {
     if (stopwatch.isRunning) {
-      //TODO: Update debug timer values
       if (stopwatch.elapsedMilliseconds >= 15000 && stopwatch.elapsedMilliseconds <= 15300) {
         print("SANDSTORM OVER!");
         sandstormColor = greyAccent;
@@ -71,7 +72,8 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         stopwatch.stop();
       }
       setState(() {
-        print(stopwatch.elapsedMilliseconds / 1000);
+        // Un-Comment Line Below for Debug Timer Values
+//        print(stopwatch.elapsedMilliseconds / 1000);
         _progress = stopwatch.elapsedMilliseconds / 150000;
         title = "Match $currMatch - ${((150000 - stopwatch.elapsedMilliseconds)/1000).round()} sec";
       });
@@ -106,6 +108,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                     hatchStopwatch.reset();
                     cargoStopwatch.stop();
                     cargoStopwatch.reset();
+//                    databaseRef.child("regionals").child(currRegional).child("currMatches").child(currMatchKey).remove();
                     router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
                   },
                 ),

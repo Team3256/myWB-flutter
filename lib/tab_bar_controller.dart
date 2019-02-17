@@ -5,8 +5,10 @@ import 'user_info.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/outreach/outreach_page.dart';
 import 'package:mywb_flutter/inventory/inventory_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:io';
 import 'theme.dart';
 
 class TabBarController extends StatefulWidget {
@@ -17,7 +19,8 @@ class TabBarController extends StatefulWidget {
 class _TabBarControllerState extends State<TabBarController> {
   
   PageController _pageController = new PageController();
-  final firestoreRef = Firestore.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   int currentTab = 0;
   String title = "Scouting";
@@ -40,10 +43,51 @@ class _TabBarControllerState extends State<TabBarController> {
     });
     _pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
   }
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
   
   @override
   void initState() {
     super.initState();
+    firebaseCloudMessaging_Listeners();
+    _firebaseMessaging.subscribeToTopic("allDevices");
+    databaseRef.child("stableVersion").once().then((DataSnapshot snapshot) {
+      var stable = snapshot.value;
+      print("Current Version: $appVersion");
+      print("Stable Version: $stable");
+      if (appVersion < stable) {
+        print("OUTDATED APP!");
+        appStatus = " [OUTDATED]";
+      }
+      else if (appVersion > stable) {
+        print("BETA APP!");
+        appStatus = " Beta $appBuild";
+      }
+    });
   }
 
   @override

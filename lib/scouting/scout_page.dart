@@ -10,42 +10,142 @@ import 'package:mywb_flutter/theme.dart';
 import 'package:fluro/fluro.dart';
 
 List<String> teamsList = new List();
+List<Regional> regionalList = new List();
 
 class ScoutPage extends StatefulWidget {
   @override
   _ScoutPageState createState() => _ScoutPageState();
 }
 
+class Regional {
+  String key;
+  String name;
+  String shortName;
+
+  Regional(this.key, this.name, this.shortName);
+
+  toString() {
+    return ("$key - $name ($shortName)");
+  }
+}
+
+class CurrMatch {
+  String key;
+  String team;
+  String match;
+  String alliance;
+
+  CurrMatch(this.alliance, this.match, this.team, this.key);
+}
+
+class PastMatch {
+  String key;
+  String blueTeams;
+  String redTeams;
+  String match;
+}
+
 class _ScoutPageState extends State<ScoutPage> {
 
   final databaseRef = FirebaseDatabase.instance.reference();
   String regionalName = "";
+
+  List<CurrMatch> currMatchList = new List();
   
   _ScoutPageState() {
-    databaseRef.child("regionals").orderByChild("current").equalTo(true).once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> regionalMap = snapshot.value;
-      regionalMap.forEach((key, value) {
+    regionalList.clear();
+    try {
+      var regionalsUrl = "${dbHost}api/scouting/regional/";
+      http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+        var regionalsJson = jsonDecode(response.body);
+        for (int i = 0; i < regionalsJson.length; i++) {
+          regionalList.add(new Regional(regionalsJson[i]["key"], regionalsJson[i]["name"], regionalsJson[i]["shortName"]));
+        }
+        print("RegionalsList: $regionalList");
         setState(() {
-          currRegional = key;
-          regionalName = value["name"];
-          print(currRegional);
-          var teamsUrl = "${dbHost}api/scouting/regional/${currRegional}/teams";
-          try {
-            http.get(teamsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
-              print(response.body);
-              var teamsJson = jsonDecode(response.body);
-              for (int i = 0; i < teamsJson.length; i++) {
-                teamsList.add(teamsJson[i]["key"].toString().substring(3));
-              }
-              print("TeamsList: $teamsList");
-            });
-          }
-          catch (error) {
-            print("RRRRRIP, failed to pull the teams list!");
-          }
+          currRegional = regionalList[0].key;
+          regionalName = regionalList[0].shortName + " Regional";
         });
+//        getTeamsList(currRegional);
+      });
+    }
+    catch (error) {
+      print("Failed to get regionals");
+    }
+    // Populate Current Match List
+    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildAdded.listen((Event event) {
+      setState(() {
+        currMatchList.add(new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key));
       });
     });
+    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildChanged.listen((Event event) {
+      var oldValue = currMatchList.singleWhere((entry) =>
+      entry.key == event.snapshot.key);
+      setState(() {
+        currMatchList[currMatchList.indexOf(oldValue)] =
+        new CurrMatch(event.snapshot.value["alliance"], event.snapshot.value["match"].toString(), event.snapshot.value["team"].toString(), event.snapshot.key);
+      });
+    });
+    databaseRef.child("regionals").child(currRegional).child("currMatches").onChildRemoved.listen((Event event) {
+      var oldValue =
+      currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
+      setState(() {
+        currMatchList.removeAt(currMatchList.indexOf(oldValue));
+      });
+    });
+  }
+
+  void getTeamsList(String regionalKey) {
+    teamsList.clear();
+    var teamsUrl = "${dbHost}api/scouting/regional/$regionalKey/teams";
+    try {
+      http.get(teamsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+        var teamsJson = jsonDecode(response.body);
+        for (int i = 0; i < teamsJson.length; i++) {
+          teamsList.add(teamsJson[i]["key"].toString().substring(3));
+        }
+        print("TeamsList: $teamsList");
+      });
+    }
+    catch (error) {
+      print("Failed to pull the teams list!");
+    }
+  }
+
+  void selectRegional() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Select Regional"),
+          content: Container(
+            height: 300.0,
+            child: new ListView.builder(
+              itemCount: regionalList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return new Container(
+                  height: 30.0,
+                  child: new Column(
+                    children: <Widget>[
+                      new ListTile(
+                        title: new Text(regionalList[index].shortName),
+                        subtitle: new Text(regionalList[index].key),
+                      ),
+                      new Divider(
+                        color: mainColor,
+                        height: 0.0,
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        );
+      },
+    );
   }
 
   void scoutDialog() {
@@ -67,7 +167,8 @@ class _ScoutPageState extends State<ScoutPage> {
               onPressed: () {
                 if (currAlliance != "" && currTeam != "" && currMatch != "" && habLevel != 0) {
                   if (teamsList.contains(currTeam)) {
-                    databaseRef.child("regionals").child(currRegional).child("currMatches").push().set({
+                    currMatchKey = databaseRef.push().key;
+                    databaseRef.child("regionals").child(currRegional).child("currMatches").child(currMatchKey).set({
                       "team": currTeam,
                       "alliance": currAlliance,
                       "match": currMatch
@@ -111,13 +212,18 @@ class _ScoutPageState extends State<ScoutPage> {
                   "Current",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)
                 ),
-                new Card(
-                  color: mainColor,
-                  child: new Container(
-                    padding: EdgeInsets.all(4.0),
-                    child: new Text(
-                      regionalName,
-                      style: TextStyle(color: Colors.white),
+                new GestureDetector(
+                  onTap: () {
+                    selectRegional();
+                  },
+                  child: new Card(
+                    color: mainColor,
+                    child: new Container(
+                      padding: EdgeInsets.all(4.0),
+                      child: new Text(
+                        regionalName,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 )
@@ -126,23 +232,61 @@ class _ScoutPageState extends State<ScoutPage> {
             new Padding(padding: EdgeInsets.all(8.0)),
             new Container(
               height: 150.0,
-              child: new ListView(
+              child: new ListView.builder(
+                itemCount: currMatchList == null ? 1 : currMatchList.length + 1,
                 scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Container(
-                    width: 150.0,
-                    child: new GestureDetector(
-                      onTap: () {
-                        scoutDialog();
-                      },
-                      child: new Image.asset(
-                        "images/new.png",
-                        height: 200.0,
-                        width: 200.0,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 0) {
+                    return new Container(
+                      width: 150.0,
+                      child: new GestureDetector(
+                        onTap: () {
+                          scoutDialog();
+                        },
+                        child: new Image.asset(
+                          "images/new.png",
+                          height: 200.0,
+                          width: 200.0,
+                        ),
+                      ),
+                    );
+                  }
+                  index -= 1;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new Card(
+                      color: getAllianceColor(currMatchList[index].alliance),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: new Container(
+                        padding: EdgeInsets.all(8.0),
+                        height: 125.0,
+                        width: 125.0,
+                        child: new Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            new Text(
+                              currMatchList[index].match,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w100
+                              ),
+                            ),
+                            new Text(
+                              currMatchList[index].team,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
             new Divider(color: mainColor,),
@@ -265,14 +409,14 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       setState(() {
                         errColor = Colors.greenAccent;
                         errVisible = true;
-                        errText = "Team is valid";
+                        errText = "Valid Team";
                       });
                     }
                     else {
                       setState(() {
                         errColor = Colors.redAccent;
                         errVisible = true;
-                        errText = "Team isn't at this regional";
+                        errText = "Invalid Team";
                       });
                     }
                   },
