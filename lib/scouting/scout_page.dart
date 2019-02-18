@@ -36,20 +36,26 @@ class _ScoutPageState extends State<ScoutPage> {
   String regionalName = "";
 
   List<CurrMatch> currMatchList = new List();
+  List<PastMatch> recentMatchList = new List();
 
   var currMatchAddSub;
   var currMatchChangeSub;
   var currMatchRemoveSub;
   
   double refreshErrorHeight = 0;
-  bool refreshVisible = false;
+  bool refreshErrorVisible = false;
+
+  Regional lastRegional;
 
   @override
   void initState() {
     super.initState();
+    // Instantiate Data-Types for Firebase Listeners
     currMatchAddSub = databaseRef.child("fake").onChildAdded.listen((event) {});
     currMatchChangeSub = databaseRef.child("fake").onChildAdded.listen((event) {});
     currMatchRemoveSub = databaseRef.child("fake").onChildAdded.listen((event) {});
+    lastRegional = currRegional;
+    // Refresh Call
     onRefresh();
   }
 
@@ -68,10 +74,16 @@ class _ScoutPageState extends State<ScoutPage> {
     catch (error) {
       print("Failed to pull the teams list! - $error");
       setState(() {
-        refreshVisible = true;
+        refreshErrorVisible = true;
         refreshErrorHeight = 100;
       });
     }
+  }
+
+  Future getRecentMatches(String regionalKey) async {
+    recentMatchList.clear();
+    var recentMatchUrl = "${dbHost}api/scouting/";
+    // TODO: Get endpoint from Johnny and add shit here
   }
 
   void scoutDialog() {
@@ -113,7 +125,7 @@ class _ScoutPageState extends State<ScoutPage> {
   Future<void> onRefresh() async {
     print("Refreshing");
     setState(() {
-      refreshVisible = false;
+      refreshErrorVisible = false;
       refreshErrorHeight = 0.0;
     });
     await getTeamsList(currRegional.key);
@@ -158,6 +170,13 @@ class _ScoutPageState extends State<ScoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get Latest Data on Regional Change
+    if (lastRegional != currRegional) {
+      print("Updating Regional Info");
+      onRefresh();
+      lastRegional = currRegional;
+    }
+    // Main Build Function
     return new Container(
       padding: EdgeInsets.all(16.0),
       width: MediaQuery.of(context).size.width,
@@ -184,14 +203,15 @@ class _ScoutPageState extends State<ScoutPage> {
                     padding: EdgeInsets.all(10.0),
                     child: Row(
                       children: <Widget>[
-                        new Visibility(visible: refreshVisible, child: new Icon(Icons.error_outline, color: Colors.red,)),
+                        new Visibility(visible: refreshErrorVisible, child: new Icon(Icons.error_outline, color: Colors.red,)),
                         new Padding(padding: EdgeInsets.all(4.0)),
-                        new Visibility(visible: refreshVisible, child: Container(width: MediaQuery.of(context).size.width - 100, child: new Text("Ruh-roh! It looks like we were unable to fetch the list of teams from this regional. Please refresh before scouting.", style: TextStyle(color: Colors.white),))),
+                        new Visibility(visible: refreshErrorVisible, child: Container(width: MediaQuery.of(context).size.width - 100, child: new Text("Ruh-roh! It looks like we were unable to fetch the list of teams from this regional. Please refresh before scouting.", style: TextStyle(color: Colors.white),))),
                       ],
                     )
                   ),
                 ),
               ),
+              new Visibility(visible: refreshErrorVisible, child: new Padding(padding: EdgeInsets.all(8.0))),
               new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
