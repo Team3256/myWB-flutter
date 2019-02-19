@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     firstName + " " + lastName,
                     style: TextStyle(
                         fontSize: 25.0,
-                        color: mainColor,
+                        color: currAccentColor,
                         fontWeight: FontWeight.bold
                     ),
                   ),
@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         trailing: new Text(role, style: TextStyle(fontSize: 16.0)),
                       ),
                       new ListTile(
-                        title: new Text("Update Profile", style: TextStyle(color: mainColor), textAlign: TextAlign.center,),
+                        title: new Text("Update Profile", style: TextStyle(color: currAccentColor), textAlign: TextAlign.center,),
                         onTap: () {
                           router.navigateTo(context, '/updateProfile', transition: TransitionType.nativeModal);
                         },
@@ -75,41 +75,41 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 new Container(
                   padding: EdgeInsets.all(16.0),
-                  child: new Text("General", style: TextStyle(color: mainColor, fontFamily: "Product Sans", fontWeight: FontWeight.bold),),
+                  child: new Text("General", style: TextStyle(color: currAccentColor, fontFamily: "Product Sans", fontWeight: FontWeight.bold),),
                 ),
                 new ListTile(
                   title: new Text("About", style: TextStyle(fontFamily: "Product Sans",)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor),
                   onTap: () {
                     router.navigateTo(context, '/aboutPage', transition: TransitionType.native);
                   },
                 ),
-                new Divider(height: 0.0, color: mainColor),
+                new Divider(height: 0.0, color: currAccentColor),
                 new ListTile(
                   title: new Text("Help", style: TextStyle(fontFamily: "Product Sans",)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor),
                   onTap: () {
                     router.navigateTo(context, '/helpPage', transition: TransitionType.native);
                   },
                 ),
-                new Divider(height: 0.0, color: mainColor),
+                new Divider(height: 0.0, color: currAccentColor),
                 new ListTile(
                     title: new Text("Legal", style: TextStyle(fontFamily: "Product Sans",)),
-                    trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                    trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor),
                     onTap: () {
-//                      showLicensePage(
-//                          context: context,
-//                          applicationVersion: appFull + appStatus,
-//                          applicationName: "VC DECA App",
-//                          applicationLegalese: appLegal,
-//                          applicationIcon: new Image.asset(
-//                            'images/logo_blue_trans',
-//                            height: 35.0,
-//                          )
-//                      );
+                      showLicensePage(
+                          context: context,
+                          applicationVersion: appFull + appStatus,
+                          applicationName: "myWB App",
+                          applicationLegalese: appLegal,
+                          applicationIcon: new Image.asset(
+                            'images/logo_blue_trans',
+                            height: 35.0,
+                          )
+                      );
                     }
                 ),
-                new Divider(height: 0.0, color: mainColor),
+                new Divider(height: 0.0, color: currAccentColor),
                 new ListTile(
                   title: new Text("Sign Out", style: TextStyle(color: Colors.red, fontFamily: "Product Sans"),),
                 ),
@@ -123,14 +123,40 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 new Container(
                   padding: EdgeInsets.all(16.0),
-                  child: new Text("Preferences", style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
+                  child: new Text("Preferences", style: TextStyle(color: currAccentColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
                 ),
-                new SwitchListTile(
+                new SwitchListTile.adaptive(
                   title: new Text("Push Notifications", style: TextStyle(fontFamily: "Product Sans",)),
                   value: _notifs,
+                  activeColor: currAccentColor,
                   onChanged: (bool value) {
                     setState(() {
                       _notifs = value;
+                    });
+                  },
+                ),
+                new Divider(height: 0.0, color: currAccentColor),
+                new SwitchListTile.adaptive(
+                  title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans",)),
+                  value: darkMode,
+                  activeColor: currAccentColor,
+                  onChanged: (bool value) {
+                    setState(() {
+                      darkMode = value;
+                      if (darkMode) {
+                        currTextColor = darkTextColor;
+                        currAccentColor = darkAccentColor;
+                        currBackgroundColor = darkBackgroundColor;
+                        currCardColor = darkCardColor;
+                        currDividerColor = darkDividerColor;
+                      }
+                      else {
+                        currTextColor = lightTextColor;
+                        currAccentColor = lightAccentColor;
+                        currBackgroundColor = lightBackgroundColor;
+                        currCardColor = lightCardColor;
+                        currDividerColor = lightDividerColor;
+                      }
                     });
                   },
                 ),
@@ -144,11 +170,11 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 new Container(
                   padding: EdgeInsets.all(16.0),
-                  child: new Text("Feedback", style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
+                  child: new Text("Feedback", style: TextStyle(color: currAccentColor, fontWeight: FontWeight.bold, fontFamily: "Product Sans"),),
                 ),
                 new ListTile(
                   title: new Text("Report a Bug", style: TextStyle(fontFamily: "Product Sans",)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor),
                   onTap: () {
                     launch("https://github.com/Team3256/myWB-flutter/issues");
                   },

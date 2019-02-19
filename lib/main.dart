@@ -6,6 +6,7 @@ import 'package:mywb_flutter/scouting/breakdown_page.dart';
 import 'package:mywb_flutter/scouting/filter_regional_page.dart';
 import 'package:mywb_flutter/scouting/scout_page.dart';
 import 'package:mywb_flutter/scouting/start_scout_page.dart';
+import 'package:mywb_flutter/scouting/teams_page.dart';
 import 'package:mywb_flutter/settings/about_page.dart';
 import 'package:mywb_flutter/settings/help_page.dart';
 import 'package:mywb_flutter/settings/settings_page.dart';
@@ -67,6 +68,10 @@ void main() {
 
   router.define('/filterRegional', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new FilterRegionalPage();
+  }));
+
+  router.define('/regionalTeams', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new TeamsPage();
   }));
 
   runApp(

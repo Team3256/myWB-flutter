@@ -91,7 +91,8 @@ class _ScoutPageState extends State<ScoutPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("New Match"),
+          title: new Text("New Match", style: TextStyle(color: currTextColor),),
+          backgroundColor: currCardColor,
           content: new ScoutingDialog(),
           actions: <Widget>[
             new FlatButton(
@@ -181,7 +182,7 @@ class _ScoutPageState extends State<ScoutPage> {
       padding: EdgeInsets.all(16.0),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.white,
+      color: currBackgroundColor,
       child: new RefreshIndicator(
         onRefresh: onRefresh,
         backgroundColor: mainColor,
@@ -217,7 +218,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 children: <Widget>[
                   new Text(
                     "Current",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: currTextColor)
                   ),
                   new GestureDetector(
                     onTap: () {
@@ -257,6 +258,7 @@ class _ScoutPageState extends State<ScoutPage> {
                             "images/new.png",
                             height: 200.0,
                             width: 200.0,
+                            color: currCardColor,
                           ),
                         ),
                       );
@@ -299,38 +301,38 @@ class _ScoutPageState extends State<ScoutPage> {
                   },
                 ),
               ),
-              new Divider(color: mainColor,),
+              new Divider(color: currAccentColor,),
               new Padding(padding: EdgeInsets.all(8.0)),
-              new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+              new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: currTextColor),),
               new Padding(padding: EdgeInsets.all(8.0)),
               new Container(
                 height: 150.0,
               ),
-              new Divider(color: mainColor, height: 0.0,),
+              new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(
-                title: new Text("All Matches"),
+                title: new Text("All Matches", style: TextStyle(color: currTextColor)),
                 trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
                 onTap: () {
 
                 },
               ),
-              new Divider(color: mainColor, height: 0.0,),
+              new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(
-                title: new Text("All Teams"),
+                title: new Text("All Teams", style: TextStyle(color: currTextColor)),
+                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                onTap: () {
+                  router.navigateTo(context, '/regionalTeams', transition: TransitionType.native);
+                },
+              ),
+              new Divider(color: currAccentColor, height: 0.0,),
+              new ListTile(
+                title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
                 trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
                 onTap: () {
 
                 },
               ),
-              new Divider(color: mainColor, height: 0.0,),
-              new ListTile(
-                title: new Text("Pit Scouting"),
-                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
-                onTap: () {
-
-                },
-              ),
-              new Divider(color: mainColor, height: 0.0,),
+              new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(),
             ],
           ),
@@ -347,15 +349,15 @@ class ScoutingDialog extends StatefulWidget {
 
 class _ScoutingDialogState extends State<ScoutingDialog> {
 
-  Color blueBtnColor = Colors.white;
-  Color redBtnColor = Colors.white;
-  Color blueBtnTxtColor = Colors.black;
-  Color redBtnTxtColor = Colors.black;
+  Color blueBtnColor = currCardColor;
+  Color redBtnColor = currCardColor;
+  Color blueBtnTxtColor = currTextColor;
+  Color redBtnTxtColor = currTextColor;
 
-  Color oneBtnColor = Colors.white;
-  Color twoBtnColor = Colors.white;
-  Color oneBtnTxtColor = Colors.black;
-  Color twoBtn1TxtColor = Colors.black;
+  Color oneBtnColor = currCardColor;
+  Color twoBtnColor = currCardColor;
+  Color oneBtnTxtColor = currTextColor;
+  Color twoBtn1TxtColor = currTextColor;
 
   bool errVisible = false;
   Color errColor = Colors.redAccent;
@@ -371,8 +373,8 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: Colors.white,
-      height: 235.0,
+      color: currCardColor,
+      height: 205.0,
       child: new Column(
         children: <Widget>[
           new Row(
@@ -382,12 +384,13 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                 width: 100.0,
                 child: new TextField(
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
+                  style: TextStyle(fontSize: 18.0, color: currTextColor),
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       labelText: "Match #",
-                      border: InputBorder.none
+                      border: InputBorder.none,
+                      labelStyle: TextStyle(color: currAccentColor)
                   ),
                   onChanged: (input) {
                     currMatch = input;
@@ -398,12 +401,13 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                 width: 100.0,
                 child: new TextField(
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
+                  style: TextStyle(fontSize: 18.0, color: currTextColor),
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       labelText: "Team #",
-                      border: InputBorder.none
+                      border: InputBorder.none,
+                      labelStyle: TextStyle(color: currAccentColor)
                   ),
                   onChanged: (input) {
                     setState(() {
@@ -437,7 +441,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
           ),
           new Visibility(visible: errVisible, child: new Text(errText, style: TextStyle(color: errColor),)),
           new Visibility(visible: errVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
-          new Text("Alliance:", style: TextStyle(fontWeight: FontWeight.bold),),
+          new Text("Alliance:", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
           new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -451,8 +455,8 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       currAlliance = "Blue";
                       blueBtnColor = Colors.lightBlue;
                       blueBtnTxtColor = Colors.white;
-                      redBtnColor = Colors.white;
-                      redBtnTxtColor = Colors.black;
+                      redBtnColor = currCardColor;
+                      redBtnTxtColor = currTextColor;
                     });
                   },
                 ),
@@ -465,8 +469,8 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                   onPressed: () {
                     setState(() {
                       currAlliance = "Red";
-                      blueBtnColor = Colors.white;
-                      blueBtnTxtColor = Colors.black;
+                      blueBtnColor = currCardColor;
+                      blueBtnTxtColor = currTextColor;
                       redBtnColor = Colors.red;
                       redBtnTxtColor = Colors.white;
                     });
@@ -476,7 +480,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
             ],
           ),
           new Padding(padding: EdgeInsets.all(4.0)),
-          new Text("HAB Starting Position:", style: TextStyle(fontWeight: FontWeight.bold),),
+          new Text("HAB Starting Position:", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
           new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -490,8 +494,8 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       habLevel = 1;
                       oneBtnColor = mainColor;
                       oneBtnTxtColor = Colors.white;
-                      twoBtnColor = Colors.white;
-                      twoBtn1TxtColor = Colors.black;
+                      twoBtnColor = currCardColor;
+                      twoBtn1TxtColor = currTextColor;
                     });
                   },
                 ),
@@ -506,8 +510,8 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       habLevel = 2;
                       twoBtnColor = mainColor;
                       twoBtn1TxtColor = Colors.white;
-                      oneBtnColor = Colors.white;
-                      oneBtnTxtColor = Colors.black;
+                      oneBtnColor = currCardColor;
+                      oneBtnTxtColor = currTextColor;
                     });
                   },
                 ),

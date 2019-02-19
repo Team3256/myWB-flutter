@@ -136,6 +136,10 @@ class _TabBarControllerState extends State<TabBarController> {
           new SafeArea(
             child: new FancyBottomNavigation(
               textColor: mainColor,
+              circleColor: mainColor,
+              inactiveIconColor: mainColor,
+              activeIconColor: Colors.white,
+              barBackgroundColor: currCardColor,
               onTabChangedListener: onTabTapped,
               tabs: [
                 TabData(iconData: Icons.track_changes, title: "Scouting"),
