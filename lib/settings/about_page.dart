@@ -58,7 +58,7 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: mainColor,
+          backgroundColor: currAccentColor,
           title: new Text("About"),
         ),
         body: new SafeArea(
@@ -73,7 +73,7 @@ class _AboutPageState extends State<AboutPage> {
                       new Container(
                         padding: EdgeInsets.all(16.0),
                         child: new Text("Device", style: TextStyle(
-                            color: mainColor,
+                            color: currAccentColor,
                             fontFamily: "Product Sans",
                             fontWeight: FontWeight.bold),),
                       ),
@@ -84,14 +84,14 @@ class _AboutPageState extends State<AboutPage> {
                             style: TextStyle(
                                 fontFamily: "Product Sans", fontSize: 16.0)),
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Device Name",
                             style: TextStyle(fontFamily: "Product Sans",)),
                         trailing: new Text("$deviceName", style: TextStyle(
                             fontFamily: "Product Sans", fontSize: 16.0)),
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Platform",
                             style: TextStyle(fontFamily: "Product Sans",)),
@@ -110,7 +110,7 @@ class _AboutPageState extends State<AboutPage> {
                         padding: EdgeInsets.all(16.0),
                         child: new Text("Credits", style: TextStyle(
                             fontFamily: "Product Sans",
-                            color: mainColor,
+                            color: currAccentColor,
                             fontWeight: FontWeight.bold),),
                       ),
                       new ListTile(
@@ -123,7 +123,7 @@ class _AboutPageState extends State<AboutPage> {
                           launch(url);
                         },
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("John Panos",
                             style: TextStyle(fontFamily: "Product Sans",)),
@@ -134,14 +134,14 @@ class _AboutPageState extends State<AboutPage> {
                           launch(url);
                         },
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Mark Liu",
                             style: TextStyle(fontFamily: "Product Sans",)),
                         subtitle: new Text("Initial App Design",
                             style: TextStyle(fontFamily: "Product Sans",)),
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Kashyap Chaturvedula",
                             style: TextStyle(fontFamily: "Product Sans",)),
@@ -162,24 +162,24 @@ class _AboutPageState extends State<AboutPage> {
                         padding: EdgeInsets.all(16.0),
                         child: new Text("Contributing", style: TextStyle(
                             fontFamily: "Product Sans",
-                            color: mainColor,
+                            color: currAccentColor,
                             fontWeight: FontWeight.bold),),
                       ),
                       new ListTile(
                         title: new Text("View on GitHub",
                             style: TextStyle(fontFamily: "Product Sans",)),
                         trailing: new Icon(
-                            Icons.arrow_forward_ios, color: mainColor),
+                            Icons.arrow_forward_ios, color: currAccentColor),
                         onTap: () {
                           launchContributeUrl();
                         },
                       ),
-                      new Divider(height: 0.0, color: mainColor),
+                      new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Contributing Guidelines",
                             style: TextStyle(fontFamily: "Product Sans",)),
                         trailing: new Icon(
-                            Icons.arrow_forward_ios, color: mainColor),
+                            Icons.arrow_forward_ios, color: currAccentColor),
                         onTap: () {
                           launchGuidelinesUrl();
                         },

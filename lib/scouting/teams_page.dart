@@ -13,8 +13,9 @@ class TeamsPage extends StatefulWidget {
 class Team {
   String teamKey;
   String teamName;
+  String location;
   
-  Team(this.teamKey, this.teamName);
+  Team(this.teamKey, this.teamName, this.location);
 }
 
 class _TeamsPageState extends State<TeamsPage> {
@@ -37,7 +38,7 @@ class _TeamsPageState extends State<TeamsPage> {
         var teamsJson = jsonDecode(response.body);
         for (int i = 0; i < teamsJson.length; i++) {
           setState(() {
-            regionalTeamsList.add(new Team(teamsJson[i]["key"].toString().substring(3), teamsJson[i]["nickname"]));
+            regionalTeamsList.add(new Team(teamsJson[i]["key"].toString().substring(3), teamsJson[i]["nickname"], "${teamsJson[i]["city"]}, ${teamsJson[i]["state_prov"]}, ${teamsJson[i]["country"]}"));
           });
         }
       });
@@ -52,14 +53,14 @@ class _TeamsPageState extends State<TeamsPage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("${currRegional.shortName} Teams"),
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
       ),
       body: new RefreshIndicator(
         onRefresh: onRefresh,
         color: Colors.white,
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
         child: new Container(
-          color: Colors.black,
+          color: currBackgroundColor,
           padding: EdgeInsets.all(8.0),
           child: new ListView.builder(
             itemCount: regionalTeamsList.length,
@@ -67,29 +68,31 @@ class _TeamsPageState extends State<TeamsPage> {
               return new Container(
                 padding: EdgeInsets.all(8.0),
                 child: new Card(
+                  color: currCardColor,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Text(
-                          regionalTeamsList[index].teamKey,
-                          style: TextStyle(
-                            color: mainColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.0
-                          ),
-                        ),
-                        new Text(
-                          regionalTeamsList[index].teamName,
-                          style: TextStyle(
-                              fontSize: 17.0
-                          ),
-                        ),
-                      ],
+                  child: new ListTile(
+                    leading: new Text(
+                      regionalTeamsList[index].teamKey,
+                      style: TextStyle(
+                        color: currAccentColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0
+                      ),
                     ),
-                  ),
+                    title: new Text(
+                      regionalTeamsList[index].teamName,
+                      style: TextStyle(
+                          color: currTextColor,
+                          fontSize: 18.0
+                      ),
+                    ),
+                    subtitle: new Text(
+                      regionalTeamsList[index].location,
+                      style: TextStyle(
+                          color: currDividerColor,
+                      ),
+                    ),
+                  )
                 ),
               );
             },

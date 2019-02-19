@@ -13,7 +13,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Update Profile"),
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
       ),
       body: new SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

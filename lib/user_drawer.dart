@@ -42,15 +42,6 @@ class _UserDrawerState extends State<UserDrawer> {
     );
   }
 
-  Color getTileColor(String tile) {
-    if (tile == currentPage) {
-      return mainColor;
-    }
-    else {
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -82,13 +73,14 @@ class _UserDrawerState extends State<UserDrawer> {
               )
           ),
         ),
+        backgroundColor: currCardColor,
         body: new SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               new Container(
                   padding: EdgeInsets.all(16.0),
-                  color: mainColor,
+                  color: currAccentColor,
                   height: 200.0,
                   width: 1000.0,
                   child: new Stack(
@@ -129,12 +121,12 @@ class _UserDrawerState extends State<UserDrawer> {
                 child: new Column(
                   children: <Widget>[
                     new ListTile(
-                      title: new Text(email, style: TextStyle(fontSize: 16.0)),
-                      leading: Icon(Icons.email),
+                      title: new Text(email, style: TextStyle(fontSize: 16.0, color: currTextColor)),
+                      leading: Icon(Icons.email, color: currDividerColor,),
                     ),
                     new ListTile(
-                      title: new Text(role, style: TextStyle(fontSize: 16.0)),
-                      leading: Icon(Icons.verified_user),
+                      title: new Text(role, style: TextStyle(fontSize: 16.0, color: currTextColor)),
+                      leading: Icon(Icons.verified_user, color: currDividerColor,),
                     ),
                   ],
                 ),

@@ -11,7 +11,7 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
 
   Widget getLeading(Regional regional) {
     if (currRegional == regional) {
-      return new Icon(Icons.check, color: mainColor,);
+      return new Icon(Icons.check, color: currAccentColor,);
     }
   }
 
@@ -21,9 +21,9 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
       appBar: new AppBar(
         title: new Text("Select a Regional"),
       ),
+      backgroundColor: currBackgroundColor,
       body: new Container(
         padding: EdgeInsets.all(8.0),
-        color: Colors.white,
         child: new ListView.builder(
           itemCount: regionalList.length,
           itemBuilder: (BuildContext context, int index) {
@@ -31,8 +31,8 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
               child: new Column(
                 children: <Widget>[
                   new ListTile(
-                    title: new Text(regionalList[index].shortName),
-                    subtitle: new Text(regionalList[index].key),
+                    title: new Text(regionalList[index].shortName, style: TextStyle(color: currTextColor),),
+                    subtitle: new Text(regionalList[index].key, style: TextStyle(color: currDividerColor),),
                     leading: getLeading(regionalList[index]),
                     onTap: () {
                       setState(() {
@@ -42,7 +42,7 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
                     },
                   ),
                   new Divider(
-                    color: mainColor,
+                    color: currAccentColor,
                     height: 0.0,
                   )
                 ],

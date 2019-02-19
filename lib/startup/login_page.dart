@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordTextField;
 
   _LoginPageState() {
-    loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: mainColor, textColor: Colors.white);
+    loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
   }
 
   void errorDialog(String input) {
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
       else {
         errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
         setState(() {
-          loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: mainColor, textColor: Colors.white);
+          loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
         });
       }
     });
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Login"),
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
       ),
       body: new Container(
         padding: EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 32.0),
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: new Text(
                   "Don't have an account?",
                   style: TextStyle(
-                    color: mainColor,
+                    color: currAccentColor,
                   ),
                 ),
                 onPressed: () {

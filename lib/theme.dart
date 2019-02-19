@@ -21,11 +21,11 @@ const darkCardColor = const Color(0xFF2C2C2C);
 const darkDividerColor = const Color(0xFF616161);
 
 // CURRENT COLOR
-var currTextColor = lightTextColor;
-var currAccentColor = lightAccentColor;
-var currBackgroundColor = lightBackgroundColor;
-var currCardColor = lightCardColor;
-var currDividerColor = lightDividerColor;
+var currTextColor = darkTextColor;
+var currAccentColor = darkAccentColor;
+var currBackgroundColor = darkBackgroundColor;
+var currCardColor = darkCardColor;
+var currDividerColor = darkDividerColor;
 
 final mainTheme = new ThemeData(
   primaryColor: currAccentColor,

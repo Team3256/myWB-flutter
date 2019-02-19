@@ -23,7 +23,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
 
   double _progress = 0.0;
 
-  Color sandstormColor = mainColor;
+  Color sandstormColor = currAccentColor;
   Color teleopColor = greyAccent;
   Color gameOver = greyAccent;
 
@@ -52,14 +52,14 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
       if (stopwatch.elapsedMilliseconds >= 15000 && stopwatch.elapsedMilliseconds <= 15300) {
         print("SANDSTORM OVER!");
         sandstormColor = greyAccent;
-        teleopColor = mainColor;
+        teleopColor = currAccentColor;
         _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
       if (stopwatch.elapsedMilliseconds >= 150000 && stopwatch.elapsedMilliseconds <= 150300) {
         print("MATCH OVER!");
         setState(() {
           teleopColor = greyAccent;
-          gameOver = mainColor;
+          gameOver = currAccentColor;
           doneButton = new FloatingActionButton.extended(
             icon: new Text(""),
             label: new Text("Review ", style: TextStyle(color: Colors.white),),
@@ -141,7 +141,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
         ),
       ),
       floatingActionButton: doneButton,
-      backgroundColor: Colors.white,
+      backgroundColor: currBackgroundColor,
       body: new Container(
         child: new Column(
           children: <Widget>[

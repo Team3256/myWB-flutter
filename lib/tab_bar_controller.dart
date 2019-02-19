@@ -116,9 +116,10 @@ class _TabBarControllerState extends State<TabBarController> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
         title: new Text(title,),
       ),
+      backgroundColor: currBackgroundColor,
       drawer: new UserDrawer(),
       body: new PageView(
         controller: _pageController,
@@ -135,9 +136,9 @@ class _TabBarControllerState extends State<TabBarController> {
         children: <Widget>[
           new SafeArea(
             child: new FancyBottomNavigation(
-              textColor: mainColor,
-              circleColor: mainColor,
-              inactiveIconColor: mainColor,
+              textColor: currAccentColor,
+              circleColor: currAccentColor,
+              inactiveIconColor: currAccentColor,
               activeIconColor: Colors.white,
               barBackgroundColor: currCardColor,
               onTabChangedListener: onTabTapped,

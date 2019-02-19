@@ -13,13 +13,14 @@ class _OutreachPageState extends State<OutreachPage> {
   Widget build(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(16.0),
-      color: Colors.white,
       child: new SingleChildScrollView(
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text("Current", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
-
+            new Text(
+                "Current",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: currTextColor)
+            ),
           ],
         ),
       )

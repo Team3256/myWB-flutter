@@ -23,7 +23,7 @@ class _TeleOpState extends State<TeleOp> {
   int hatchCounter = 0;
   double hatchPickupTime = 0.0;
   Color hatchAdd = greyAccent;
-  Color hatchTitle = Colors.black;
+  Color hatchTitle = currTextColor;
   String hatchImagePath = "images/add.png";
   int hatchTimer = 0;
   bool intakeVisible = false;
@@ -36,7 +36,7 @@ class _TeleOpState extends State<TeleOp> {
   int cargoCounter = 0;
   double cargoPickupTime = 0.0;
   Color cargoAdd = greyAccent;
-  Color cargoTitle = Colors.black;
+  Color cargoTitle = currTextColor;
   String cargoImagePath = "images/add.png";
   int cargoTimer = 0;
   bool cargoIntakeVisible = false;
@@ -48,7 +48,7 @@ class _TeleOpState extends State<TeleOp> {
   //fouls
   String foulImagePath = "images/add.png";
   Color foulAdd = greyAccent;
-  Color foulText = Colors.black;
+  Color foulText = currTextColor;
   String foulReason = "";
   double foulTime = 0.0;
   double foulContainerHeight = 0.0;
@@ -59,7 +59,7 @@ class _TeleOpState extends State<TeleOp> {
   String climbImagePath = "images/yes.png";
   double climbStartTime = 0.0;
   Color climbAdd = greyAccent;
-  Color climbText = Colors.black;
+  Color climbText = currTextColor;
   int climbTimer = 0;
   int endHabLevel = 0;
   double climbContainerHeight = 0.0;
@@ -99,8 +99,8 @@ class _TeleOpState extends State<TeleOp> {
                           }
                         });
                         setState(() {
-                          hatchAdd = mainColor;
-                          hatchTitle = mainColor;
+                          hatchAdd = currAccentColor;
+                          hatchTitle = currAccentColor;
                           intakeVisible = true;
                           dropVisible = false;
                           hatchImagePath = "images/subtract.png";
@@ -113,7 +113,7 @@ class _TeleOpState extends State<TeleOp> {
                         hatchDropLocation = "";
                         hatchIntakeLocation = "";
                         setState(() {
-                          hatchTitle = Colors.black;
+                          hatchTitle = currTextColor;
                           hatchAdd = greyAccent;
                           hatchImagePath = "images/add.png";
                           hatchContainerHeight = 0.0;
@@ -207,7 +207,7 @@ class _TeleOpState extends State<TeleOp> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = greyAccent;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -236,7 +236,7 @@ class _TeleOpState extends State<TeleOp> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = greyAccent;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -272,7 +272,7 @@ class _TeleOpState extends State<TeleOp> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = greyAccent;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -301,7 +301,7 @@ class _TeleOpState extends State<TeleOp> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = greyAccent;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -337,7 +337,7 @@ class _TeleOpState extends State<TeleOp> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = greyAccent;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -392,8 +392,8 @@ class _TeleOpState extends State<TeleOp> {
                         setState(() {
                           cargoDropLocation = "";
                           cargoIntakeLocation = "";
-                          cargoAdd = mainColor;
-                          cargoTitle = mainColor;
+                          cargoAdd = currAccentColor;
+                          cargoTitle = currAccentColor;
                           cargoIntakeVisible = true;
                           cargoDropVisible = false;
                           cargoImagePath = "images/subtract.png";
@@ -406,7 +406,7 @@ class _TeleOpState extends State<TeleOp> {
                         cargoDropLocation = "";
                         cargoIntakeLocation = "";
                         setState(() {
-                          cargoTitle = Colors.black;
+                          cargoTitle = currTextColor;
                           cargoAdd = greyAccent;
                           cargoImagePath = "images/add.png";
                           cargoContainerHeight = 0.0;
@@ -500,7 +500,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = greyAccent;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -529,7 +529,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = greyAccent;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -565,7 +565,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = greyAccent;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -594,7 +594,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = greyAccent;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -630,7 +630,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = greyAccent;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Tele-Op"));
@@ -658,7 +658,7 @@ class _TeleOpState extends State<TeleOp> {
             ),
           ),
           new ExpansionTile(
-            title: new Text("Robot Disconnected?"),
+            title: new Text("Robot Disconnected?", style: TextStyle(color: currTextColor),),
             trailing: Container(
               width: 100.0,
               child: new Row(
@@ -679,7 +679,7 @@ class _TeleOpState extends State<TeleOp> {
               if (isExpanded) {
                 setState(() {
                   dcImagePath = "images/subtract.png";
-                  dcAdd = mainColor;
+                  dcAdd = currAccentColor;
                   reconnectVisible = true;
                 });
                 dcStopwatch.reset();
@@ -752,10 +752,10 @@ class _TeleOpState extends State<TeleOp> {
                       if (foulImagePath == "images/add.png") {
                         foulTime = stopwatch.elapsedMilliseconds / 1000;
                         setState(() {
-                          foulText = mainColor;
+                          foulText = currAccentColor;
                           foulContainerHeight = 95;
                           foulImagePath = "images/subtract.png";
-                          foulAdd = mainColor;
+                          foulAdd = currAccentColor;
                         });
                       }
                       else {
@@ -764,7 +764,7 @@ class _TeleOpState extends State<TeleOp> {
                         _foulController.clear();
                         FocusScope.of(context).requestFocus(new FocusNode());
                         setState(() {
-                          foulText = Colors.black;
+                          foulText = currTextColor;
                           foulContainerHeight = 0.0;
                           foulImagePath = "images/add.png";
                           foulAdd = greyAccent;
@@ -809,7 +809,7 @@ class _TeleOpState extends State<TeleOp> {
                     _foulController.clear();
                     setState(() {
                       foulContainerHeight = 0.0;
-                      foulText = Colors.black;
+                      foulText = currTextColor;
                       foulImagePath = "images/add.png";
                       foulAdd = greyAccent;
                     });
@@ -835,10 +835,10 @@ class _TeleOpState extends State<TeleOp> {
                     climbStartTime = stopwatch.elapsedMilliseconds / 1000;
                     setState(() {
                       canSupportYes = greyAccent;
-                      canSupportNo = mainColor;
+                      canSupportNo = currAccentColor;
                       climbImagePath = "images/no.png";
-                      climbText = mainColor;
-                      climbAdd = mainColor;
+                      climbText = currAccentColor;
+                      climbAdd = currAccentColor;
                       climbContainerHeight = 250.0;
                     });
                     new Timer.periodic(const Duration(milliseconds: 100), (Timer timer) {
@@ -855,7 +855,7 @@ class _TeleOpState extends State<TeleOp> {
                   climbStopwatch.reset();
                   setState(() {
                     climbImagePath = "images/yes.png";
-                    climbText = Colors.black;
+                    climbText = currTextColor;
                     climbAdd = greyAccent;
                     climbContainerHeight = 0.0;
                   });
@@ -868,12 +868,12 @@ class _TeleOpState extends State<TeleOp> {
             curve: Curves.easeOut,
             padding: EdgeInsets.all(8.0),
             height: climbContainerHeight,
-            color: Colors.white,
+            color: currBackgroundColor,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 new ListTile(
-                  title: new Text("Can Support?"),
+                  title: new Text("Can Support?", style: TextStyle(color: currTextColor),),
                   trailing: Container(
                     width: 100.0,
                     child: new Row(
@@ -884,7 +884,7 @@ class _TeleOpState extends State<TeleOp> {
                           onPressed: () {
                             canSupport = true;
                             setState(() {
-                              canSupportYes = mainColor;
+                              canSupportYes = currAccentColor;
                               canSupportNo = greyAccent;
                             });
                           },
@@ -895,7 +895,7 @@ class _TeleOpState extends State<TeleOp> {
                             canSupport = false;
                             setState(() {
                               canSupportYes = greyAccent;
-                              canSupportNo = mainColor;
+                              canSupportNo = currAccentColor;
                             });
                           },
                         )
@@ -918,7 +918,7 @@ class _TeleOpState extends State<TeleOp> {
                               matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
-                                climbText = Colors.black;
+                                climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -941,7 +941,7 @@ class _TeleOpState extends State<TeleOp> {
                               matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
-                                climbText = Colors.black;
+                                climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -964,7 +964,7 @@ class _TeleOpState extends State<TeleOp> {
                               matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
-                                climbText = Colors.black;
+                                climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -993,7 +993,7 @@ class _TeleOpState extends State<TeleOp> {
                               matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
                               setState(() {
                                 climbImagePath = "images/yes.png";
-                                climbText = Colors.black;
+                                climbText = currTextColor;
                                 climbAdd = greyAccent;
                                 climbContainerHeight = 0.0;
                               });

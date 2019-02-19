@@ -12,7 +12,6 @@ class _InventoryPageState extends State<InventoryPage> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: Colors.white,
       child: new Center(
         child: new Text("Inventory"),
       ),

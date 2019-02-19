@@ -12,7 +12,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
         title: new Text("Help"),
         textTheme: TextTheme(
         ),

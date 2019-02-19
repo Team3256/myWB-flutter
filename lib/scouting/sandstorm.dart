@@ -65,7 +65,7 @@ class _SandStormState extends State<SandStorm> {
       child: new Column(
         children: <Widget>[
           new ListTile(
-            title: new Text("Crossed Base-Line?"),
+            title: new Text("Crossed Base-Line?", style: TextStyle(color: currTextColor),),
             trailing: Container(
               width: 100.0,
               child: new Row(

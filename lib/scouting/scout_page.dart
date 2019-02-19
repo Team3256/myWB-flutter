@@ -185,7 +185,7 @@ class _ScoutPageState extends State<ScoutPage> {
       color: currBackgroundColor,
       child: new RefreshIndicator(
         onRefresh: onRefresh,
-        backgroundColor: mainColor,
+        backgroundColor: currAccentColor,
         color: Colors.white,
         displacement: 10.0,
         child: new SingleChildScrollView(
@@ -230,7 +230,7 @@ class _ScoutPageState extends State<ScoutPage> {
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         child: Container(
                           padding: EdgeInsets.all(4.0),
-                          color: mainColor,
+                          color: currAccentColor,
                           child: new Text(currRegional.shortName + " Regional", style: TextStyle(color: Colors.white),)
                         ),
                       )
@@ -258,7 +258,6 @@ class _ScoutPageState extends State<ScoutPage> {
                             "images/new.png",
                             height: 200.0,
                             width: 200.0,
-                            color: currCardColor,
                           ),
                         ),
                       );
@@ -311,7 +310,7 @@ class _ScoutPageState extends State<ScoutPage> {
               new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(
                 title: new Text("All Matches", style: TextStyle(color: currTextColor)),
-                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
                 onTap: () {
 
                 },
@@ -319,7 +318,7 @@ class _ScoutPageState extends State<ScoutPage> {
               new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(
                 title: new Text("All Teams", style: TextStyle(color: currTextColor)),
-                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
                 onTap: () {
                   router.navigateTo(context, '/regionalTeams', transition: TransitionType.native);
                 },
@@ -327,7 +326,7 @@ class _ScoutPageState extends State<ScoutPage> {
               new Divider(color: currAccentColor, height: 0.0,),
               new ListTile(
                 title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
-                trailing: new Icon(Icons.arrow_forward_ios, color: mainColor,),
+                trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
                 onTap: () {
 
                 },
@@ -374,7 +373,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
   Widget build(BuildContext context) {
     return new Container(
       color: currCardColor,
-      height: 205.0,
+      height: 250.0,
       child: new Column(
         children: <Widget>[
           new Row(
@@ -492,7 +491,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                   onPressed: () {
                     setState(() {
                       habLevel = 1;
-                      oneBtnColor = mainColor;
+                      oneBtnColor = currAccentColor;
                       oneBtnTxtColor = Colors.white;
                       twoBtnColor = currCardColor;
                       twoBtn1TxtColor = currTextColor;
@@ -508,7 +507,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                   onPressed: () {
                     setState(() {
                       habLevel = 2;
-                      twoBtnColor = mainColor;
+                      twoBtnColor = currAccentColor;
                       twoBtn1TxtColor = Colors.white;
                       oneBtnColor = currCardColor;
                       oneBtnTxtColor = currTextColor;
