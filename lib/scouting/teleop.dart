@@ -13,7 +13,7 @@ class TeleOp extends StatefulWidget {
 class _TeleOpState extends State<TeleOp> {
 
   //DC
-  Color dcAdd = greyAccent;
+  Color dcAdd = currCardColor;
   double dcStartTime = 0.0;
   int dcTimer = 0;
   String dcImagePath = "images/add.png";
@@ -22,7 +22,7 @@ class _TeleOpState extends State<TeleOp> {
   //Hatch
   int hatchCounter = 0;
   double hatchPickupTime = 0.0;
-  Color hatchAdd = greyAccent;
+  Color hatchAdd = currCardColor;
   Color hatchTitle = currTextColor;
   String hatchImagePath = "images/add.png";
   int hatchTimer = 0;
@@ -35,7 +35,7 @@ class _TeleOpState extends State<TeleOp> {
   //Cargo
   int cargoCounter = 0;
   double cargoPickupTime = 0.0;
-  Color cargoAdd = greyAccent;
+  Color cargoAdd = currCardColor;
   Color cargoTitle = currTextColor;
   String cargoImagePath = "images/add.png";
   int cargoTimer = 0;
@@ -47,7 +47,7 @@ class _TeleOpState extends State<TeleOp> {
 
   //fouls
   String foulImagePath = "images/add.png";
-  Color foulAdd = greyAccent;
+  Color foulAdd = currCardColor;
   Color foulText = currTextColor;
   String foulReason = "";
   double foulTime = 0.0;
@@ -58,15 +58,15 @@ class _TeleOpState extends State<TeleOp> {
   //Endgame
   String climbImagePath = "images/yes.png";
   double climbStartTime = 0.0;
-  Color climbAdd = greyAccent;
+  Color climbAdd = currCardColor;
   Color climbText = currTextColor;
   int climbTimer = 0;
   int endHabLevel = 0;
   double climbContainerHeight = 0.0;
   bool canSupport = false;
   bool dropped = false;
-  Color canSupportYes = greyAccent;
-  Color canSupportNo = greyAccent;
+  Color canSupportYes = currCardColor;
+  Color canSupportNo = currCardColor;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _TeleOpState extends State<TeleOp> {
                 children: <Widget>[
                   new Text(
                     (hatchCounter).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(hatchImagePath, color: hatchAdd,),
@@ -114,7 +114,7 @@ class _TeleOpState extends State<TeleOp> {
                         hatchIntakeLocation = "";
                         setState(() {
                           hatchTitle = currTextColor;
-                          hatchAdd = greyAccent;
+                          hatchAdd = currCardColor;
                           hatchImagePath = "images/add.png";
                           hatchContainerHeight = 0.0;
                           intakeVisible = true;
@@ -135,7 +135,7 @@ class _TeleOpState extends State<TeleOp> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new Text("Intake Location: $hatchIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Text("Intake Location: $hatchIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
                 new Visibility(visible: intakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: intakeVisible,
@@ -145,9 +145,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station"),
+                              child: new Text("Human Player Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 setState(() {
                                   hatchIntakeLocation = "Human Player Station";
@@ -165,9 +165,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Ground"),
+                              child: new Text("Ground", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 setState(() {
                                   hatchIntakeLocation = "Ground";
@@ -184,7 +184,7 @@ class _TeleOpState extends State<TeleOp> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(4.0)),
-                new Visibility(visible: dropVisible, child: new Text("Drop Location: $hatchDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: dropVisible, child: new Text("Drop Location: $hatchDropLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),)),
                 new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: dropVisible,
@@ -194,9 +194,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Cargo Ship"),
+                              child: new Text("Cargo Ship", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 hatchDropLocation = "Cargo Ship";
                                 hatchStopwatch.stop();
@@ -206,7 +206,7 @@ class _TeleOpState extends State<TeleOp> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -223,9 +223,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 1"),
+                              child: new Text("Rocket Lvl 1", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 1";
                                 hatchStopwatch.stop();
@@ -235,7 +235,7 @@ class _TeleOpState extends State<TeleOp> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -259,9 +259,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 2"),
+                              child: new Text("Rocket Lvl 2", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 2";
                                 hatchStopwatch.stop();
@@ -271,7 +271,7 @@ class _TeleOpState extends State<TeleOp> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -288,9 +288,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 3"),
+                              child: new Text("Rocket Lvl 3", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 3";
                                 hatchStopwatch.stop();
@@ -300,7 +300,7 @@ class _TeleOpState extends State<TeleOp> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -326,7 +326,7 @@ class _TeleOpState extends State<TeleOp> {
                           child: new Container(
                             color: Colors.red,
                             child: new FlatButton(
-                              child: new Text("Droppped"),
+                              child: new Text("Droppped", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               textColor: Colors.white,
                               onPressed: () {
                                 hatchDropLocation = "Dropped";
@@ -336,7 +336,7 @@ class _TeleOpState extends State<TeleOp> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -355,9 +355,9 @@ class _TeleOpState extends State<TeleOp> {
                 new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$hatchTimer sec"),
+                      title: new Text("$hatchTimer sec", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                     ),
                   ),
                 )
@@ -373,7 +373,7 @@ class _TeleOpState extends State<TeleOp> {
                 children: <Widget>[
                   new Text(
                     (cargoCounter).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(cargoImagePath, color: cargoAdd,),
@@ -407,7 +407,7 @@ class _TeleOpState extends State<TeleOp> {
                         cargoIntakeLocation = "";
                         setState(() {
                           cargoTitle = currTextColor;
-                          cargoAdd = greyAccent;
+                          cargoAdd = currCardColor;
                           cargoImagePath = "images/add.png";
                           cargoContainerHeight = 0.0;
                           cargoIntakeVisible = true;
@@ -428,7 +428,7 @@ class _TeleOpState extends State<TeleOp> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new Text("Intake Location: $cargoIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Text("Intake Location: $cargoIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
                 new Visibility(visible: cargoIntakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: cargoIntakeVisible,
@@ -438,9 +438,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station"),
+                              child: new Text("Human Player Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 setState(() {
                                   cargoIntakeLocation = "Human Player Station";
@@ -458,9 +458,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Ground"),
+                              child: new Text("Ground", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 setState(() {
                                   cargoIntakeLocation = "Ground";
@@ -477,7 +477,7 @@ class _TeleOpState extends State<TeleOp> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(4.0)),
-                new Visibility(visible: cargoDropVisible, child: new Text("Drop Location: $cargoDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: cargoDropVisible, child: new Text("Drop Location: $cargoDropLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),)),
                 new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: cargoDropVisible,
@@ -487,9 +487,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Cargo Ship"),
+                              child: new Text("Cargo Ship", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 cargoDropLocation = "Cargo Ship";
                                 cargoStopwatch.stop();
@@ -499,7 +499,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -516,9 +516,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 1"),
+                              child: new Text("Rocket Lvl 1", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 1";
                                 cargoStopwatch.stop();
@@ -528,7 +528,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -552,9 +552,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 2"),
+                              child: new Text("Rocket Lvl 2", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 2";
                                 cargoStopwatch.stop();
@@ -564,7 +564,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -581,9 +581,9 @@ class _TeleOpState extends State<TeleOp> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 3"),
+                              child: new Text("Rocket Lvl 3", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 3";
                                 cargoStopwatch.stop();
@@ -593,7 +593,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -619,7 +619,7 @@ class _TeleOpState extends State<TeleOp> {
                           child: new Container(
                             color: Colors.red,
                             child: new FlatButton(
-                              child: new Text("Droppped"),
+                              child: new Text("Droppped", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               textColor: Colors.white,
                               onPressed: () {
                                 cargoDropLocation = "Dropped";
@@ -629,7 +629,7 @@ class _TeleOpState extends State<TeleOp> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -648,9 +648,9 @@ class _TeleOpState extends State<TeleOp> {
                 new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$cargoTimer sec"),
+                      title: new Text("$cargoTimer sec", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                     ),
                   ),
                 )
@@ -666,7 +666,7 @@ class _TeleOpState extends State<TeleOp> {
                 children: <Widget>[
                   new Text(
                     (dcList.length ~/ 2).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(dcImagePath, color: dcAdd,),
@@ -696,7 +696,7 @@ class _TeleOpState extends State<TeleOp> {
               else {
                 setState(() {
                   dcTimer = 0;
-                  dcAdd = greyAccent;
+                  dcAdd = currCardColor;
                   dcImagePath = "images/add.png";
                   reconnectVisible = false;
                 });
@@ -710,9 +710,9 @@ class _TeleOpState extends State<TeleOp> {
                 child: new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$dcTimer sec"),
+                      title: new Text("$dcTimer sec", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       trailing: new Visibility(
                         visible: reconnectVisible,
                         child: new FlatButton(
@@ -744,7 +744,7 @@ class _TeleOpState extends State<TeleOp> {
                 children: <Widget>[
                   new Text(
                     (foulList.length).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(foulImagePath, color: foulAdd,),
@@ -767,7 +767,7 @@ class _TeleOpState extends State<TeleOp> {
                           foulText = currTextColor;
                           foulContainerHeight = 0.0;
                           foulImagePath = "images/add.png";
-                          foulAdd = greyAccent;
+                          foulAdd = currCardColor;
                         });
                       }
                     },
@@ -785,7 +785,7 @@ class _TeleOpState extends State<TeleOp> {
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               child: Container(
                 padding: EdgeInsets.all(8.0),
-                color: greyAccent,
+                color: currCardColor,
                 child: new TextField(
                   focusNode: _focusController,
                   controller: _foulController,
@@ -811,7 +811,7 @@ class _TeleOpState extends State<TeleOp> {
                       foulContainerHeight = 0.0;
                       foulText = currTextColor;
                       foulImagePath = "images/add.png";
-                      foulAdd = greyAccent;
+                      foulAdd = currCardColor;
                     });
                   },
                   decoration: InputDecoration(
@@ -834,7 +834,7 @@ class _TeleOpState extends State<TeleOp> {
                     climbStopwatch.start();
                     climbStartTime = stopwatch.elapsedMilliseconds / 1000;
                     setState(() {
-                      canSupportYes = greyAccent;
+                      canSupportYes = currCardColor;
                       canSupportNo = currAccentColor;
                       climbImagePath = "images/no.png";
                       climbText = currAccentColor;
@@ -856,7 +856,7 @@ class _TeleOpState extends State<TeleOp> {
                   setState(() {
                     climbImagePath = "images/yes.png";
                     climbText = currTextColor;
-                    climbAdd = greyAccent;
+                    climbAdd = currCardColor;
                     climbContainerHeight = 0.0;
                   });
                 }
@@ -885,7 +885,7 @@ class _TeleOpState extends State<TeleOp> {
                             canSupport = true;
                             setState(() {
                               canSupportYes = currAccentColor;
-                              canSupportNo = greyAccent;
+                              canSupportNo = currCardColor;
                             });
                           },
                         ),
@@ -894,7 +894,7 @@ class _TeleOpState extends State<TeleOp> {
                           onPressed: () {
                             canSupport = false;
                             setState(() {
-                              canSupportYes = greyAccent;
+                              canSupportYes = currCardColor;
                               canSupportNo = currAccentColor;
                             });
                           },
@@ -909,9 +909,9 @@ class _TeleOpState extends State<TeleOp> {
                       child: new ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         child: new Container(
-                          color: greyAccent,
+                          color: currCardColor,
                           child: new FlatButton(
-                            child: new Text("Lvl 1"),
+                            child: new Text("Lvl 1", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
                               climbStopwatch.stop();
                               climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
@@ -932,9 +932,9 @@ class _TeleOpState extends State<TeleOp> {
                       child: new ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         child: new Container(
-                          color: greyAccent,
+                          color: currCardColor,
                           child: new FlatButton(
-                            child: new Text("Lvl 2"),
+                            child: new Text("Lvl 2", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
                               climbStopwatch.stop();
                               climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
@@ -955,9 +955,9 @@ class _TeleOpState extends State<TeleOp> {
                       child: new ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         child: new Container(
-                          color: greyAccent,
+                          color: currCardColor,
                           child: new FlatButton(
-                            child: new Text("Lvl 3"),
+                            child: new Text("Lvl 3", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
                               climbStopwatch.stop();
                               climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
@@ -994,7 +994,7 @@ class _TeleOpState extends State<TeleOp> {
                               setState(() {
                                 climbImagePath = "images/yes.png";
                                 climbText = currTextColor;
-                                climbAdd = greyAccent;
+                                climbAdd = currCardColor;
                                 climbContainerHeight = 0.0;
                               });
                               climbStopwatch.reset();
@@ -1009,9 +1009,9 @@ class _TeleOpState extends State<TeleOp> {
                 new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$climbTimer sec"),
+                      title: new Text("$climbTimer sec", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                     ),
                   ),
                 )

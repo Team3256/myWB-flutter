@@ -13,11 +13,11 @@ class SandStorm extends StatefulWidget {
 class _SandStormState extends State<SandStorm> {
 
   //Auto-line
-  Color noColor = mainColor;
-  Color yesColor = greyAccent;
+  Color noColor = currAccentColor;
+  Color yesColor = currCardColor;
 
   //DC
-  Color dcAdd = greyAccent;
+  Color dcAdd = currCardColor;
   double dcStartTime = 0.0;
   int dcTimer = 0;
   String dcImagePath = "images/add.png";
@@ -26,8 +26,8 @@ class _SandStormState extends State<SandStorm> {
   //Hatch
   int hatchCounter = 0;
   double hatchPickupTime = 0.0;
-  Color hatchAdd = greyAccent;
-  Color hatchTitle = Colors.black;
+  Color hatchAdd = currCardColor;
+  Color hatchTitle = currTextColor;
   String hatchImagePath = "images/add.png";
   int hatchTimer = 0;
   bool intakeVisible = false;
@@ -39,8 +39,8 @@ class _SandStormState extends State<SandStorm> {
   //Cargo
   int cargoCounter = 0;
   double cargoPickupTime = 0.0;
-  Color cargoAdd = greyAccent;
-  Color cargoTitle = Colors.black;
+  Color cargoAdd = currCardColor;
+  Color cargoTitle = currTextColor;
   String cargoImagePath = "images/add.png";
   int cargoTimer = 0;
   bool cargoIntakeVisible = false;
@@ -51,8 +51,8 @@ class _SandStormState extends State<SandStorm> {
 
   //Fouls
   String foulImagePath = "images/add.png";
-  Color foulAdd = greyAccent;
-  Color foulText = Colors.black;
+  Color foulAdd = currCardColor;
+  Color foulText = currTextColor;
   String foulReason = "";
   double foulTime = 0.0;
   double foulContainerHeight = 0.0;
@@ -76,8 +76,8 @@ class _SandStormState extends State<SandStorm> {
                     onPressed: () {
                       setState(() {
                         autoLine = false;
-                        yesColor = greyAccent;
-                        noColor = mainColor;
+                        yesColor = currCardColor;
+                        noColor = currAccentColor;
                         auto = new AutoLine(habLevel, 0.0, false);
                       });
                     },
@@ -88,8 +88,8 @@ class _SandStormState extends State<SandStorm> {
                       if (autoLine == false) {
                         setState(() {
                           autoLine = true;
-                          yesColor = mainColor;
-                          noColor = greyAccent;
+                          yesColor = currAccentColor;
+                          noColor = currCardColor;
                           auto = new AutoLine(habLevel, stopwatch.elapsedMilliseconds / 1000, true);
                           print("Crossed Baseline @ ${auto.time} from HAB Lvl ${auto.habLevel}");
                         });
@@ -109,7 +109,7 @@ class _SandStormState extends State<SandStorm> {
                 children: <Widget>[
                   new Text(
                     (hatchCounter).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(hatchImagePath, color: hatchAdd,),
@@ -126,8 +126,8 @@ class _SandStormState extends State<SandStorm> {
                           }
                         });
                         setState(() {
-                          hatchAdd = mainColor;
-                          hatchTitle = mainColor;
+                          hatchAdd = currAccentColor;
+                          hatchTitle = currAccentColor;
                           intakeVisible = true;
                           dropVisible = false;
                           hatchImagePath = "images/subtract.png";
@@ -140,8 +140,8 @@ class _SandStormState extends State<SandStorm> {
                         hatchDropLocation = "";
                         hatchIntakeLocation = "";
                         setState(() {
-                          hatchTitle = Colors.black;
-                          hatchAdd = greyAccent;
+                          hatchTitle = currTextColor;
+                          hatchAdd = currCardColor;
                           hatchImagePath = "images/add.png";
                           hatchContainerHeight = 0.0;
                           intakeVisible = true;
@@ -162,7 +162,7 @@ class _SandStormState extends State<SandStorm> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new Text("Intake Location: $hatchIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Text("Intake Location: $hatchIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
                 new Visibility(visible: intakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: intakeVisible,
@@ -172,9 +172,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station"),
+                              child: new Text("Human Player Station", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 setState(() {
                                   hatchIntakeLocation = "Human Player Station";
@@ -192,9 +192,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Ground"),
+                              child: new Text("Ground", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 setState(() {
                                   hatchIntakeLocation = "Ground";
@@ -211,7 +211,7 @@ class _SandStormState extends State<SandStorm> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(4.0)),
-                new Visibility(visible: dropVisible, child: new Text("Drop Location: $hatchDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: dropVisible, child: new Text("Drop Location: $hatchDropLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),)),
                 new Visibility(visible: dropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: dropVisible,
@@ -221,9 +221,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Cargo Ship"),
+                              child: new Text("Cargo Ship", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 hatchDropLocation = "Cargo Ship";
                                 hatchStopwatch.stop();
@@ -233,7 +233,7 @@ class _SandStormState extends State<SandStorm> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -250,9 +250,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 1"),
+                              child: new Text("Rocket Lvl 1", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 1";
                                 hatchStopwatch.stop();
@@ -262,7 +262,7 @@ class _SandStormState extends State<SandStorm> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -286,9 +286,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 2"),
+                              child: new Text("Rocket Lvl 2", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 2";
                                 hatchStopwatch.stop();
@@ -298,7 +298,7 @@ class _SandStormState extends State<SandStorm> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -315,9 +315,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 3"),
+                              child: new Text("Rocket Lvl 3", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 hatchDropLocation = "Rocket Lvl 3";
                                 hatchStopwatch.stop();
@@ -327,7 +327,7 @@ class _SandStormState extends State<SandStorm> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -353,7 +353,7 @@ class _SandStormState extends State<SandStorm> {
                           child: new Container(
                             color: Colors.red,
                             child: new FlatButton(
-                              child: new Text("Droppped"),
+                              child: new Text("Droppped", style: TextStyle(color: currTextColor),),
                               textColor: Colors.white,
                               onPressed: () {
                                 hatchDropLocation = "Dropped";
@@ -363,7 +363,7 @@ class _SandStormState extends State<SandStorm> {
                                   dropVisible = false;
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
-                                  hatchAdd = greyAccent;
+                                  hatchAdd = currCardColor;
                                   hatchTitle = Colors.black;
                                   hatchImagePath = "images/add.png";
                                 });
@@ -382,9 +382,9 @@ class _SandStormState extends State<SandStorm> {
                 new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$hatchTimer sec"),
+                      title: new Text("$hatchTimer sec", style: TextStyle(color: currTextColor),),
                     ),
                   ),
                 )
@@ -400,7 +400,7 @@ class _SandStormState extends State<SandStorm> {
                 children: <Widget>[
                   new Text(
                     (cargoCounter).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(cargoImagePath, color: cargoAdd,),
@@ -419,8 +419,8 @@ class _SandStormState extends State<SandStorm> {
                         setState(() {
                           cargoDropLocation = "";
                           cargoIntakeLocation = "";
-                          cargoAdd = mainColor;
-                          cargoTitle = mainColor;
+                          cargoAdd = currAccentColor;
+                          cargoTitle = currAccentColor;
                           cargoIntakeVisible = true;
                           cargoDropVisible = false;
                           cargoImagePath = "images/subtract.png";
@@ -433,8 +433,8 @@ class _SandStormState extends State<SandStorm> {
                         cargoDropLocation = "";
                         cargoIntakeLocation = "";
                         setState(() {
-                          cargoTitle = Colors.black;
-                          cargoAdd = greyAccent;
+                          cargoTitle = currTextColor;
+                          cargoAdd = currCardColor;
                           cargoImagePath = "images/add.png";
                           cargoContainerHeight = 0.0;
                           cargoIntakeVisible = true;
@@ -455,7 +455,7 @@ class _SandStormState extends State<SandStorm> {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new Text("Intake Location: $cargoIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold),),
+                new Text("Intake Location: $cargoIntakeLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),),
                 new Visibility(visible: cargoIntakeVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: cargoIntakeVisible,
@@ -465,9 +465,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station"),
+                              child: new Text("Human Player Station", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 setState(() {
                                   cargoIntakeLocation = "Human Player Station";
@@ -485,9 +485,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Ground"),
+                              child: new Text("Ground", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 setState(() {
                                   cargoIntakeLocation = "Ground";
@@ -504,7 +504,7 @@ class _SandStormState extends State<SandStorm> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(4.0)),
-                new Visibility(visible: cargoDropVisible, child: new Text("Drop Location: $cargoDropLocation", style: TextStyle(fontWeight: FontWeight.bold),)),
+                new Visibility(visible: cargoDropVisible, child: new Text("Drop Location: $cargoDropLocation", style: TextStyle(fontWeight: FontWeight.bold, color: currTextColor),)),
                 new Visibility(visible: cargoDropVisible, child: new Padding(padding: EdgeInsets.all(4.0))),
                 new Visibility(
                   visible: cargoDropVisible,
@@ -514,9 +514,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Cargo Ship"),
+                              child: new Text("Cargo Ship", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 cargoDropLocation = "Cargo Ship";
                                 cargoStopwatch.stop();
@@ -526,7 +526,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -543,9 +543,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 1"),
+                              child: new Text("Rocket Lvl 1", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 1";
                                 cargoStopwatch.stop();
@@ -555,7 +555,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -579,9 +579,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 2"),
+                              child: new Text("Rocket Lvl 2", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 2";
                                 cargoStopwatch.stop();
@@ -591,7 +591,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -608,9 +608,9 @@ class _SandStormState extends State<SandStorm> {
                         child: new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           child: new Container(
-                            color: greyAccent,
+                            color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Rocket Lvl 3"),
+                              child: new Text("Rocket Lvl 3", style: TextStyle(color: currTextColor),),
                               onPressed: () {
                                 cargoDropLocation = "Rocket Lvl 3";
                                 cargoStopwatch.stop();
@@ -620,7 +620,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -646,7 +646,7 @@ class _SandStormState extends State<SandStorm> {
                           child: new Container(
                             color: Colors.red,
                             child: new FlatButton(
-                              child: new Text("Droppped"),
+                              child: new Text("Droppped", style: TextStyle(color: currTextColor),),
                               textColor: Colors.white,
                               onPressed: () {
                                 cargoDropLocation = "Dropped";
@@ -656,7 +656,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoDropVisible = false;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
-                                  cargoAdd = greyAccent;
+                                  cargoAdd = currCardColor;
                                   cargoTitle = Colors.black;
                                   cargoImagePath = "images/add.png";
                                 });
@@ -675,9 +675,9 @@ class _SandStormState extends State<SandStorm> {
                 new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$cargoTimer sec"),
+                      title: new Text("$cargoTimer sec", style: TextStyle(color: currTextColor),),
                     ),
                   ),
                 )
@@ -685,7 +685,7 @@ class _SandStormState extends State<SandStorm> {
             ),
           ),
           new ExpansionTile(
-            title: new Text("Robot Disconnected?"),
+            title: new Text("Robot Disconnected?", style: TextStyle(color: currTextColor),),
             trailing: Container(
               width: 100.0,
               child: new Row(
@@ -693,7 +693,7 @@ class _SandStormState extends State<SandStorm> {
                 children: <Widget>[
                   new Text(
                     (dcList.length ~/ 2).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(dcImagePath, color: dcAdd,),
@@ -706,7 +706,7 @@ class _SandStormState extends State<SandStorm> {
               if (isExpanded) {
                 setState(() {
                   dcImagePath = "images/subtract.png";
-                  dcAdd = mainColor;
+                  dcAdd = currAccentColor;
                   reconnectVisible = true;
                 });
                 dcStopwatch.reset();
@@ -723,7 +723,7 @@ class _SandStormState extends State<SandStorm> {
               else {
                 setState(() {
                   dcTimer = 0;
-                  dcAdd = greyAccent;
+                  dcAdd = currCardColor;
                   dcImagePath = "images/add.png";
                   reconnectVisible = false;
                 });
@@ -737,9 +737,9 @@ class _SandStormState extends State<SandStorm> {
                 child: new ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: new Container(
-                    color: greyAccent,
+                    color: currCardColor,
                     child: new ListTile(
-                      title: new Text("$dcTimer sec"),
+                      title: new Text("$dcTimer sec", style: TextStyle(color: currTextColor),),
                       trailing: new Visibility(
                         visible: reconnectVisible,
                         child: new FlatButton(
@@ -771,7 +771,7 @@ class _SandStormState extends State<SandStorm> {
                 children: <Widget>[
                   new Text(
                     (foulList.length).toString(),
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(
                     icon: new Image.asset(foulImagePath, color: foulAdd,),
@@ -779,10 +779,10 @@ class _SandStormState extends State<SandStorm> {
                       if (foulImagePath == "images/add.png") {
                         foulTime = stopwatch.elapsedMilliseconds / 1000;
                         setState(() {
-                          foulText = mainColor;
+                          foulText = currAccentColor;
                           foulContainerHeight = 95;
                           foulImagePath = "images/subtract.png";
-                          foulAdd = mainColor;
+                          foulAdd = currAccentColor;
                         });
                       }
                       else {
@@ -791,10 +791,10 @@ class _SandStormState extends State<SandStorm> {
                         _foulController.clear();
                         FocusScope.of(context).requestFocus(new FocusNode());
                         setState(() {
-                          foulText = Colors.black;
+                          foulText = currTextColor;
                           foulContainerHeight = 0.0;
                           foulImagePath = "images/add.png";
-                          foulAdd = greyAccent;
+                          foulAdd = currCardColor;
                         });
                       }
                     },
@@ -812,7 +812,7 @@ class _SandStormState extends State<SandStorm> {
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               child: Container(
                 padding: EdgeInsets.all(8.0),
-                color: greyAccent,
+                color: currCardColor,
                 child: new TextField(
                   focusNode: _focusController,
                   controller: _foulController,
@@ -838,7 +838,7 @@ class _SandStormState extends State<SandStorm> {
                       foulContainerHeight = 0.0;
                       foulText = Colors.black;
                       foulImagePath = "images/add.png";
-                      foulAdd = greyAccent;
+                      foulAdd = currCardColor;
                     });
                   },
                   decoration: InputDecoration(

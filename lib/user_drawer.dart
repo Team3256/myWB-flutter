@@ -73,7 +73,7 @@ class _UserDrawerState extends State<UserDrawer> {
               )
           ),
         ),
-        backgroundColor: currCardColor,
+        backgroundColor: currBackgroundColor,
         body: new SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

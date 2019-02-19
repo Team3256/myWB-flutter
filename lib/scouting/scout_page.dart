@@ -92,7 +92,7 @@ class _ScoutPageState extends State<ScoutPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("New Match", style: TextStyle(color: currTextColor),),
-          backgroundColor: currCardColor,
+          backgroundColor: currBackgroundColor,
           content: new ScoutingDialog(),
           actions: <Widget>[
             new FlatButton(
@@ -258,6 +258,7 @@ class _ScoutPageState extends State<ScoutPage> {
                             "images/new.png",
                             height: 200.0,
                             width: 200.0,
+                            color: currCardColor
                           ),
                         ),
                       );
@@ -348,13 +349,13 @@ class ScoutingDialog extends StatefulWidget {
 
 class _ScoutingDialogState extends State<ScoutingDialog> {
 
-  Color blueBtnColor = currCardColor;
-  Color redBtnColor = currCardColor;
+  Color blueBtnColor = currBackgroundColor;
+  Color redBtnColor = currBackgroundColor;
   Color blueBtnTxtColor = currTextColor;
   Color redBtnTxtColor = currTextColor;
 
-  Color oneBtnColor = currCardColor;
-  Color twoBtnColor = currCardColor;
+  Color oneBtnColor = currBackgroundColor;
+  Color twoBtnColor = currBackgroundColor;
   Color oneBtnTxtColor = currTextColor;
   Color twoBtn1TxtColor = currTextColor;
 
@@ -372,7 +373,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: currCardColor,
+      color: currBackgroundColor,
       height: 250.0,
       child: new Column(
         children: <Widget>[
@@ -454,7 +455,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       currAlliance = "Blue";
                       blueBtnColor = Colors.lightBlue;
                       blueBtnTxtColor = Colors.white;
-                      redBtnColor = currCardColor;
+                      redBtnColor = currBackgroundColor;
                       redBtnTxtColor = currTextColor;
                     });
                   },
@@ -468,7 +469,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                   onPressed: () {
                     setState(() {
                       currAlliance = "Red";
-                      blueBtnColor = currCardColor;
+                      blueBtnColor = currBackgroundColor;
                       blueBtnTxtColor = currTextColor;
                       redBtnColor = Colors.red;
                       redBtnTxtColor = Colors.white;
@@ -493,7 +494,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       habLevel = 1;
                       oneBtnColor = currAccentColor;
                       oneBtnTxtColor = Colors.white;
-                      twoBtnColor = currCardColor;
+                      twoBtnColor = currBackgroundColor;
                       twoBtn1TxtColor = currTextColor;
                     });
                   },
@@ -509,7 +510,7 @@ class _ScoutingDialogState extends State<ScoutingDialog> {
                       habLevel = 2;
                       twoBtnColor = currAccentColor;
                       twoBtn1TxtColor = Colors.white;
-                      oneBtnColor = currCardColor;
+                      oneBtnColor = currBackgroundColor;
                       oneBtnTxtColor = currTextColor;
                     });
                   },
