@@ -14,28 +14,31 @@ class _UserDrawerState extends State<UserDrawer> {
     showModalBottomSheet(
         context: context,
         builder: (builder){
-          return SafeArea(
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new ListTile(
-                  title: new Text('Are you sure you want to sign out?'),
-                ),
-                new ListTile(
-                  leading: new Icon(Icons.check),
-                  title: new Text('Yes, sign me out!'),
-                  onTap: () {
-                    router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
-                  },
-                ),
-                new ListTile(
-                  leading: new Icon(Icons.clear),
-                  title: new Text('Cancel'),
-                  onTap: () {
-                    router.pop(context);
-                  },
-                ),
-              ],
+          return Container(
+            color: currBackgroundColor,
+            child: SafeArea(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new ListTile(
+                    title: new Text('Are you sure you want to sign out?', style: TextStyle(color: currTextColor),),
+                  ),
+                  new ListTile(
+                    leading: new Icon(Icons.check, color: currDividerColor,),
+                    title: new Text('Yes, sign me out!', style: TextStyle(color: currTextColor),),
+                    onTap: () {
+                      router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
+                    },
+                  ),
+                  new ListTile(
+                    leading: new Icon(Icons.clear, color: currDividerColor,),
+                    title: new Text('Cancel', style: TextStyle(color: currTextColor),),
+                    onTap: () {
+                      router.pop(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         }

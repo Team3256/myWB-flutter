@@ -84,44 +84,47 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
     showModalBottomSheet(
         context: context,
         builder: (builder){
-          return SafeArea(
-            child: Container(
-              color: currBackgroundColor,
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  new ListTile(
-                    title: new Text("Are you sure you want to exit this match?", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                  ),
-                  new ListTile(
-                    leading: new Icon(Icons.check, color: currDividerColor,),
-                    title: new Text('Yes, get me outta here!', style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                    onTap: () {
-                      autoLine = false;
-                      dcList.clear();
-                      hatchList.clear();
-                      cargoList.clear();
-                      foulList.clear();
-                      stopwatch.stop();
-                      stopwatch.reset();
-                      dcStopwatch.stop();
-                      dcStopwatch.reset();
-                      hatchStopwatch.stop();
-                      hatchStopwatch.reset();
-                      cargoStopwatch.stop();
-                      cargoStopwatch.reset();
-                      databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
-                      router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
-                    },
-                  ),
-                  new ListTile(
-                    leading: new Icon(Icons.clear, color: currDividerColor,),
-                    title: new Text('Cancel', style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                    onTap: () {
-                      router.pop(context);
-                    },
-                  ),
-                ],
+          return Container(
+            color: currBackgroundColor,
+            child: SafeArea(
+              child: Container(
+                color: currBackgroundColor,
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new ListTile(
+                      title: new Text("Are you sure you want to exit this match?", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                    ),
+                    new ListTile(
+                      leading: new Icon(Icons.check, color: currDividerColor,),
+                      title: new Text('Yes, get me outta here!', style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                      onTap: () {
+                        autoLine = false;
+                        dcList.clear();
+                        hatchList.clear();
+                        cargoList.clear();
+                        foulList.clear();
+                        stopwatch.stop();
+                        stopwatch.reset();
+                        dcStopwatch.stop();
+                        dcStopwatch.reset();
+                        hatchStopwatch.stop();
+                        hatchStopwatch.reset();
+                        cargoStopwatch.stop();
+                        cargoStopwatch.reset();
+                        databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
+                        router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
+                      },
+                    ),
+                    new ListTile(
+                      leading: new Icon(Icons.clear, color: currDividerColor,),
+                      title: new Text('Cancel', style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                      onTap: () {
+                        router.pop(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           );

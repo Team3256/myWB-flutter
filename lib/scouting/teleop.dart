@@ -147,10 +147,10 @@ class _TeleOpState extends State<TeleOp> {
                           child: new Container(
                             color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                              child: new Text("Loading Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                               onPressed: () {
                                 setState(() {
-                                  hatchIntakeLocation = "Human Player Station";
+                                  hatchIntakeLocation = "Loading Station";
                                   dropVisible = true;
                                   intakeVisible = false;
                                   hatchContainerHeight = 290.0;
@@ -440,10 +440,30 @@ class _TeleOpState extends State<TeleOp> {
                           child: new Container(
                             color: currCardColor,
                             child: new FlatButton(
-                              child: new Text("Human Player Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                              child: new Text("Loading Station", style: TextStyle(fontFamily: "Product Sans", color: currTextColor), textAlign: TextAlign.center,),
                               onPressed: () {
                                 setState(() {
-                                  cargoIntakeLocation = "Human Player Station";
+                                  cargoIntakeLocation = "Loading Station";
+                                  cargoDropVisible = true;
+                                  cargoIntakeVisible = false;
+                                  cargoContainerHeight = 290.0;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Padding(padding: EdgeInsets.all(4.0)),
+                      new Expanded(
+                        child: new ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          child: new Container(
+                            color: currCardColor,
+                            child: new FlatButton(
+                              child: new Text("Depot", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                              onPressed: () {
+                                setState(() {
+                                  cargoIntakeLocation = "Depot";
                                   cargoDropVisible = true;
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 290.0;
