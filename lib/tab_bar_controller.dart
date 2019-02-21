@@ -152,7 +152,7 @@ class _TabBarControllerState extends State<TabBarController> {
           ),
           new Container(
             height: MediaQuery.of(context).padding.bottom,
-            color: Colors.white,
+            color: currCardColor,
           )
         ],
       ),
