@@ -234,7 +234,7 @@ class _SandStormState extends State<SandStorm> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = currCardColor;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -263,7 +263,7 @@ class _SandStormState extends State<SandStorm> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = currCardColor;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -299,7 +299,7 @@ class _SandStormState extends State<SandStorm> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = currCardColor;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -328,7 +328,7 @@ class _SandStormState extends State<SandStorm> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = currCardColor;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -364,7 +364,7 @@ class _SandStormState extends State<SandStorm> {
                                   intakeVisible = false;
                                   hatchContainerHeight = 0.0;
                                   hatchAdd = currCardColor;
-                                  hatchTitle = Colors.black;
+                                  hatchTitle = currTextColor;
                                   hatchImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Hatch(hatchIntakeLocation, hatchDropLocation, hatchPickupTime, hatchStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -527,7 +527,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = currCardColor;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -556,7 +556,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = currCardColor;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -592,7 +592,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = currCardColor;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -621,7 +621,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = currCardColor;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -657,7 +657,7 @@ class _SandStormState extends State<SandStorm> {
                                   cargoIntakeVisible = false;
                                   cargoContainerHeight = 0.0;
                                   cargoAdd = currCardColor;
-                                  cargoTitle = Colors.black;
+                                  cargoTitle = currTextColor;
                                   cargoImagePath = "images/add.png";
                                 });
                                 matchEventList.add(new Cargo(cargoIntakeLocation, cargoDropLocation, cargoPickupTime, cargoStopwatch.elapsedMilliseconds/1000, "Sandstorm"));
@@ -836,7 +836,7 @@ class _SandStormState extends State<SandStorm> {
                     _foulController.clear();
                     setState(() {
                       foulContainerHeight = 0.0;
-                      foulText = Colors.black;
+                      foulText = currTextColor;
                       foulImagePath = "images/add.png";
                       foulAdd = currCardColor;
                     });

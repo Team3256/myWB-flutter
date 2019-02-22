@@ -214,12 +214,13 @@ class MatchData {
   int cargoCount = 0;
 
   Map toJson() {
+
     Map map = new Map();
     map["auto"] = auto;
     map["hatch"] = hatchList;
     map["cargo"] = cargoList;
     map["climb"] = climbList;
-    map["disconnnect"] = dcList;
+    map["disconnect"] = dcList;
     map["foul"] = foulList;
     map["averageHatch"] = avgHatch;
     map["averageCargo"] = avgCargo;

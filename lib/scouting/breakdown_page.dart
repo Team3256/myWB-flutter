@@ -34,13 +34,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Ruh-roh!"),
+          backgroundColor: currBackgroundColor,
+          title: new Text("Ruh-roh!", style: TextStyle(color: currTextColor),),
           content: new Text(
             "It looks like an error occurred trying to upload your match: $error",
+            style: TextStyle(color: currTextColor),
           ),
         );
       },
@@ -51,17 +52,72 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Bruh, that's a wong move"),
+          backgroundColor: currBackgroundColor,
+          title: new Text("Bruh, that's a wong move", style: TextStyle(color: currTextColor),),
           content: new Text(
             "Scouting data for this match already exists. LOL, how did you screw up this badly?",
+            style: TextStyle(color: currTextColor),
           ),
         );
       },
     );
+  }
+
+  void uploadSuccess(String matchRef, String name) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          backgroundColor: currBackgroundColor,
+          title: new Text("Match Upload Success", style: TextStyle(color: currTextColor),),
+          content: new Text(
+            "Match $matchRef has been successfully uploaded to the server by $name!",
+            style: TextStyle(color: currTextColor),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("DONE"),
+              onPressed: () {
+                router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Future uploadMatch() async {
+    // Handle DB Upload
+    var postMatchUrl = "${dbHost}api/scouting/match/";
+    try {
+      http.post(postMatchUrl, body: jsonEncode(myMatch), headers: {HttpHeaders.authorizationHeader: "Bearer $authToken", HttpHeaders.contentTypeHeader: "application/json"}).then((response) {
+        print(response.body);
+        var uploadResponse = jsonDecode(response.body);
+        if (uploadResponse["error"] != null) {
+          // Whoops, an error occurred!
+          if (uploadResponse["error"] == "Conflict") {
+            matchExistError();
+          }
+          else {
+            uploadErrorDialog(uploadResponse["message"]);
+          }
+        }
+        else {
+          print("Successfully uploaded match!");
+          uploadSuccess(uploadResponse["id"], uploadResponse["scoutedBy"]);
+        }
+      });
+    }
+    catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -100,34 +156,11 @@ class _BreakdownPageState extends State<BreakdownPage> {
         backgroundColor: getAllianceColor(),
         elevation: 0.0,
       ),
+      backgroundColor: currBackgroundColor,
       floatingActionButton: new FloatingActionButton.extended(
         icon: new Icon(Icons.save),
         label: new Text("Save"),
-        onPressed: () async {
-          // Handle DB Upload
-          var postMatchUrl = "${dbHost}api/scouting/match/";
-          try {
-            http.post(postMatchUrl, body: jsonEncode(myMatch), headers: {HttpHeaders.authorizationHeader: "Bearer $authToken", HttpHeaders.contentTypeHeader: "application/json"}).then((response) {
-              print(response.body);
-              var uploadResponse = jsonDecode(response.body);
-              if (uploadResponse["error"] != null) {
-                // Whoops, an error occurred!
-                if (uploadResponse["error"] == "Conflict") {
-                  matchExistError();
-                }
-                else {
-                  uploadErrorDialog(uploadResponse["message"]);
-                }
-              }
-              else {
-
-              }
-            });
-          }
-          catch (error) {
-            print(error);
-          }
-        },
+        onPressed: uploadMatch,
       ),
       body: new Container(
         child: new Column(
