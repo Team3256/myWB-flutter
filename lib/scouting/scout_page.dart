@@ -329,7 +329,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
                 trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
                 onTap: () {
-
+                  router.navigateTo(context, '/pitScouting', transition: TransitionType.native);
                 },
               ),
               new Divider(color: currAccentColor, height: 0.0,),
