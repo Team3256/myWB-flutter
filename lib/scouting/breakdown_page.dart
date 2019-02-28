@@ -34,6 +34,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
@@ -43,6 +44,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
             "It looks like an error occurred trying to upload your match: $error",
             style: TextStyle(color: currTextColor),
           ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("DONE"),
+              onPressed: () {
+                router.pop(context);
+              },
+            )
+          ],
         );
       },
     );
@@ -52,6 +61,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
@@ -61,6 +71,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
             "Scouting data for this match already exists. LOL, how did you screw up this badly?",
             style: TextStyle(color: currTextColor),
           ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("DONE"),
+              onPressed: () {
+                router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
+              },
+            )
+          ],
         );
       },
     );
@@ -111,7 +129,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         }
         else {
           print("Successfully uploaded match!");
-          uploadSuccess(uploadResponse["id"], uploadResponse["scoutedBy"]);
+          uploadSuccess(uploadResponse["id"], (uploadResponse["scoutedBy"]["firstName"] + " " + uploadResponse["scoutedBy"]["lastName"]));
         }
       });
     }
