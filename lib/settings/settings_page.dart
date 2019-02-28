@@ -4,6 +4,7 @@ import 'package:mywb_flutter/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mywb_flutter/user_drawer.dart';
 import 'package:fluro/fluro.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
 
   bool _notifs = true;
+
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +133,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       print("Dark Mode - $value");
                       setState(() {
                         darkMode = value;
+                        databaseRef.child("users").child(userID).child("darkMode").set(darkMode);
                         if (darkMode) {
                           currCardColor = darkCardColor;
                           currBackgroundColor = darkBackgroundColor;

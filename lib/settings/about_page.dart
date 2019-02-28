@@ -136,7 +136,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
-                        title: new Text("Mark Liu",
+                        title: new Text("Marc Liu",
                             style: TextStyle(fontFamily: "Product Sans",)),
                         subtitle: new Text("Initial App Design",
                             style: TextStyle(fontFamily: "Product Sans",)),
@@ -144,6 +144,10 @@ class _AboutPageState extends State<AboutPage> {
                       new Divider(height: 0.0, color: currAccentColor),
                       new ListTile(
                         title: new Text("Kashyap Chaturvedula",
+                            style: TextStyle(fontFamily: "Product Sans",)),
+                      ),
+                      new ListTile(
+                        title: new Text("Samuel Stephen",
                             style: TextStyle(fontFamily: "Product Sans",)),
                       ),
                       new ListTile(
