@@ -30,6 +30,20 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
         setState(() {
           authToken = snapshot.value["token"];
           darkMode = snapshot.value["darkMode"];
+          if (darkMode) {
+            currCardColor = darkCardColor;
+            currBackgroundColor = darkBackgroundColor;
+            currTextColor = darkTextColor;
+            currDividerColor = darkDividerColor;
+//                          currAccentColor = darkAccentColor;
+          }
+          else {
+            currCardColor = lightCardColor;
+            currBackgroundColor = lightBackgroundColor;
+            currTextColor = lightTextColor;
+            currDividerColor = lightDividerColor;
+//                          currAccentColor = lightAccentColor;
+          }
         });
       });
       var userUrl = "${dbHost}api/hr/user/info";

@@ -80,6 +80,26 @@ class _LoginPageState extends State<LoginPage> {
 
       userID = user.uid;
 
+      databaseRef.child("users").child(userID).child("darkMode").once().then((DataSnapshot snapshot) {
+        setState(() {
+          darkMode = snapshot.value;
+          if (darkMode) {
+            currCardColor = darkCardColor;
+            currBackgroundColor = darkBackgroundColor;
+            currTextColor = darkTextColor;
+            currDividerColor = darkDividerColor;
+//                          currAccentColor = darkAccentColor;
+          }
+          else {
+            currCardColor = lightCardColor;
+            currBackgroundColor = lightBackgroundColor;
+            currTextColor = lightTextColor;
+            currDividerColor = lightDividerColor;
+//                          currAccentColor = lightAccentColor;
+          }
+        });
+      });
+
       var authUrl = "${dbHost}auth/generate-token";
       var userUrl = "${dbHost}api/hr/user/info";
       http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
