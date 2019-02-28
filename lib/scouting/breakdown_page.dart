@@ -78,6 +78,20 @@ class _BreakdownPageState extends State<BreakdownPage> {
             new FlatButton(
               child: new Text("DONE"),
               onPressed: () {
+                autoLine = false;
+                auto = new AutoLine(habLevel, 0.0, false);
+                dcList.clear();
+                hatchList.clear();
+                cargoList.clear();
+                foulList.clear();
+                stopwatch.stop();
+                stopwatch.reset();
+                dcStopwatch.stop();
+                dcStopwatch.reset();
+                hatchStopwatch.stop();
+                hatchStopwatch.reset();
+                cargoStopwatch.stop();
+                cargoStopwatch.reset();
                 databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
                 router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
               },
@@ -106,6 +120,20 @@ class _BreakdownPageState extends State<BreakdownPage> {
             new FlatButton(
               child: new Text("DONE"),
               onPressed: () {
+                autoLine = false;
+                auto = new AutoLine(habLevel, 0.0, false);
+                dcList.clear();
+                hatchList.clear();
+                cargoList.clear();
+                foulList.clear();
+                stopwatch.stop();
+                stopwatch.reset();
+                dcStopwatch.stop();
+                dcStopwatch.reset();
+                hatchStopwatch.stop();
+                hatchStopwatch.reset();
+                cargoStopwatch.stop();
+                cargoStopwatch.reset();
                 router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
               },
             )

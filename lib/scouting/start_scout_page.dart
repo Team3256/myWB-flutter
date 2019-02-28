@@ -42,7 +42,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   void initState() {
     super.initState();
     stopwatch.reset();
-    stopwatch.start();
+//    stopwatch.start();
     new Timer.periodic(new Duration(milliseconds: 100), getTimer);
     auto = new AutoLine(habLevel, 0.0, false);
   }
@@ -100,6 +100,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
                       title: new Text('Yes, get me outta here!', style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       onTap: () {
                         autoLine = false;
+                        auto = new AutoLine(habLevel, 0.0, false);
                         dcList.clear();
                         hatchList.clear();
                         cargoList.clear();
@@ -136,7 +137,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text(title),
+        title: new Text("Match 1 - 150 sec"),
         backgroundColor: getAllianceColor(),
         elevation: 0.0,
         leading: new IconButton(
