@@ -712,7 +712,7 @@ class _SandStormState extends State<SandStorm> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                    (dcList.length ~/ 2).toString(),
+                    (dcList.length).toString(),
                     style: TextStyle(fontSize: 20.0, color: currTextColor),
                   ),
                   new IconButton(

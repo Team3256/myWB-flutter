@@ -137,7 +137,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text(title),
+        title: new Text("Match 1 - 150 sec"),
         backgroundColor: getAllianceColor(),
         elevation: 0.0,
         leading: new IconButton(
