@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:timeline/timeline.dart';
 import 'package:timeline/model/timeline_model.dart';
 import 'package:fluro/fluro.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
@@ -18,6 +19,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
   
   Match myMatch = new Match();
   MatchData myMatchData = new MatchData();
+
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   Color getAllianceColor() {
     if (currAlliance == "Blue") {
@@ -75,6 +78,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
             new FlatButton(
               child: new Text("DONE"),
               onPressed: () {
+                databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
                 router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
               },
             )
@@ -129,6 +133,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         }
         else {
           print("Successfully uploaded match!");
+          databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
           uploadSuccess(uploadResponse["id"], (uploadResponse["scoutedBy"]["firstName"] + " " + uploadResponse["scoutedBy"]["lastName"]));
         }
       });
