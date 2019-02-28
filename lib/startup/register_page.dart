@@ -18,6 +18,7 @@ String _lastName = "";
 String _email = "";
 String _password = "";
 String _confirm = "";
+String _gender = "MALE";
 
 final formats = {
   InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
@@ -40,7 +41,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final databaseRef = FirebaseDatabase.instance.reference();
 
-  Widget buttonChild = new Text("Create Account");
+  Widget loginWidget = new Padding(padding: EdgeInsets.all(20.0));
+
+  Color maleButtonColor = currAccentColor;
+  Color femaleButtonColor = Colors.white;
+  Color maleButtonTextColor = Colors.white;
+  Color femaleButtonTextColor = Colors.black;
+
+  _RegisterPageState() {
+    loginWidget = new RaisedButton(child: new Text("Create Account"), onPressed: register, color: currAccentColor, textColor: Colors.white);
+  }
 
   void accountErrorDialog(String error) {
     // flutter defined function
@@ -82,10 +92,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void register() async {
     setState(() {
-      buttonChild = new HeartbeatProgressIndicator(
-        child: Image.asset(
+      loginWidget = HeartbeatProgressIndicator(
+        child: new Image.asset(
           'images/wblogo.png',
-          height: 15.0,
+          height: 13.0,
         ),
       );
     });
@@ -120,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     }
     setState(() {
-      buttonChild = new Text("Create Account");
+      loginWidget = new RaisedButton(child: new Text("Create Account"), onPressed: register, color: currAccentColor, textColor: Colors.white);
     });
   }
 
@@ -158,6 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
           textAlign: TextAlign.center,
         ),
       ),
+      backgroundColor: Colors.white,
       body: new Container(
         padding: EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 32.0),
         child: new Center(
@@ -212,6 +223,48 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: "Enter your birthday"
                 ),
               ),
+              new Padding(padding: EdgeInsets.all(4.0)),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Container(
+                    width: (MediaQuery.of(context).size.width / 2) - 50,
+                    child: new FlatButton(
+                      child: new Text("MALE"),
+                      textColor: maleButtonTextColor,
+                      color: maleButtonColor,
+                      onPressed: () {
+                        setState(() {
+                          _gender = "MALE";
+                          maleButtonColor = currAccentColor;
+                          maleButtonTextColor = Colors.white;
+                          femaleButtonColor = Colors.white;
+                          femaleButtonTextColor = Colors.black;
+                        });
+                        print(_gender);
+                      },
+                    ),
+                  ),
+                  new Container(
+                    width: (MediaQuery.of(context).size.width / 2) - 50,
+                    child: new FlatButton(
+                      child: new Text("FEMALE"),
+                      color: femaleButtonColor,
+                      textColor: femaleButtonTextColor,
+                      onPressed: () {
+                        setState(() {
+                          _gender = "FEMALE";
+                          femaleButtonColor = currAccentColor;
+                          femaleButtonTextColor = Colors.white;
+                          maleButtonColor = Colors.white;
+                          maleButtonTextColor = Colors.black;
+                        });
+                        print(_gender);
+                      },
+                    ),
+                  )
+                ],
+              ),
               new TextField(
                 decoration: InputDecoration(
                     icon: new Icon(Icons.lock),
@@ -237,13 +290,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: confirmField,
               ),
               new Padding(padding: EdgeInsets.all(8.0)),
-              new RaisedButton(
-                child: buttonChild,
-                onPressed: register,
-                color: mainColor,
-                textColor: Colors.white,
-                highlightColor: mainColor,
-              ),
+              loginWidget,
               new Padding(padding: EdgeInsets.all(16.0)),
               new FlatButton(
                 child: new Text(
@@ -309,7 +356,7 @@ class _EmailVerificationAlertState extends State<EmailVerificationAlert> {
                 onPressed: () async {
                   FirebaseUser user = await FirebaseAuth.instance.currentUser();
                   user.reload();
-                  if (!user.isEmailVerified) {
+                  if (user.isEmailVerified) {
                     print("User Email Verified");
                     setState(() {
                       mainText = "Successfully verified email!\nCreating Account...";
@@ -372,7 +419,7 @@ class _EmailVerificationAlertState extends State<EmailVerificationAlert> {
                           print("-----------------------------------------");
                           print("");
 
-                          router.navigateTo(context,'/home', transition: TransitionType.fadeIn, clearStack: true);
+                          router.navigateTo(context,'/logged', transition: TransitionType.fadeIn, clearStack: true);
                         });
                       });
                     }

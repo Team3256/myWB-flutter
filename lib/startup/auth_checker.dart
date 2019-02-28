@@ -26,7 +26,7 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
       // User is logged in
       print("USER LOGGED");
       userID = user.uid;
-      databaseRef.child("users").child(userID).once().then((DataSnapshot snapshot) {
+      await databaseRef.child("users").child(userID).once().then((DataSnapshot snapshot) {
         setState(() {
           authToken = snapshot.value["token"];
           darkMode = snapshot.value["darkMode"];

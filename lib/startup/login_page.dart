@@ -75,46 +75,46 @@ class _LoginPageState extends State<LoginPage> {
       );
     });
     try {
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password).then((FirebaseUser user) {
-        userID = user.uid;
-        var authUrl = "${dbHost}auth/generate-token";
-        var userUrl = "${dbHost}api/hr/user/info";
-        http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
-          print(response.body);
-          var jsonResponse = json.decode(response.body);
-          if (jsonResponse["token"] != null) {
-            authToken = jsonResponse["token"];
-            databaseRef.child("users").child(userID).child("token").set(authToken);
-            print("USER AUTH TOKEN: $authToken");
-            http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) {
-              print(user.body);
-              var userJson = json.decode(user.body);
-              firstName = userJson["firstName"];
-              middleName = userJson["middleName"];
-              lastName = userJson["lastName"];
-              email = userJson["email"];
-              birthday = userJson["birthday"];
-              phone = userJson["cellPhone"];
-              gender = userJson["gender"];
-              role = userJson["type"];
-            });
-            router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true, replace: true);
-          }
-          else {
-            errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
-            setState(() {
-              loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
-            });
-          }
-        });
+      FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+      print("Signed in! ${user.uid}");
+
+      userID = user.uid;
+
+      var authUrl = "${dbHost}auth/generate-token";
+      var userUrl = "${dbHost}api/hr/user/info";
+      http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
+        print(response.body);
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse["token"] != null) {
+          authToken = jsonResponse["token"];
+          databaseRef.child("users").child(userID).child("token").set(authToken);
+          print("USER AUTH TOKEN: $authToken");
+          http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) {
+            print(user.body);
+            var userJson = json.decode(user.body);
+            firstName = userJson["firstName"];
+            middleName = userJson["middleName"];
+            lastName = userJson["lastName"];
+            email = userJson["email"];
+            birthday = userJson["birthday"];
+            phone = userJson["cellPhone"];
+            gender = userJson["gender"];
+            role = userJson["type"];
+          });
+          router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true, replace: true);
+        }
+        else {
+          errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
+        }
       });
     }
     catch (error) {
-      errorDialog(error);
-      setState(() {
-        loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
-      });
+      print("Error: ${error.details}");
+      errorDialog(error.details);
     }
+    setState(() {
+      loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
+    });
   }
 
   @override
@@ -127,9 +127,9 @@ class _LoginPageState extends State<LoginPage> {
       body: new Container(
         padding: EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 32.0),
         child: new Center(
-          child: new Column(
+          child: new ListView(
             children: <Widget>[
-              new Text("Login to your myWB Account below!"),
+              new Text("Login to your myWB Account below!", textAlign: TextAlign.center,),
               new Padding(padding: EdgeInsets.all(8.0)),
               new TextField(
                 decoration: InputDecoration(
