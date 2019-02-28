@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:mywb_flutter/user_info.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -18,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
 
   String _email = "";
   String _password = "";
+
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   Widget loginWidget = new Padding(padding: EdgeInsets.all(20.0));
 
@@ -70,35 +74,47 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     });
-    var authUrl = "${dbHost}auth/generate-token";
-    var userUrl = "${dbHost}api/hr/user/info";
-    http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
-      print(response.body);
-      var jsonResponse = json.decode(response.body);
-      if (jsonResponse["token"] != null) {
-        authToken = jsonResponse["token"];
-        print("USER AUTH TOKEN: $authToken");
-        http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) {
-          print(user.body);
-          var userJson = json.decode(user.body);
-          firstName = userJson["firstName"];
-          middleName = userJson["middleName"];
-          lastName = userJson["lastName"];
-          email = userJson["email"];
-          birthday = userJson["birthday"];
-          phone = userJson["cellPhone"];
-          gender = userJson["gender"];
-          role = userJson["type"];
+    try {
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password).then((FirebaseUser user) {
+        userID = user.uid;
+        var authUrl = "${dbHost}auth/generate-token";
+        var userUrl = "${dbHost}api/hr/user/info";
+        http.post(authUrl, body: json.encode({"email": _email, "password": _password}), headers: {"Content-Type": "application/json"}).then((response) async {
+          print(response.body);
+          var jsonResponse = json.decode(response.body);
+          if (jsonResponse["token"] != null) {
+            authToken = jsonResponse["token"];
+            databaseRef.child("users").child(userID).child("token").set(authToken);
+            print("USER AUTH TOKEN: $authToken");
+            http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) {
+              print(user.body);
+              var userJson = json.decode(user.body);
+              firstName = userJson["firstName"];
+              middleName = userJson["middleName"];
+              lastName = userJson["lastName"];
+              email = userJson["email"];
+              birthday = userJson["birthday"];
+              phone = userJson["cellPhone"];
+              gender = userJson["gender"];
+              role = userJson["type"];
+            });
+            router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true, replace: true);
+          }
+          else {
+            errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
+            setState(() {
+              loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
+            });
+          }
         });
-        router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true, replace: true);
-      }
-      else {
-        errorDialog("${jsonResponse["message"]} [ERROR CODE ${jsonResponse["status"]}]");
-        setState(() {
-          loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
-        });
-      }
-    });
+      });
+    }
+    catch (error) {
+      errorDialog(error);
+      setState(() {
+        loginWidget = new RaisedButton(child: new Text("Login"), onPressed: login, color: currAccentColor, textColor: Colors.white);
+      });
+    }
   }
 
   @override
@@ -152,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () {
+                  router.pop(context);
                 },
               )
             ],

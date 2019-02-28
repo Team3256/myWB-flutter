@@ -15,6 +15,7 @@ import 'package:mywb_flutter/startup/auth_checker.dart';
 import 'package:mywb_flutter/startup/onboarding_page.dart';
 import 'package:mywb_flutter/startup/login_page.dart';
 import 'package:fluro/fluro.dart';
+import 'package:mywb_flutter/startup/register_page.dart';
 import 'package:mywb_flutter/tab_bar_controller.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'user_info.dart';
@@ -24,6 +25,10 @@ void main() {
 
   router.define('/login', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new LoginPage();
+  }));
+
+  router.define('/register', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new RegisterPage();
   }));
 
   router.define('/logged', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {

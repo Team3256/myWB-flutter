@@ -5,17 +5,17 @@ import 'package:fluro/fluro.dart';
 final router = Router();
 
 double appVersion = 1.0;
-int appBuild = 2;
+int appBuild = 3;
 String appStatus = "";
 String appFull = "Version $appVersion";
 
 String currentPage = "Home";
 
-String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5ZWV0QGV4YW1wbGUuZ292Iiwic2NvcGVzIjoiUk9MRV9TVFVERU5ULFJPTEVfVVNFUiIsImlhdCI6MTU0Njg5OTU4NiwiZXhwIjoxNTYyNjc5NTg2fQ.1W1D1UrenkUNQUIJq5B_DNAZRI67-EB9q0MPa8BoiOA";
+String authToken = "";
 String dbHost = "https://mywb.vcs.net/";
 
 String firstName = "[ERROR]";
-String middleName = "[ERROR]";
+String middleName = "";
 String lastName = "[ERROR]";
 String email = "[ERROR]";
 String birthday = "[ERROR]";
@@ -23,10 +23,11 @@ String phone = "[ERROR]";
 String gender = "[ERROR]";
 
 String role = "[ERROR]";
+String userID = "";
 
 String appLegal = """
 MIT License
-Copyright (c) 2018 Equinox Initiative
+Copyright (c) 2018 FRC WarriorBorgs 3256
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -56,7 +57,7 @@ Regional currRegional = new Regional("", "", "");
 String selectedTeam = "";
 String selectedMatch = "";
 
-String scoutState = "";
+ScoutingState currState = new ScoutingState("", 0.0, 0.0, "");
 
 Stopwatch stopwatch = new Stopwatch();
 
@@ -240,4 +241,13 @@ class Regional {
   toString() {
     return ("$key - $name ($shortName)");
   }
+}
+
+class ScoutingState {
+  String object;
+  double startTime;
+  double cycleTime;
+  String intakeLocation;
+
+  ScoutingState(this.object, this.startTime, this.cycleTime, this.intakeLocation);
 }

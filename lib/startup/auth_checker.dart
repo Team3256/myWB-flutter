@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mywb_flutter/theme.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,26 +18,20 @@ class AuthCheckerPage extends StatefulWidget {
 
 class _AuthCheckerPageState extends State<AuthCheckerPage> {
 
-  void serverConnectionDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Connection Error", style: TextStyle(fontFamily: "Product Sans"),),
-          content: new Text(
-            "It looks like we are unable to connect you to the server at this time. This alert will automatically disappear when a connection to the server is established.",
-          ),
-        );
-      },
-    );
-  }
+  final databaseRef = FirebaseDatabase.instance.reference();
 
   Future<void> checkUserLogged() async {
-    if (authToken != "") {
+    var user = await FirebaseAuth.instance.currentUser();
+    if (user != null) {
+      // User is logged in
       print("USER LOGGED");
+      userID = user.uid;
+      databaseRef.child("users").child(userID).once().then((DataSnapshot snapshot) {
+        setState(() {
+          authToken = snapshot.value["token"];
+          darkMode = snapshot.value["darkMode"];
+        });
+      });
       var userUrl = "${dbHost}api/hr/user/info";
       try {
         await http.get(userUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((user) async {
@@ -44,7 +41,7 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
           if (userJson["error"] != null) {
             // Ruh-roh Auth Token went Breah-Brat
             print("USER NOT LOGGED");
-            router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
+            router.navigateTo(context, '/register', transition: TransitionType.fadeIn, clearStack: true);
           }
           else {
             firstName = userJson["firstName"];
@@ -55,6 +52,17 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
             phone = userJson["cellPhone"];
             gender = userJson["gender"];
             role = userJson["type"];
+
+            print("");
+            print("------------ USER DEBUG INFO ------------");
+            print("NAME: $firstName $lastName");
+            print("EMAIL: $email");
+            print("USERID: $userID");
+            print("AUTH TOKEN: $authToken");
+            print("DARK MODE: ${darkMode.toString().toUpperCase()}");
+            print("-----------------------------------------");
+            print("");
+
             await new Future.delayed(const Duration(milliseconds: 1500));
             router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true);
           }
@@ -62,13 +70,13 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
       }
       catch (error) {
         await new Future.delayed(const Duration(milliseconds: 300));
-        print("Connection Failed!");
-        serverConnectionDialog();
+        print("Ruh-roh - $error");
+        router.navigateTo(context, '/register', transition: TransitionType.fadeIn, clearStack: true);
       }
     }
     else {
       print("USER NOT LOGGED");
-      router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
+      router.navigateTo(context, '/register', transition: TransitionType.fadeIn, clearStack: true);
     }
   }
 
