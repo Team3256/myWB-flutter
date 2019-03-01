@@ -110,7 +110,8 @@ class _ScoutPageState extends State<ScoutPage> {
                     databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).set({
                       "team": currTeam,
                       "alliance": currAlliance,
-                      "match": currMatch
+                      "match": currMatch,
+                      "scoutedBy": "$firstName $lastName",
                     });
                     router.navigateTo(context, '/scoutOne', transition: TransitionType.native, clearStack: true);
                   }

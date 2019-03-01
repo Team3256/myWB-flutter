@@ -42,7 +42,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   void initState() {
     super.initState();
     stopwatch.reset();
-//    stopwatch.start();
+    stopwatch.start();
     new Timer.periodic(new Duration(milliseconds: 100), getTimer);
     auto = new AutoLine(habLevel, 0.0, false);
   }
@@ -137,7 +137,7 @@ class _ScoutPageOneState extends State<ScoutPageOne> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Match 1 - 150 sec"),
+        title: new Text(title),
         backgroundColor: getAllianceColor(),
         elevation: 0.0,
         leading: new IconButton(
