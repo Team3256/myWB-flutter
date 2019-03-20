@@ -25,6 +25,8 @@ class _TabBarControllerState extends State<TabBarController> {
   final databaseRef = FirebaseDatabase.instance.reference();
 
   int _currentTab = 0;
+  String _title = "Home";
+  Widget _currentWidget = new HomePage();
   Color tabBarColor = currBackgroundColor;
 
   void firebaseCloudMessaging_Listeners() {
@@ -52,7 +54,29 @@ class _TabBarControllerState extends State<TabBarController> {
       print("Settings registered: $settings");
     });
   }
-  
+
+  void onTabTapped(int index) {
+    _currentTab = index;
+    if (index == 0) {
+      setState(() {
+        _currentWidget = new HomePage();
+        _title = "Home";
+      });
+    }
+    else if (index == 1) {
+      setState(() {
+        _currentWidget = new ScoutPage();
+        _title = "Scouting";
+      });
+    }
+    else if (index == 2) {
+      setState(() {
+        _currentWidget = new SettingsPage();
+        _title = "Settings";
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -97,46 +121,40 @@ class _TabBarControllerState extends State<TabBarController> {
   Widget build(BuildContext context) {
     // Main Build Function for iOS/Android
     if (true) {
-      return new CupertinoTabScaffold(
+      return new Scaffold(
         backgroundColor: currBackgroundColor,
-        tabBar: new CupertinoTabBar(
-          activeColor: mainColor,
-          currentIndex: _currentTab,
-          backgroundColor: tabBarColor,
-          onTap: (int index) {
-            if (tabBarColor != currBackgroundColor) {
-              setState(() {
-                tabBarColor = currBackgroundColor;
-              });
-            }
+        drawer: new UserDrawer(),
+        body: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool isScrolled) {
+            return <Widget>[
+              new CupertinoSliverNavigationBar(
+                largeTitle: new Text(_title, style: TextStyle(color: Colors.white),),
+                backgroundColor: mainColor,
+              ),
+            ];
           },
+          body: _currentWidget,
+        ),
+        bottomNavigationBar: new CupertinoTabBar(
+          onTap: onTabTapped,
+          currentIndex: _currentTab,
+          activeColor: mainColor,
           items: [
             new BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: new Icon(Icons.home),
               title: new Container()
             ),
             new BottomNavigationBarItem(
-              icon: Image.asset('images/scout.png', width: 18.0),
-              activeIcon: Image.asset('images/scout.png', width: 18.0, color: mainColor),
-              title: new Container()
+                icon: new Image.asset('images/scout.png', width: 18.0,),
+                activeIcon: new Image.asset('images/scout.png', width: 18.0, color: mainColor),
+                title: new Container()
             ),
             new BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
+                icon: new Icon(Icons.settings),
                 title: new Container()
             ),
           ],
         ),
-        tabBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return new HomePage();
-          }
-          else if (index == 1) {
-            return ScoutPage();
-          }
-          else if (index == 2) {
-            return SettingsPage();
-          }
-        },
       );
     }
   }

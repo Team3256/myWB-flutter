@@ -24,8 +24,8 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
       body: new NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
-            new CupertinoSliverNavigationBar(
-              largeTitle: new Text("Select a Regional", style: TextStyle(color: Colors.white),),
+            new AppBar(
+              title: new Text("Select a Regional", style: TextStyle(color: Colors.white),),
               backgroundColor: mainColor,
             ),
           ];

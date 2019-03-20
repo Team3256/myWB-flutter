@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'user_info.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluro/fluro.dart';
 import 'theme.dart';
 
@@ -97,52 +98,44 @@ class _UserDrawerState extends State<UserDrawer> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              new Container(
-                  padding: EdgeInsets.all(16.0),
-                  color: currAccentColor,
-                  height: 200.0,
-                  width: 1000.0,
-                  child: new Stack(
-                    children: <Widget>[
-                      new Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          new Padding(padding: EdgeInsets.all(50.0)),
-                          new Row(
-                            children: <Widget>[
-                              new ClipOval(
-                                child: new Image.asset(
-                                  'images/default-profile.png',
-                                  width: 50.0,
-                                  height: 50.0,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              new Padding(padding: EdgeInsets.all(8.0)),
-                              new Text(
-                                firstName + " " + lastName,
-                                style: TextStyle(
-                                    fontSize: 25.0,
-                                    color: Colors.white,
-                                    fontFamily: "Product Sans",
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  )
+              new UserAccountsDrawerHeader(
+                accountName: new Text(
+                  firstName + " " + lastName,
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.white,
+                      fontFamily: "Product Sans",
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                accountEmail: new Text(
+                  email,
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                      fontFamily: "Product Sans",
+                  ),
+                ),
+                currentAccountPicture: new Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: new ClipOval(
+                    child: new Image.asset(
+                      'images/default-profile.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+//                decoration: new BoxDecoration(
+//                  image: new DecorationImage(
+//                    fit: BoxFit.cover,
+//                    image: new CachedNetworkImageProvider("http://vcrobotics.net/Page%20Media_PermanentOther/homerobotpicture2.jpg")
+//                  )
+//                ),
               ),
               new Container(
                 padding: EdgeInsets.all(8.0),
                 child: new Column(
                   children: <Widget>[
-                    new ListTile(
-                      title: new Text(email, style: TextStyle(fontSize: 16.0, color: currTextColor)),
-                      leading: Icon(Icons.email, color: currDividerColor,),
-                    ),
                     new ListTile(
                       title: new Text(role, style: TextStyle(fontSize: 16.0, color: currTextColor)),
                       leading: Icon(Icons.verified_user, color: currDividerColor,),

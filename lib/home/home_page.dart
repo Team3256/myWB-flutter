@@ -12,26 +12,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: currBackgroundColor,
-      drawer: new UserDrawer(),
-      body: new NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            new CupertinoSliverNavigationBar(
-              largeTitle: new Text("Home", style: TextStyle(color: Colors.white),),
-              backgroundColor: mainColor,
-            ),
-          ];
-        },
-        body: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            new Text("Wow, such empty...", style: TextStyle(color: currTextColor),)
-          ],
-        ),
-      ),
+    return new Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        new Text("Wow, such empty...", style: TextStyle(color: currTextColor),)
+      ],
     );
   }
 }
