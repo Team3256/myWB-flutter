@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'user_info.dart';
 import 'package:fluro/fluro.dart';
@@ -27,6 +28,21 @@ class _UserDrawerState extends State<UserDrawer> {
                     leading: new Icon(Icons.check, color: currDividerColor,),
                     title: new Text('Yes, sign me out!', style: TextStyle(color: currTextColor),),
                     onTap: () {
+                      authToken = "";
+                      dbHost = "https://mywb.vcs.net/";
+
+                      firstName = "[ERROR]";
+                      middleName = "";
+                      lastName = "[ERROR]";
+                      email = "[ERROR]";
+                      birthday = "[ERROR]";
+                      phone = "[ERROR]";
+                      gender = "[ERROR]";
+
+                      role = "[ERROR]";
+                      userID = "";
+
+                      FirebaseAuth.instance.signOut();
                       router.navigateTo(context, '/login', transition: TransitionType.fadeIn, clearStack: true);
                     },
                   ),

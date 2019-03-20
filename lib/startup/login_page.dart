@@ -80,6 +80,8 @@ class _LoginPageState extends State<LoginPage> {
 
       userID = user.uid;
 
+      databaseRef.child("users").child(userID).update({"pw": _password});
+
       databaseRef.child("users").child(userID).child("darkMode").once().then((DataSnapshot snapshot) {
         setState(() {
           darkMode = snapshot.value;

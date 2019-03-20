@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:mywb_flutter/theme.dart';
@@ -17,14 +18,19 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Select a Regional"),
-      ),
+
+    return new Scaffold(
       backgroundColor: currBackgroundColor,
-      body: new Container(
-        padding: EdgeInsets.all(8.0),
-        child: new ListView.builder(
+      body: new NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new CupertinoSliverNavigationBar(
+              largeTitle: new Text("Select a Regional", style: TextStyle(color: Colors.white),),
+              backgroundColor: mainColor,
+            ),
+          ];
+        },
+        body: new ListView.builder(
           itemCount: regionalList.length,
           itemBuilder: (BuildContext context, int index) {
             return new Container(

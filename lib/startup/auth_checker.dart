@@ -77,7 +77,7 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
             print("-----------------------------------------");
             print("");
 
-            await new Future.delayed(const Duration(milliseconds: 1500));
+            await new Future.delayed(const Duration(milliseconds: 500));
             router.navigateTo(context, '/logged', transition: TransitionType.fadeIn, clearStack: true);
           }
         });
