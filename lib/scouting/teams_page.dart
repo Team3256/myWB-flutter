@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/theme.dart';
 import 'package:mywb_flutter/user_info.dart';
@@ -51,9 +52,11 @@ class _TeamsPageState extends State<TeamsPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("${currRegional.shortName} Teams"),
+      appBar: new CupertinoNavigationBar(
+        middle: new Text("${currRegional.shortName} Teams", style: TextStyle(color: Colors.white)),
         backgroundColor: currAccentColor,
+        actionsForegroundColor: Colors.white,
+        previousPageTitle: "Scouting",
       ),
       body: new RefreshIndicator(
         onRefresh: onRefresh,
@@ -61,38 +64,65 @@ class _TeamsPageState extends State<TeamsPage> {
         backgroundColor: currAccentColor,
         child: new Container(
           color: currBackgroundColor,
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(16.0),
           child: new ListView.builder(
             itemCount: regionalTeamsList.length,
             itemBuilder: (BuildContext context, int index) {
               return new Container(
-                padding: EdgeInsets.all(8.0),
-                child: new Card(
-                  color: currCardColor,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  child: new ListTile(
-                    leading: new Text(
-                      regionalTeamsList[index].teamKey,
-                      style: TextStyle(
-                        color: currAccentColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0
-                      ),
+                child: new Column(
+                  children: <Widget>[
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: new Center(
+                            child: new Text(
+                              regionalTeamsList[index].teamKey,
+                              style: TextStyle(
+                                color: mainColor,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                          width: 50.0,
+                        ),
+                        new Padding(padding: EdgeInsets.all(8.0)),
+                        new Expanded(
+                          child: new Container(
+                            padding: EdgeInsets.all(4.0),
+                            child: new Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Text(
+                                  regionalTeamsList[index].teamName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: currTextColor,
+                                      fontSize: 15.0,
+                                  ),
+                                ),
+                                new Padding(padding: EdgeInsets.all(1.0)),
+                                new Text(
+                                  regionalTeamsList[index].location,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: CupertinoColors.inactiveGray,
+                                      fontSize: 14.0,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        new Icon(Icons.navigate_next, color: currDividerColor)
+                      ],
                     ),
-                    title: new Text(
-                      regionalTeamsList[index].teamName,
-                      style: TextStyle(
-                          color: currTextColor,
-                          fontSize: 18.0
-                      ),
-                    ),
-                    subtitle: new Text(
-                      regionalTeamsList[index].location,
-                      style: TextStyle(
-                          color: currDividerColor,
-                      ),
-                    ),
-                  )
+                    new Divider(color: currDividerColor)
+                  ],
                 ),
               );
             },

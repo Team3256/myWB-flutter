@@ -56,6 +56,14 @@ class _TabBarControllerState extends State<TabBarController> {
   }
 
   void onTabTapped(int index) {
+    setState(() {
+      if (currBackgroundColor == lightBackgroundColor) {
+        tabBarColor = CupertinoColors.lightBackgroundGray;
+      }
+      else {
+        tabBarColor = CupertinoColors.darkBackgroundGray;
+      }
+    });
     _currentTab = index;
     if (index == 0) {
       setState(() {
@@ -139,6 +147,7 @@ class _TabBarControllerState extends State<TabBarController> {
           onTap: onTabTapped,
           currentIndex: _currentTab,
           activeColor: mainColor,
+          backgroundColor: tabBarColor,
           items: [
             new BottomNavigationBarItem(
               icon: new Icon(Icons.home),

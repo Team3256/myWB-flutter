@@ -257,7 +257,7 @@ class _ScoutPageState extends State<ScoutPage> {
                                 "images/new.png",
                                 height: 200.0,
                                 width: 200.0,
-                                color: currCardColor
+                                color: currDividerColor
                             ),
                           ),
                         );
@@ -300,38 +300,38 @@ class _ScoutPageState extends State<ScoutPage> {
                     },
                   ),
                 ),
-                new Divider(color: currAccentColor,),
+                new Divider(color: currDividerColor,),
                 new Padding(padding: EdgeInsets.all(8.0)),
                 new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: currTextColor),),
                 new Padding(padding: EdgeInsets.all(8.0)),
                 new Container(
                   height: 150.0,
                 ),
-                new Divider(color: currAccentColor, height: 0.0,),
+                new Divider(color: currDividerColor, height: 0.0,),
                 new ListTile(
                   title: new Text("All Matches", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
+                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
                   onTap: () {
 
                   },
                 ),
-                new Divider(color: currAccentColor, height: 0.0,),
+                new Divider(color: currDividerColor, height: 0.0,),
                 new ListTile(
                   title: new Text("All Teams", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
+                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
                   onTap: () {
                     router.navigateTo(context, '/regionalTeams', transition: TransitionType.native);
                   },
                 ),
-                new Divider(color: currAccentColor, height: 0.0,),
+                new Divider(color: currDividerColor, height: 0.0,),
                 new ListTile(
                   title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.arrow_forward_ios, color: currAccentColor,),
+                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
                   onTap: () {
                     router.navigateTo(context, '/pitScouting', transition: TransitionType.native);
                   },
                 ),
-                new Divider(color: currAccentColor, height: 0.0,),
+                new Divider(color: currDividerColor, height: 0.0,),
               ],
             ),
           ),

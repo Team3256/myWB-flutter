@@ -28,6 +28,6 @@ var currCardColor = darkCardColor;
 var currDividerColor = darkDividerColor;
 
 final mainTheme = new ThemeData(
-  primaryColor: currAccentColor,
-  accentColor: currAccentColor,
+  primaryColor: mainColor,
+  accentColor: mainColor,
 );

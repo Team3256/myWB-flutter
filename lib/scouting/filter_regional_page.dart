@@ -20,17 +20,15 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
   Widget build(BuildContext context) {
 
     return new Scaffold(
+      appBar: new CupertinoNavigationBar(
+        middle: new Text("Select A Regional", style: TextStyle(color: Colors.white)),
+        backgroundColor: mainColor,
+        actionsForegroundColor: Colors.white,
+      ),
       backgroundColor: currBackgroundColor,
-      body: new NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            new AppBar(
-              title: new Text("Select a Regional", style: TextStyle(color: Colors.white),),
-              backgroundColor: mainColor,
-            ),
-          ];
-        },
-        body: new ListView.builder(
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: new ListView.builder(
           itemCount: regionalList.length,
           itemBuilder: (BuildContext context, int index) {
             return new Container(
@@ -38,8 +36,8 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
                 children: <Widget>[
                   new ListTile(
                     title: new Text(regionalList[index].shortName, style: TextStyle(color: currTextColor),),
-                    subtitle: new Text(regionalList[index].key, style: TextStyle(color: currDividerColor),),
-                    leading: getLeading(regionalList[index]),
+                    subtitle: new Text(regionalList[index].key, style: TextStyle(color: CupertinoColors.inactiveGray),),
+                    trailing: getLeading(regionalList[index]),
                     onTap: () {
                       setState(() {
                         currRegional = regionalList[index];
@@ -48,7 +46,7 @@ class _FilterRegionalPageState extends State<FilterRegionalPage> {
                     },
                   ),
                   new Divider(
-                    color: currAccentColor,
+                    color: currDividerColor,
                     height: 0.0,
                   )
                 ],
