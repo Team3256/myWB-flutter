@@ -12,7 +12,7 @@ class TeamsPage extends StatefulWidget {
 }
 
 class Team {
-  String teamKey;
+  int teamKey;
   String teamName;
   String location;
   
@@ -22,7 +22,6 @@ class Team {
 class _TeamsPageState extends State<TeamsPage> {
 
   List<Team> regionalTeamsList = new List();
-
 
   @override
   void initState() {
@@ -39,9 +38,12 @@ class _TeamsPageState extends State<TeamsPage> {
         var teamsJson = jsonDecode(response.body);
         for (int i = 0; i < teamsJson.length; i++) {
           setState(() {
-            regionalTeamsList.add(new Team(teamsJson[i]["key"].toString().substring(3), teamsJson[i]["nickname"], "${teamsJson[i]["city"]}, ${teamsJson[i]["state_prov"]}, ${teamsJson[i]["country"]}"));
+            regionalTeamsList.add(new Team(int.parse(teamsJson[i]["key"].toString().substring(3)), teamsJson[i]["nickname"], "${teamsJson[i]["city"]}, ${teamsJson[i]["state_prov"]}, ${teamsJson[i]["country"]}"));
           });
         }
+      });
+      setState(() {
+        regionalTeamsList.sort((a, b) => a.teamKey.compareTo(b.teamKey));
       });
     }
     catch (error) {
@@ -77,7 +79,7 @@ class _TeamsPageState extends State<TeamsPage> {
                         Container(
                           child: new Center(
                             child: new Text(
-                              regionalTeamsList[index].teamKey,
+                              regionalTeamsList[index].teamKey.toString(),
                               style: TextStyle(
                                 color: mainColor,
                                 fontSize: 16.0,

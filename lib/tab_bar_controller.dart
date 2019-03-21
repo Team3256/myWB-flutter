@@ -57,12 +57,7 @@ class _TabBarControllerState extends State<TabBarController> {
 
   void onTabTapped(int index) {
     setState(() {
-      if (currBackgroundColor == lightBackgroundColor) {
-        tabBarColor = CupertinoColors.lightBackgroundGray;
-      }
-      else {
-        tabBarColor = CupertinoColors.darkBackgroundGray;
-      }
+      tabBarColor = currBackgroundColor;
     });
     _currentTab = index;
     if (index == 0) {
