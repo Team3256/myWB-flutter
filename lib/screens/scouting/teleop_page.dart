@@ -17,14 +17,14 @@ class TeleopPage extends StatefulWidget {
 }
 
 class _TeleopPageState extends State<TeleopPage> {
-  //DC
+  // DC
   Color dcAdd = currCardColor;
   double dcStartTime = 0.0;
   int dcTimer = 0;
   String dcImagePath = "images/add.png";
   bool reconnectVisible = false;
 
-  //Hatch
+  // Hatch
   int hatchCounter = 0;
   double hatchPickupTime = 0.0;
   Color hatchAdd = currCardColor;
@@ -37,7 +37,7 @@ class _TeleopPageState extends State<TeleopPage> {
   String hatchIntakeLocation = "";
   String hatchDropLocation = "";
 
-  //Cargo
+  // Cargo
   int cargoCounter = 0;
   double cargoPickupTime = 0.0;
   Color cargoAdd = currCardColor;
@@ -50,7 +50,7 @@ class _TeleopPageState extends State<TeleopPage> {
   String cargoIntakeLocation = "";
   String cargoDropLocation = "";
 
-  //fouls
+  // Fouls
   String foulImagePath = "images/add.png";
   Color foulAdd = currCardColor;
   Color foulText = currTextColor;
@@ -60,7 +60,7 @@ class _TeleopPageState extends State<TeleopPage> {
   FocusNode _focusController = new FocusNode();
   TextEditingController _foulController = new TextEditingController();
 
-  //Endgame
+  // Endgame
   String climbImagePath = "images/yes.png";
   double climbStartTime = 0.0;
   Color climbAdd = currCardColor;
@@ -72,6 +72,8 @@ class _TeleopPageState extends State<TeleopPage> {
   bool dropped = false;
   Color canSupportYes = currCardColor;
   Color canSupportNo = currCardColor;
+
+  // Climb Lvl 1
 
   @override
   Widget build(BuildContext context) {
@@ -1042,6 +1044,9 @@ class _TeleopPageState extends State<TeleopPage> {
                 )
               ],
             ),
+          ),
+          new ListTile(
+            title: new Text(""),
           )
         ],
       ),

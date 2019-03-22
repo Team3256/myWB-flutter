@@ -96,7 +96,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 cargoStopwatch.stop();
                 cargoStopwatch.reset();
                 databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
-                router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
+                router.navigateTo(context, '/home', transition: TransitionType.fadeIn);
               },
             )
           ],
@@ -137,7 +137,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 hatchStopwatch.reset();
                 cargoStopwatch.stop();
                 cargoStopwatch.reset();
-                router.navigateTo(context, '/logged', transition: TransitionType.fadeIn);
+                router.navigateTo(context, '/home', transition: TransitionType.fadeIn);
               },
             )
           ],
@@ -147,6 +147,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
   }
 
   Future uploadMatch() async {
+    // Stop match timer
+    stopwatch.stop();
     // Handle DB Upload
     var postMatchUrl = "${dbHost}api/scouting/match/";
     try {

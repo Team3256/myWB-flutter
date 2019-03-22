@@ -24,7 +24,7 @@ class _HelpPageState extends State<HelpPage> {
         ),
       ),
       body: const WebView(
-        initialUrl: 'https://github.com/team3245/mywb-flutter/wiki/Help',
+        initialUrl: 'https://github.com/Team3256/myWB-flutter/wiki/Help',
         javaScriptMode: JavaScriptMode.unrestricted,
       ),
     );

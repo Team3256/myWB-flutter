@@ -70,7 +70,6 @@ class _ScoutingControllerState extends State<ScoutingController> {
             },
           );
         });
-        stopwatch.stop();
       }
       setState(() {
         // Un-Comment Line Below for Debug Timer Values
@@ -115,7 +114,7 @@ class _ScoutingControllerState extends State<ScoutingController> {
                         cargoStopwatch.stop();
                         cargoStopwatch.reset();
                         databaseRef.child("regionals").child(currRegional.key).child("currMatches").child(currMatchKey).remove();
-                        router.navigateTo(context, '/logged', clearStack: true, transition: TransitionType.inFromLeft);
+                        router.navigateTo(context, '/home', clearStack: true, transition: TransitionType.inFromLeft);
                       },
                     ),
                     new ListTile(
