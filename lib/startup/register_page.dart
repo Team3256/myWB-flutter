@@ -301,7 +301,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 splashColor: mainColor,
                 onPressed: () {
-                  router.navigateTo(context,'/login', transition: TransitionType.fadeIn);
+                  router.navigateTo(context,'/login', transition: TransitionType.fadeIn, clearStack: true);
                 },
               )
             ],

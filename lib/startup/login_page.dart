@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             new FlatButton(
               child: new Text("GOT IT"),
               onPressed: () {
-                Navigator.of(context).pop();
+                router.navigateTo(context, '/register', transition: TransitionType.fadeIn, clearStack: true);
               },
             ),
           ],
