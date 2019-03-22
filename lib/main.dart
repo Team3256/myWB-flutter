@@ -10,6 +10,8 @@ import 'package:mywb_flutter/screens/scouting/pit_scouting_page.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_controller.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_page.dart';
 import 'package:mywb_flutter/screens/scouting/teams_list_page.dart';
+import 'package:mywb_flutter/screens/settings/about_page.dart';
+import 'package:mywb_flutter/screens/settings/help_page.dart';
 import 'package:mywb_flutter/screens/startup/connection_checker.dart';
 import 'package:mywb_flutter/screens/startup/connection_checker_again.dart';
 import 'package:mywb_flutter/screens/startup/onboarding_page.dart';
@@ -64,6 +66,14 @@ void main() {
   }));
   router.define('/regional-teams', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new TeamsPage();
+  }));
+
+  // Settings Routes
+  router.define('/about', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new AboutPage();
+  }));
+  router.define('/help', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new HelpPage();
   }));
 
   runApp(new MaterialApp(
