@@ -4,6 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:mywb_flutter/screens/auth/auth_checker.dart';
 import 'package:mywb_flutter/screens/auth/login_page.dart';
 import 'package:mywb_flutter/screens/auth/register_page.dart';
+import 'package:mywb_flutter/screens/scouting/breakdown_page.dart';
+import 'package:mywb_flutter/screens/scouting/filter_teams_page.dart';
+import 'package:mywb_flutter/screens/scouting/pit_scouting_page.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_controller.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_page.dart';
+import 'package:mywb_flutter/screens/scouting/teams_list_page.dart';
 import 'package:mywb_flutter/screens/startup/connection_checker.dart';
 import 'package:mywb_flutter/screens/startup/connection_checker_again.dart';
 import 'package:mywb_flutter/screens/startup/onboarding_page.dart';
@@ -38,6 +44,26 @@ void main() {
   // Home Routes
   router.define('/home', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new TabBarController();
+  }));
+
+  // Scouting Routes
+  router.define('/scout', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingPage();
+  }));
+  router.define('/scout-controller', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingController();
+  }));
+  router.define('/breakdown', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new BreakdownPage();
+  }));
+  router.define('/pit-scouting', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new PitScoutingPage();
+  }));
+  router.define('/filter-regional', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new FilterRegionalPage();
+  }));
+  router.define('/regional-teams', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new TeamsPage();
   }));
 
   runApp(new MaterialApp(

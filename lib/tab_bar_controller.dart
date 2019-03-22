@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/app_drawer.dart';
+import 'package:mywb_flutter/models/regional.dart';
 import 'package:mywb_flutter/screens/home/home_page.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_page.dart';
 import 'package:mywb_flutter/screens/settings/settings_page.dart';
@@ -120,9 +121,11 @@ class _TabBarControllerState extends State<TabBarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ,
+      body: _currentWidget,
       drawer: new AppDrawer(),
       bottomNavigationBar: new BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentTab,
         items: [
           new BottomNavigationBarItem(
               icon: new Icon(Icons.home, size: 30.0,),

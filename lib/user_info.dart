@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluro/fluro.dart';
+import 'package:mywb_flutter/models/autoline.dart';
+import 'package:mywb_flutter/models/cargo.dart';
+import 'package:mywb_flutter/models/climb.dart';
+import 'package:mywb_flutter/models/disconnect.dart';
+import 'package:mywb_flutter/models/foul.dart';
+import 'package:mywb_flutter/models/hatch.dart';
+import 'package:mywb_flutter/models/regional.dart';
+import 'package:mywb_flutter/models/scouting_state.dart';
 
 final router = Router();
 
@@ -44,3 +52,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """;
+
+List<String> teamsList = new List();
+List<Regional> regionalList = new List();
+
+String currTeam = "";
+String currAlliance = "";
+String currMatch = "";
+String currMatchKey = "";
+Regional currRegional = new Regional("", "", "");
+
+String selectedTeam = "";
+String selectedMatch = "";
+
+ScoutingState currState = new ScoutingState("", 0.0, 0.0, "");
+
+Stopwatch stopwatch = new Stopwatch();
+
+List<Foul> foulList = new List();
+
+int habLevel = 0;
+bool autoLine = false;
+AutoLine auto;
+
+Stopwatch dcStopwatch = new Stopwatch();
+List<Disconnect> dcList = List();
+
+Stopwatch hatchStopwatch = new Stopwatch();
+List<Hatch> hatchList = new List();
+
+Stopwatch cargoStopwatch = new Stopwatch();
+List<Cargo> cargoList = new List();
+
+Stopwatch climbStopwatch = new Stopwatch();
+List<Climb> climbList = new List();
+
+List<Match> matchList = new List();
+
+var matchEventList = [];
