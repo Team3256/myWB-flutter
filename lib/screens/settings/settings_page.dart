@@ -154,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     new ListTile(
                       title: new Text("About", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                      trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                      trailing: new Icon(Icons.navigate_next, color: mainColor),
                       onTap: () {
                         router.navigateTo(context, '/about', transition: TransitionType.native);
                       },
@@ -162,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     new Divider(height: 0.0, color: mainColor),
                     new ListTile(
                       title: new Text("Help", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                      trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                      trailing: new Icon(Icons.navigate_next, color: mainColor),
                       onTap: () {
                         router.navigateTo(context, '/help', transition: TransitionType.native);
                       },
@@ -239,7 +239,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     new ListTile(
                       title: new Text("Report a Bug", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                      trailing: new Icon(Icons.arrow_forward_ios, color: mainColor),
+                      trailing: new Icon(Icons.navigate_next, color: mainColor),
                       onTap: () {
                         launch("https://github.com/Team3256/myWB-flutter/issues");
                       },

@@ -297,38 +297,38 @@ class _ScoutingPageState extends State<ScoutingPage> {
                     },
                   ),
                 ),
-                new Divider(color: currDividerColor,),
+                new Divider(color: mainColor,),
                 new Padding(padding: EdgeInsets.all(8.0)),
                 new Text("Recent Matches", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: currTextColor),),
                 new Padding(padding: EdgeInsets.all(8.0)),
                 new Container(
                   height: 150.0,
                 ),
-                new Divider(color: currDividerColor, height: 0.0,),
+                new Divider(color: mainColor, height: 0.0,),
                 new ListTile(
                   title: new Text("All Matches", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
+                  trailing: new Icon(Icons.navigate_next, color: mainColor,),
                   onTap: () {
 
                   },
                 ),
-                new Divider(color: currDividerColor, height: 0.0,),
+                new Divider(color: mainColor, height: 0.0,),
                 new ListTile(
                   title: new Text("All Teams", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
+                  trailing: new Icon(Icons.navigate_next, color: mainColor,),
                   onTap: () {
                     router.navigateTo(context, '/regional-teams', transition: TransitionType.native);
                   },
                 ),
-                new Divider(color: currDividerColor, height: 0.0,),
+                new Divider(color: mainColor, height: 0.0,),
                 new ListTile(
                   title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
-                  trailing: new Icon(Icons.navigate_next, color: currDividerColor,),
+                  trailing: new Icon(Icons.navigate_next, color: mainColor,),
                   onTap: () {
                     router.navigateTo(context, '/pit-scouting', transition: TransitionType.native);
                   },
                 ),
-                new Divider(color: currDividerColor, height: 0.0,),
+                new Divider(color: mainColor, height: 0.0,),
               ],
             ),
           ),

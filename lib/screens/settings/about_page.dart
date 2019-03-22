@@ -69,12 +69,14 @@ class _AboutPageState extends State<AboutPage> {
             ),
           ),
         ),
+        backgroundColor: currCardColor,
         body: new SafeArea(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
                 new Card(
+                  color: currBackgroundColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -87,30 +89,31 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       new ListTile(
                         title: new Text("App Version",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         trailing: new Text("$appVersion$appStatus",
                             style: TextStyle(
-                                fontFamily: "Product Sans", fontSize: 16.0)),
+                                fontFamily: "Product Sans", fontSize: 16.0, color: currTextColor)),
                       ),
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("Device Name",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         trailing: new Text("$deviceName", style: TextStyle(
-                            fontFamily: "Product Sans", fontSize: 16.0)),
+                            fontFamily: "Product Sans", fontSize: 16.0, color: currTextColor)),
                       ),
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("Platform",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         trailing: new Text("$devicePlatform", style: TextStyle(
-                            fontFamily: "Product Sans", fontSize: 16.0)),
+                            fontFamily: "Product Sans", fontSize: 16.0, color: currTextColor)),
                       ),
                     ],
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(8.0)),
                 new Card(
+                  color: currBackgroundColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -123,9 +126,9 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       new ListTile(
                         title: new Text("Bharat Kathi",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         subtitle: new Text("App Development",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: Colors.grey)),
                         onTap: () {
                           const url = 'https://github.com/bk1031';
                           launch(url);
@@ -134,9 +137,9 @@ class _AboutPageState extends State<AboutPage> {
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("John Panos",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         subtitle: new Text("Database Architecture",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: Colors.grey)),
                         onTap: () {
                           const url = 'https://github.com/johnpanos';
                           launch(url);
@@ -145,28 +148,37 @@ class _AboutPageState extends State<AboutPage> {
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("Marc Liu",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         subtitle: new Text("Initial App Design",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: Colors.grey)),
                       ),
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("Kashyap Chaturvedula",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       ),
                       new ListTile(
                         title: new Text("Samuel Stephen",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                      ),
+                      new ListTile(
+                        title: new Text("Martin Liu",
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                      ),
+                      new ListTile(
+                        title: new Text("Auguste Bruno",
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       ),
                       new ListTile(
                         subtitle: new Text("Beta Testers\n",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: Colors.grey)),
                       ),
                     ],
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(16.0)),
                 new Card(
+                  color: currBackgroundColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -179,9 +191,9 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       new ListTile(
                         title: new Text("View on GitHub",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         trailing: new Icon(
-                            Icons.arrow_forward_ios, color: mainColor),
+                            Icons.navigate_next, color: mainColor),
                         onTap: () {
                           launchContributeUrl();
                         },
@@ -189,9 +201,9 @@ class _AboutPageState extends State<AboutPage> {
                       new Divider(height: 0.0, color: mainColor),
                       new ListTile(
                         title: new Text("Contributing Guidelines",
-                            style: TextStyle(fontFamily: "Product Sans",)),
+                            style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                         trailing: new Icon(
-                            Icons.arrow_forward_ios, color: mainColor),
+                            Icons.navigate_next, color: mainColor),
                         onTap: () {
                           launchGuidelinesUrl();
                         },

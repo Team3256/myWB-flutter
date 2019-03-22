@@ -96,25 +96,27 @@ class _TabBarControllerState extends State<TabBarController> {
         appStatus = " Beta $appBuild";
       }
     });
-    regionalList.clear();
-    try {
-      var regionalsUrl = "${dbHost}api/scouting/regional/";
-      http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
-        var regionalsJson = jsonDecode(response.body);
-        for (int i = 0; i < regionalsJson.length; i++) {
+    if (currRegional == Regional("", "", "")) {
+      regionalList.clear();
+      try {
+        var regionalsUrl = "${dbHost}api/scouting/regional/";
+        http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
+          var regionalsJson = jsonDecode(response.body);
+          for (int i = 0; i < regionalsJson.length; i++) {
+            setState(() {
+              regionalList.add(new Regional(regionalsJson[i]["key"], regionalsJson[i]["name"], regionalsJson[i]["shortName"]));
+            });
+          }
+          print("RegionalsList: $regionalList");
+          // Initialize Regional
           setState(() {
-            regionalList.add(new Regional(regionalsJson[i]["key"], regionalsJson[i]["name"], regionalsJson[i]["shortName"]));
+            currRegional = regionalList[0];
           });
-        }
-        print("RegionalsList: $regionalList");
-        // Initialize Regional
-        setState(() {
-          currRegional = regionalList[0];
         });
-      });
-    }
-    catch (error) {
-      print("Failed to get regionals");
+      }
+      catch (error) {
+        print("Failed to get regionals");
+      }
     }
   }
 
@@ -123,6 +125,7 @@ class _TabBarControllerState extends State<TabBarController> {
     return Scaffold(
       body: _currentWidget,
       drawer: new AppDrawer(),
+      backgroundColor: currBackgroundColor,
       bottomNavigationBar: new BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentTab,
