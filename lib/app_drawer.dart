@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mywb_flutter/theme/colors.dart';
 import 'package:mywb_flutter/user_info.dart';
@@ -78,12 +79,12 @@ class _AppDrawerState extends State<AppDrawer> {
                     'images/wblogo.png',
                     height: 35.0,
                   ),
-                  new Padding(padding: EdgeInsets.all(8.0)),
+                  new Padding(padding: EdgeInsets.all(12.0)),
                   new ListTile(
-                    title: new RaisedButton(
-                      child: new Text("Sign Out", style: TextStyle(fontFamily: "Product Sans", fontSize: 17.0)),
-                      color: Colors.red,
-                      textColor: Colors.white,
+                    title: new CupertinoButton(
+                      child: new Text("Sign Out", style: TextStyle(fontSize: 17.0, color: Colors.white)),
+                      color: CupertinoColors.destructiveRed,
+                      pressedOpacity: 0.5,
                       onPressed: signOutBottomSheetMenu,
                     ),
                   ),
