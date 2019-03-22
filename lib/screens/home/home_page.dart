@@ -24,10 +24,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ];
       },
-      body: new Center(
-        child: new Text(
-          "Wow, such empty...",
-          style: TextStyle(color: currTextColor),
+      body: Container(
+        color: currBackgroundColor,
+        child: new Center(
+          child: new Text(
+            "Wow, such empty...",
+            style: TextStyle(color: currTextColor),
+          ),
         ),
       ),
     );

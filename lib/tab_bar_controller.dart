@@ -126,19 +126,24 @@ class _TabBarControllerState extends State<TabBarController> {
       bottomNavigationBar: new BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentTab,
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
+        backgroundColor: tabBarColor,
         items: [
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.home, size: 30.0,),
-              title: new Container()
+              icon: new Icon(Icons.home, size: 30.0, color: Colors.grey,),
+              activeIcon: new Icon(Icons.home, size: 30.0, color: mainColor),
+              title: new Text("Home")
           ),
           new BottomNavigationBarItem(
               icon: new Image.asset('images/scout.png', width: 18.0,),
               activeIcon: new Image.asset('images/scout.png', width: 18.0, color: mainColor),
-              title: new Container()
+              title: new Text("Scouting")
           ),
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.settings, size: 30.0,),
-              title: new Container()
+              icon: new Icon(Icons.settings, size: 30.0, color: Colors.grey,),
+              activeIcon: new Icon(Icons.settings, size: 30.0, color: mainColor),
+              title: new Text("Settings")
           ),
         ],
       ),

@@ -181,7 +181,8 @@ class _ScoutingPageState extends State<ScoutingPage> {
         onRefresh: onRefresh,
         backgroundColor: mainColor,
         color: Colors.white,
-        child: Padding(
+        child: new Container(
+          color: currBackgroundColor,
           padding: const EdgeInsets.only(right: 16.0, left: 16.0, top: 16.0),
           child: new SingleChildScrollView(
             child: new Column(
