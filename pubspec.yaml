@@ -65,7 +65,10 @@ flutter:
     - images/slide3.png
     - images/slide4.png
     - images/wblogo.png
+    - images/wblogo_white.png
+    - images/wblogo_blue.png
     - images/default-profile.png
+    - images/robo-history.png
     - images/scout.png
     - images/outreach.png
     - images/yes.png
