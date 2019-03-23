@@ -9,6 +9,7 @@ import 'package:mywb_flutter/screens/scouting/filter_teams_page.dart';
 import 'package:mywb_flutter/screens/scouting/pit_scouting_page.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_controller.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_page.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_schedule_page.dart';
 import 'package:mywb_flutter/screens/scouting/teams_list_page.dart';
 import 'package:mywb_flutter/screens/settings/about_page.dart';
 import 'package:mywb_flutter/screens/settings/help_page.dart';
@@ -66,6 +67,9 @@ void main() {
   }));
   router.define('/regional-teams', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new TeamsPage();
+  }));
+  router.define('/scouting-schedule', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingSchedulePage();
   }));
 
   // Settings Routes

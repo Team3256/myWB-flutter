@@ -322,6 +322,14 @@ class _ScoutingPageState extends State<ScoutingPage> {
                 ),
                 new Divider(color: mainColor, height: 0.0,),
                 new ListTile(
+                  title: new Text("Scouting Schedule", style: TextStyle(color: currTextColor)),
+                  trailing: new Icon(Icons.navigate_next, color: mainColor,),
+                  onTap: () {
+                    router.navigateTo(context, '/scouting-schedule', transition: TransitionType.native);
+                  },
+                ),
+                new Divider(color: mainColor, height: 0.0,),
+                new ListTile(
                   title: new Text("Pit Scouting", style: TextStyle(color: currTextColor)),
                   trailing: new Icon(Icons.navigate_next, color: mainColor,),
                   onTap: () {

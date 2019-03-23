@@ -13,7 +13,7 @@ import 'package:mywb_flutter/models/scouting_state.dart';
 final router = Router();
 
 double appVersion = 2.0;
-int appBuild = 1;
+int appBuild = 2;
 String appStatus = "";
 String appFull = "Version $appVersion";
 
@@ -67,6 +67,8 @@ String selectedTeam = "";
 String selectedMatch = "";
 
 ScoutingState currState = new ScoutingState("", 0.0, 0.0, "");
+
+int lastPage = 0;
 
 Stopwatch stopwatch = new Stopwatch();
 

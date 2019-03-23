@@ -54,6 +54,7 @@ class _TabBarControllerState extends State<TabBarController> {
   }
 
   void onTabTapped(int index) {
+    lastPage = index;
     setState(() {
       tabBarColor = currBackgroundColor;
     });
@@ -119,6 +120,27 @@ class _TabBarControllerState extends State<TabBarController> {
         print("Failed to get regionals");
       }
     }
+    setState(() {
+      _currentTab = lastPage;
+      if (lastPage == 0) {
+        setState(() {
+          _currentWidget = new HomePage();
+          _title = "Home";
+        });
+      }
+      else if (lastPage == 1) {
+        setState(() {
+          _currentWidget = new ScoutingPage();
+          _title = "Scouting";
+        });
+      }
+      else if (lastPage == 2) {
+        setState(() {
+          _currentWidget = new SettingsPage();
+          _title = "Settings";
+        });
+      }
+    });
   }
 
   @override
