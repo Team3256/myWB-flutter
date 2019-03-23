@@ -85,7 +85,6 @@ List<Hatch> hatchList = new List();
 Stopwatch cargoStopwatch = new Stopwatch();
 List<Cargo> cargoList = new List();
 
-Stopwatch climbStopwatch = new Stopwatch();
 List<Climb> climbList = new List();
 
 List<Match> matchList = new List();

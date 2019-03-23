@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mywb_flutter/models/autoline.dart';
 import 'package:mywb_flutter/models/match_data.dart';
 import 'package:mywb_flutter/models/match.dart';
@@ -48,7 +49,6 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
@@ -75,7 +75,6 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // flutter defined function
     showDialog(
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
@@ -211,7 +210,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
     myMatch.matchData = myMatchData;
     print(jsonEncode(myMatch));
     setState(() {
-      _breakdownWidget = new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),);
+      _breakdownWidget = new GestureDetector(
+          onTap: () {
+            Clipboard.setData(new ClipboardData(text: jsonEncode(myMatch).toString()));
+            print("Copied!");
+          },
+          child: new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),)
+      );
     });
   }
 
@@ -276,7 +281,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
                                 breakdownBtnText = Colors.white;
                                 qrBtnColor = currBackgroundColor;
                                 qrBtnText = currTextColor;
-                                _breakdownWidget = new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),);
+                                _breakdownWidget = new GestureDetector(
+                                  onTap: () {
+                                    Clipboard.setData(new ClipboardData(text: jsonEncode(myMatch).toString()));
+                                    print("Copied!");
+                                  },
+                                  child: new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),)
+                                );
                               });
                             },
                           ),

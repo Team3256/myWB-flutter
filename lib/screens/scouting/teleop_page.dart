@@ -61,7 +61,8 @@ class _TeleopPageState extends State<TeleopPage> {
   TextEditingController _foulController = new TextEditingController();
 
   // Endgame
-  String climbImagePath = "images/yes.png";
+  String climbImagePath = "images/add.png";
+  String climbStatus = "Not Parked";
   double climbStartTime = 0.0;
   Color climbAdd = currCardColor;
   Color climbText = currTextColor;
@@ -69,11 +70,21 @@ class _TeleopPageState extends State<TeleopPage> {
   int endHabLevel = 0;
   double climbContainerHeight = 0.0;
   bool canSupport = false;
-  bool dropped = false;
   Color canSupportYes = currCardColor;
   Color canSupportNo = currCardColor;
 
-  // Climb Lvl 1
+  void getParkStatus() {
+    if (climbList.last != null && climbList.last.habLevel != 0) {
+      setState(() {
+        climbStatus = climbList.last.habLevel.toString();
+      });
+    }
+    else {
+      setState(() {
+        climbStatus = "Not Parked";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -850,45 +861,44 @@ class _TeleopPageState extends State<TeleopPage> {
             ),
           ),
           new ListTile(
-            title: new Text("Parked?", style: TextStyle(color: climbText),),
-            trailing: new IconButton(
-              icon: new Image.asset(climbImagePath, color: climbAdd,),
-              onPressed: () {
-                dropped = false;
-                if (climbImagePath == "images/yes.png") {
-                  if (climbList.length == 0 || climbList[climbList.length - 1].dropped == true) {
-                    climbStopwatch.reset();
-                    climbStopwatch.start();
-                    climbStartTime = stopwatch.elapsedMilliseconds / 1000;
-                    setState(() {
-                      canSupportYes = currCardColor;
-                      canSupportNo = mainColor;
-                      climbImagePath = "images/no.png";
-                      climbText = mainColor;
-                      climbAdd = mainColor;
-                      climbContainerHeight = 250.0;
-                    });
-                    new Timer.periodic(const Duration(milliseconds: 100), (Timer timer) {
-                      if (climbStopwatch.isRunning) {
-                        setState(() {
-                          climbTimer = (climbStopwatch.elapsedMilliseconds / 1000).round();
-                        });
-                      }
-                    });
-                  }
-                }
-                else {
-                  climbStopwatch.stop();
-                  climbStopwatch.reset();
-                  setState(() {
-                    climbImagePath = "images/yes.png";
-                    climbText = currTextColor;
-                    climbAdd = currCardColor;
-                    climbContainerHeight = 0.0;
-                  });
-                }
-              },
-            ),
+            title: new Text("Park Status", style: TextStyle(color: climbText),),
+            subtitle: new Text(climbStatus, style: TextStyle(color: Colors.grey),),
+            trailing: new Container(
+                width: 100.0,
+                child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new Text(
+                        climbList.length.toString(),
+                        style: TextStyle(fontSize: 20.0, color: currTextColor),
+                      ),
+                      new IconButton(
+                        icon: new Image.asset(climbImagePath, color: climbAdd,),
+                        onPressed: () {
+                          if (climbImagePath == "images/add.png") {
+                            climbStartTime = stopwatch.elapsedMilliseconds / 1000;
+                            setState(() {
+                              canSupportYes = currCardColor;
+                              canSupportNo = mainColor;
+                              climbImagePath = "images/subtract.png";
+                              climbText = mainColor;
+                              climbAdd = mainColor;
+                              climbContainerHeight = 250.0;
+                            });
+                          }
+                          else {
+                            setState(() {
+                              climbImagePath = "images/add.png";
+                              climbText = currTextColor;
+                              climbAdd = currCardColor;
+                              climbContainerHeight = 0.0;
+                            });
+                          }
+                        },
+                      ),
+                    ]
+                )
+            )
           ),
           new AnimatedContainer(
             duration: new Duration(milliseconds: 300),
@@ -940,15 +950,13 @@ class _TeleopPageState extends State<TeleopPage> {
                           child: new FlatButton(
                             child: new Text("Lvl 1", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
-                              climbStopwatch.stop();
-                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, 0.0, 1, canSupport, false));
+                              matchEventList.add(new Climb(climbStartTime, 0.0, 1, canSupport, false));
                               setState(() {
-                                climbImagePath = "images/yes.png";
+                                climbImagePath = "images/add.png";
                                 climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
-                              climbStopwatch.reset();
                             },
                           ),
                         ),
@@ -963,15 +971,13 @@ class _TeleopPageState extends State<TeleopPage> {
                           child: new FlatButton(
                             child: new Text("Lvl 2", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
-                              climbStopwatch.stop();
-                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, 0, 2, canSupport, false));
+                              matchEventList.add(new Climb(climbStartTime, 0, 2, canSupport, false));
                               setState(() {
-                                climbImagePath = "images/yes.png";
+                                climbImagePath = "images/add.png";
                                 climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
-                              climbStopwatch.reset();
                             },
                           ),
                         ),
@@ -986,15 +992,13 @@ class _TeleopPageState extends State<TeleopPage> {
                           child: new FlatButton(
                             child: new Text("Lvl 3", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                             onPressed: () {
-                              climbStopwatch.stop();
-                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, 0, 3, canSupport, false));
+                              matchEventList.add(new Climb(climbStartTime, 0, 3, canSupport, false));
                               setState(() {
-                                climbImagePath = "images/yes.png";
+                                climbImagePath = "images/add.png";
                                 climbText = currTextColor;
                                 climbContainerHeight = 0.0;
                               });
-                              climbStopwatch.reset();
                             },
                           ),
                         ),
@@ -1011,20 +1015,17 @@ class _TeleopPageState extends State<TeleopPage> {
                         child: new Container(
                           color: Colors.red,
                           child: new FlatButton(
-                            child: new Text("Droppped"),
+                            child: new Text("Not Parked"),
                             textColor: Colors.white,
                             onPressed: () {
-                              dropped = true;
-                              climbStopwatch.stop();
-                              climbList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
-                              matchEventList.add(new Climb(climbStartTime, climbStopwatch.elapsedMilliseconds/1000, endHabLevel, canSupport, dropped));
+                              climbList.add(new Climb(climbStartTime, 0, 0, canSupport, false));
+                              matchEventList.add(new Climb(climbStartTime, 0, 0, canSupport, false));
                               setState(() {
-                                climbImagePath = "images/yes.png";
+                                climbImagePath = "images/add.png";
                                 climbText = currTextColor;
                                 climbAdd = currCardColor;
                                 climbContainerHeight = 0.0;
                               });
-                              climbStopwatch.reset();
                             },
                           ),
                         ),
@@ -1032,21 +1033,8 @@ class _TeleopPageState extends State<TeleopPage> {
                     ),
                   ],
                 ),
-                new Padding(padding: EdgeInsets.all(4.0)),
-                new ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  child: new Container(
-                    color: currCardColor,
-                    child: new ListTile(
-                      title: new Text("$climbTimer sec", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
-                    ),
-                  ),
-                )
               ],
             ),
-          ),
-          new ListTile(
-            title: new Text(""),
           )
         ],
       ),
