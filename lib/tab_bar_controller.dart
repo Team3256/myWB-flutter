@@ -84,6 +84,7 @@ class _TabBarControllerState extends State<TabBarController> {
     super.initState();
     firebaseCloudMessaging_Listeners();
     _firebaseMessaging.subscribeToTopic("allDevices");
+    databaseRef.child("users").child(userID).child("fcm").set(_firebaseMessaging.getToken());
     databaseRef.child("stableVersion").once().then((DataSnapshot snapshot) {
       var stable = snapshot.value;
       print("Current Version: $appVersion");

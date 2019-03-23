@@ -94,6 +94,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 hatchList.clear();
                 cargoList.clear();
                 foulList.clear();
+                climbList.clear();
                 stopwatch.stop();
                 stopwatch.reset();
                 dcStopwatch.stop();
@@ -136,6 +137,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 hatchList.clear();
                 cargoList.clear();
                 foulList.clear();
+                climbList.clear();
                 stopwatch.stop();
                 stopwatch.reset();
                 dcStopwatch.stop();

@@ -143,6 +143,7 @@ class _ScoutingPageState extends State<ScoutingPage> {
         currMatchList.removeAt(currMatchList.indexOf(oldValue));
       });
     });
+    getRecentMatches(currRegional.key);
   }
 
   Color getAllianceColor(String input) {

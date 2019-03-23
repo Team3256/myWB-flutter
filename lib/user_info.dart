@@ -13,7 +13,7 @@ import 'package:mywb_flutter/models/scouting_state.dart';
 final router = Router();
 
 double appVersion = 2.0;
-int appBuild = 2;
+int appBuild = 3;
 String appStatus = "";
 String appFull = "Version $appVersion";
 

@@ -105,6 +105,7 @@ class _ScoutingControllerState extends State<ScoutingController> {
                         hatchList.clear();
                         cargoList.clear();
                         foulList.clear();
+                        climbList.clear();
                         stopwatch.stop();
                         stopwatch.reset();
                         dcStopwatch.stop();
