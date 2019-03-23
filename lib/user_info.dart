@@ -32,6 +32,7 @@ String role = "[ERROR]";
 String userID = "";
 
 bool darkMode = false;
+bool offlineMode = false;
 
 String appLegal = """
 MIT License

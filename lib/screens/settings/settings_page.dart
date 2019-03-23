@@ -224,6 +224,18 @@ class _SettingsPageState extends State<SettingsPage> {
                         });
                       },
                     ),
+                    new Divider(height: 0.0, color: mainColor),
+                    new SwitchListTile.adaptive(
+                      title: new Text("Dark Mode", style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
+                      value: offlineMode,
+                      activeColor: mainColor,
+                      onChanged: (bool value) {
+                        print("Offline Mode - $value");
+                        setState(() {
+                          offlineMode = value;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),

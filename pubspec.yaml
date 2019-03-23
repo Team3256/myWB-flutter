@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   fluro: ^1.4.0
+  qr_flutter: ^2.0.0
   intro_views_flutter: ^2.4.0
   progress_indicators: ^0.1.2
   url_launcher: ^4.0.3

@@ -96,9 +96,10 @@ class _TabBarControllerState extends State<TabBarController> {
         appStatus = " Beta $appBuild";
       }
     });
-    if (currRegional == Regional("", "", "")) {
+    if (currRegional.key == "") {
       regionalList.clear();
       try {
+        print("Getting Regionals List");
         var regionalsUrl = "${dbHost}api/scouting/regional/";
         http.get(regionalsUrl, headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"}).then((response) {
           var regionalsJson = jsonDecode(response.body);

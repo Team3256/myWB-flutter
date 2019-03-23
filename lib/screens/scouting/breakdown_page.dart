@@ -10,6 +10,7 @@ import 'package:timeline/model/timeline_model.dart';
 import 'package:fluro/fluro.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
+import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -24,6 +25,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
   MatchData myMatchData = new MatchData();
 
   final databaseRef = FirebaseDatabase.instance.reference();
+
+  Widget _breakdownWidget = new Container();
+
+  Color breakdownBtnColor = mainColor;
+  Color breakdownBtnText = Colors.white;
+  Color qrBtnText = currTextColor;
+  Color qrBtnColor = currBackgroundColor;
 
   Color getAllianceColor() {
     if (currAlliance == "Blue") {
@@ -202,6 +210,9 @@ class _BreakdownPageState extends State<BreakdownPage> {
     // Add MatchData to object
     myMatch.matchData = myMatchData;
     print(jsonEncode(myMatch));
+    setState(() {
+      _breakdownWidget = new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),);
+    });
   }
 
   @override
@@ -248,9 +259,51 @@ class _BreakdownPageState extends State<BreakdownPage> {
               ),
             ),
             new Expanded(
-              child: new TimelineComponent(
-                timelineList: breakdownList,
-              ),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                child: new Column(
+                  children: <Widget>[
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new FlatButton(
+                            child: new Text("Breakdown"),
+                            color: breakdownBtnColor,
+                            textColor: breakdownBtnText,
+                            onPressed: () {
+                              setState(() {
+                                breakdownBtnColor = mainColor;
+                                breakdownBtnText = Colors.white;
+                                qrBtnColor = currBackgroundColor;
+                                qrBtnText = currTextColor;
+                                _breakdownWidget = new Text(jsonEncode(myMatch).toString(), style: TextStyle(color: currTextColor),);
+                              });
+                            },
+                          ),
+                        ),
+                        new Expanded(
+                          child: new FlatButton(
+                            child: new Text("QR Code"),
+                            color: qrBtnColor,
+                            textColor: qrBtnText,
+                            onPressed: () {
+                              setState(() {
+                                breakdownBtnColor = currBackgroundColor;
+                                breakdownBtnText = currTextColor;
+                                qrBtnColor = mainColor;
+                                qrBtnText = Colors.white;
+                                _breakdownWidget = new Text("qr code here");
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    new Padding(padding: EdgeInsets.all(8.0),),
+                    _breakdownWidget
+                  ],
+                ),
+              )
             )
           ],
         ),

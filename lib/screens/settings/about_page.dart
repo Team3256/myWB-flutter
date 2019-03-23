@@ -162,11 +162,11 @@ class _AboutPageState extends State<AboutPage> {
                             style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       ),
                       new ListTile(
-                        title: new Text("Martin Liu",
+                        title: new Text("Flaumbert Ruas",
                             style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       ),
                       new ListTile(
-                        title: new Text("Auguste Bruno",
+                        title: new Text("Bobby Daigle",
                             style: TextStyle(fontFamily: "Product Sans", color: currTextColor)),
                       ),
                       new ListTile(
