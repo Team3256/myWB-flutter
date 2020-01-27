@@ -1,0 +1,35 @@
+{
+  "stickers" : [
+    {
+      "filename" : "alex.sticker"
+    },
+    {
+      "filename" : "christian.sticker"
+    },
+    {
+      "filename" : "diep.sticker"
+    },
+    {
+      "filename" : "kashyap.sticker"
+    },
+    {
+      "filename" : "notlikekashyap.sticker"
+    },
+    {
+      "filename" : "kashyapsmirk.sticker"
+    },
+    {
+      "filename" : "unsafe.sticker"
+    },
+    {
+      "filename" : "wb.sticker"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "properties" : {
+    "grid-size" : "regular"
+  }
+}
