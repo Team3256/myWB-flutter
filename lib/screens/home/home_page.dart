@@ -81,14 +81,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
             print("Added ${event.id} to list");
             eventsList.add(event);
           }
-          if (event.startTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
+          if (event.endTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
             print(event.endTime.difference(event.startTime).inMilliseconds / 3600000);
             requiredPractice += event.endTime.difference(event.startTime).inMilliseconds / 3600000;
             for (int i = 0; i < excusedJson.length; i++) {
               if (excusedJson[i]["eventID"] == event.id && excusedJson[i]["status"] == "verified") {
                 print("EXCUSED");
                 requiredPractice -= event.endTime.difference(event.startTime).inMilliseconds / 3600000;
-//                requiredPractice = requiredPractice;
               }
             }
           }

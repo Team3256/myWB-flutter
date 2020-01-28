@@ -27,6 +27,49 @@ class _TabBarControllerState extends State<TabBarController> {
   Widget _settingsBody = new SettingsPage();
   Widget body;
 
+  void updateRequiredDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(context: context, builder: (context) {
+        return CupertinoAlertDialog(
+          title: new Text("Update Required\n"),
+          content: new Text("It looks like you are using an outdated version of the myWB App. Please update your app from the App Store."),
+          actions: <Widget>[
+            new CupertinoDialogAction(
+              child: new Text("OK"),
+              onPressed: () {
+                exit(0);
+              },
+            ),
+          ],
+        );
+      });
+    }
+    else if (Platform.isAndroid) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text("Update Required", style: TextStyle(color: currTextColor),),
+              backgroundColor: currBackgroundColor,
+              content: new Text(
+                  "It looks like you are using an outdated version of the myWB App. Please update your app from the Play Store."
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text("GOT IT"),
+                  textColor: mainColor,
+                  onPressed: () {
+                    exit(0);
+                  },
+                ),
+              ],
+            );
+          }
+      );
+    }
+  }
+
   void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
     _firebaseMessaging.configure(
@@ -66,6 +109,7 @@ class _TabBarControllerState extends State<TabBarController> {
           print("Force Update: ${snapshot.value}");
           if (snapshot.value) {
             print("Force this boi to update");
+            updateRequiredDialog();
           }
           else {
             print("outdated, no force");
