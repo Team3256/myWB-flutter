@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       print(result.user.displayName);
       print(result.user.email);
       try {
-        await http.get("$dbHost/users/${result.user.uid}").then((response) async {
+        await http.get("$dbHost/users/${result.user.uid}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           var responseJson = json.decode(response.body);
           if (responseJson["message"] != null) {
@@ -132,6 +132,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   void loginEmail() {
     if (_email == "yeet@vcrobotics.net" && _password == "riplane") {
       // yeahh, we logged in
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: "yeet@vcrobotics.net", password: "riplane");
       currUser = new User({
         "id": "YhAmV6AUQWaAMDlY3PGIaMNZ86l1",
         "firstName": "Yeet",

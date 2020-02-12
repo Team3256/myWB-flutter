@@ -27,12 +27,12 @@ class _AttendancePageState extends State<AttendancePage> {
   final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
 
   Future<void> getPractice() async {
-    await http.get("$dbHost/events").then((response) async {
+    await http.get("$dbHost/events", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       print(DateTime.now());
       double requiredPractice = 0;
       var eventsJson = jsonDecode(response.body);
-      await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) async {
+      await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
         print(response.body);
         var excusedJson = jsonDecode(response.body);
         for (int i = 0; i < eventsJson.length; i++) {
@@ -55,7 +55,7 @@ class _AttendancePageState extends State<AttendancePage> {
         }
         print("REQUIRED HOURS FOR USER: " + requiredPractice.toString());
         requiredHours = requiredPractice;
-        await http.get("$dbHost/users/${currUser.id}/attendance").then((response) async {
+        await http.get("$dbHost/users/${currUser.id}/attendance", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           double outreachHours = 0;
           double practiceHours = 0;
@@ -98,7 +98,7 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Future<void> getOutreach() async {
-    await http.get("$dbHost/users/${currUser.id}/attendance").then((response) async {
+    await http.get("$dbHost/users/${currUser.id}/attendance", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       double outreachHours = 0;
       var responseJson = jsonDecode(response.body);

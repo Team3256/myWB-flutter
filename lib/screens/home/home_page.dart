@@ -35,6 +35,22 @@ class _HomePageState extends State<HomePage> with RouteAware {
   int practiceProgress = 0;
   int outreachProgress = 0;
 
+  int announcementCount = 0;
+
+  Future<void> getAnnouncements() async {
+    await http.get("$dbHost/posts", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
+      print(response.body);
+      var postsJson = jsonDecode(response.body);
+      for (int i = 0; i < postsJson.length; i++) {
+        if (postsJson[i]["tags"].contains("Announcement")) {
+          setState(() {
+            announcementCount++;
+          });
+        }
+      }
+    });
+  }
+
   void confirmCheckOut(Event event) {
     showCupertinoModalPopup(context: context, builder: (BuildContext context) {
       return new CupertinoActionSheet(
@@ -64,14 +80,14 @@ class _HomePageState extends State<HomePage> with RouteAware {
   Future<void> getEvents() async {
     print("AUTO CHECK IN - ${autoCheckIn}");
     print("AUTO CHECK OUT - ${autoCheckOut}");
-    await http.get("$dbHost/events").then((response) async {
+    await http.get("$dbHost/events", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       print(DateTime.now());
       eventsList.clear();
       eventsWidgetList.clear();
       double requiredPractice = 0;
       var eventsJson = jsonDecode(response.body);
-      await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) {
+      await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
         print(response.body);
         var excusedJson = jsonDecode(response.body);
         for (int i = 0; i < eventsJson.length; i++) {
@@ -103,7 +119,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
   }
 
   Future<void> getAttendance(double requiredPractice) async {
-    await http.get("$dbHost/users/${currUser.id}/attendance").then((response) async {
+    await http.get("$dbHost/users/${currUser.id}/attendance", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       double outreachHours = 0;
       double practiceHours = 0;
@@ -204,7 +220,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
         }
       }
       String status = "";
-      await http.get("$dbHost/users/${currUser.id}/attendance/${eventsList[i].id}").then((response) {
+      await http.get("$dbHost/users/${currUser.id}/attendance/${eventsList[i].id}", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
         print(response.body);
         var responseJson = jsonDecode(response.body);
         if (responseJson["message"] != null) {
@@ -376,6 +392,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
   void initState() {
     super.initState();
     getEvents();
+    getAnnouncements();
   }
 
   @override
@@ -490,7 +507,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               new Text(
-                                "0",
+                                announcementCount.toString(),
                                 style: TextStyle(fontSize: 35.0, color: darkMode ? Colors.grey : Colors.black54),
                               ),
                               new Text(

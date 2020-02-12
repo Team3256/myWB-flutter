@@ -119,7 +119,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
                 "eventID": selectedEvent.id,
                 "status": "unverified",
                 "reason": reason
-              })).then((response) {
+              }), headers: {"Authentication": "Bearer $apiKey"}).then((response) {
                 print(response.body);
                 var responseJson = jsonDecode(response.body);
                 if (responseJson["message"] != null) {
@@ -200,7 +200,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
             "checkIn": now,
             "checkOut": now,
             "status": "present"
-          })).then((response) async {
+          }), headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
             print(response.body);
             var responseJson = jsonDecode(response.body);
             if (responseJson["message"] != null) {
@@ -252,7 +252,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
             "checkIn": checkIn,
             "checkOut": DateTime.now().toString(),
             "status": "present"
-          })).then((response) async {
+          }), headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
             print(response.body);
             var responseJson = jsonDecode(response.body);
             if (responseJson["message"] != null) {
@@ -305,7 +305,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
   }
   
   Future<void> setupFab() async {
-    await http.get("$dbHost/users/${currUser.id}/attendance/${selectedEvent.id}").then((response) async {
+    await http.get("$dbHost/users/${currUser.id}/attendance/${selectedEvent.id}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       var responseJson = jsonDecode(response.body);
       if (responseJson["message"] != null) {
@@ -346,7 +346,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
               ),
             );
           });
-          await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) {
+          await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
             print(response.body);
             var excusedJson = jsonDecode(response.body);
             for (int i = 0; i < excusedJson.length; i++) {
@@ -475,7 +475,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: fabWidget,
       backgroundColor: currBackgroundColor,
-      body: new Container(
+      body: new SingleChildScrollView(
         padding: EdgeInsets.all(8.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,6 +545,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
                 trailing: new Text(checkOutText),
               ),
             ),
+            new Visibility(visible: (checkOutText != ""), child: new Padding(padding: EdgeInsets.all(32.0))),
           ],
         ),
       ),

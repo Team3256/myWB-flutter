@@ -51,7 +51,7 @@ class _EventsPageState extends State<EventsPage> {
       practiceElevation = 0.0;
       outreachElevation = 0.0;
     });
-    await http.get("$dbHost/events").then((response) async {
+    await http.get("$dbHost/events", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       var eventsJson = jsonDecode(response.body);
       for (int i = 0; i < eventsJson.length; i++) {
@@ -63,14 +63,14 @@ class _EventsPageState extends State<EventsPage> {
         return a.date.compareTo(b.date);
       });
       for (Event event in eventsList) {
-        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}").then((response) async {
+        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
           if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
             print("NOT ATTENDED");
             statusColor = Colors.red;
-            await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) {
+            await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
               var excusedJson = jsonDecode(response.body);
               for (int i = 0; i < excusedJson.length; i++) {
                 if (excusedJson[i]["eventID"] == event.id && excusedJson[i]["status"] == "verified") {
@@ -193,7 +193,7 @@ class _EventsPageState extends State<EventsPage> {
       practiceElevation = 6.0;
       outreachElevation = 0.0;
     });
-    await http.get("$dbHost/events").then((response) async {
+    await http.get("$dbHost/events", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       var eventsJson = jsonDecode(response.body);
       for (int i = 0; i < eventsJson.length; i++) {
@@ -206,13 +206,13 @@ class _EventsPageState extends State<EventsPage> {
         return a.date.compareTo(b.date);
       });
       for (Event event in eventsList) {
-        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}").then((response) async {
+        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
           if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
             statusColor = Colors.red;
-            await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) {
+            await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
               print(response.body);
               var excusedJson = jsonDecode(response.body);
               for (int i = 0; i < excusedJson.length; i++) {
@@ -329,7 +329,7 @@ class _EventsPageState extends State<EventsPage> {
       practiceElevation = 0.0;
       outreachElevation = 6.0;
     });
-    await http.get("$dbHost/events").then((response) async {
+    await http.get("$dbHost/events", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
       print(response.body);
       var eventsJson = jsonDecode(response.body);
       for (int i = 0; i < eventsJson.length; i++) {
@@ -342,13 +342,13 @@ class _EventsPageState extends State<EventsPage> {
         return a.date.compareTo(b.date);
       });
       for (Event event in eventsList) {
-        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}").then((response) async {
+        await http.get("$dbHost/users/${currUser.id}/attendance/${event.id}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
           if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
             statusColor = Colors.red;
-            await http.get("$dbHost/users/${currUser.id}/attendance/excused").then((response) {
+            await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
               print(response.body);
               var excusedJson = jsonDecode(response.body);
               for (int i = 0; i < excusedJson.length; i++) {

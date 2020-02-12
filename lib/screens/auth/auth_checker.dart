@@ -49,7 +49,7 @@ class _AuthCheckerPageState extends State<AuthCheckerPage> {
     if (user != null) {
       print("USER LOGGED");
       try {
-        await http.get("$dbHost/users/${user.uid}").then((response) async {
+        await http.get("$dbHost/users/${user.uid}", headers: {"Authentication": "Bearer $apiKey"}).then((response) async {
           print(response.body);
           var responseJson = json.decode(response.body);
           if (responseJson["message"] != null) {

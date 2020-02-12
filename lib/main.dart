@@ -6,6 +6,7 @@ import 'package:mywb_flutter/screens/auth/login_page.dart';
 import 'package:mywb_flutter/screens/auth/login_page_old.dart';
 import 'package:mywb_flutter/screens/auth/register_page.dart';
 import 'package:mywb_flutter/screens/auth/server_error_page.dart';
+import 'package:mywb_flutter/screens/home/announcements_page.dart';
 import 'package:mywb_flutter/screens/home/attendance_page.dart';
 import 'package:mywb_flutter/screens/home/event_details_page.dart';
 import 'package:mywb_flutter/screens/home/events_page.dart';
@@ -34,6 +35,9 @@ void main() {
   // HOME ROUTES
   router.define('/home', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new TabBarController();
+  }));
+  router.define('/announcements', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new AnnouncementsPage();
   }));
   router.define('/events', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new EventsPage();
