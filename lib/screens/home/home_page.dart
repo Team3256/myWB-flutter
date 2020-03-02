@@ -559,7 +559,36 @@ class _HomePageState extends State<HomePage> with RouteAware {
                   ),
                 ),
               ),
-            )
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0, bottom: 4.0),
+              child: new Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                color: currCardColor,
+                elevation: 6.0,
+                child: new InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  onTap: () {
+                    router.navigateTo(context, '/scouting/matches', transition: TransitionType.cupertino);
+                  },
+                  child: new Container(
+                    padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                    child: new Row(
+                      children: <Widget>[
+                        new Padding(padding: EdgeInsets.all(8.0)),
+                        new Expanded(
+                          child: new Container(
+                            padding: EdgeInsets.only(right: 4.0, left: 4.0, bottom: 12, top: 12),
+                            child: new Text("Purchase Requests", style: TextStyle(color: currTextColor, fontSize: 15.0,)),
+                          ),
+                        ),
+                        new Icon(Icons.navigate_next, color: currDividerColor),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ]),
         ),
       ],

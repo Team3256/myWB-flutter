@@ -12,12 +12,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("bruh"),
+        title: new Text("Account Not Found"),
       ),
-      body: new WebView(
-        initialUrl: "$webHost/#/login",
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+      body: new Center(
+        child: new Text(
+          "Please go to http://vcrobotics.net/#/login to create a myWB Account!"
+        ),
+      )
     );
   }
 }

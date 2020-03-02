@@ -41,7 +41,7 @@ class _AttendancePageState extends State<AttendancePage> {
           if (event.date.month == DateTime.now().month && event.date.day >= DateTime.now().day && event.date.day - DateTime.now().day <= 2) {
             print("Added ${event.id} to list");
           }
-          if (event.startTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
+          if (event.endTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
             print(event.endTime.difference(event.startTime).inMilliseconds / 3600000);
             requiredPractice += event.endTime.difference(event.startTime).inMilliseconds / 3600000;
             for (int i = 0; i < excusedJson.length; i++) {

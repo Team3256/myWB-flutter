@@ -151,7 +151,7 @@ class _TabBarControllerState extends State<TabBarController> {
       _firebaseMessaging.subscribeToTopic(perm);
     });
     currUser.subteams.forEach((subteam) {
-      _firebaseMessaging.subscribeToTopic(subteam);
+      _firebaseMessaging.subscribeToTopic(subteam.toUpperCase());
     });
     databaseRef.child("users").child(currUser.id).child("fcm").set(_firebaseMessaging.getToken());
     databaseRef.child("users").child(currUser.id).update({

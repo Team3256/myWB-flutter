@@ -18,6 +18,8 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> {
 
+  String state = "all";
+
   Color allTextColor = Colors.white;
   Color practiceTextColor = currTextColor;
   Color outreachTextColor = currTextColor;
@@ -36,6 +38,8 @@ class _EventsPageState extends State<EventsPage> {
   Future<void> getEvents() async {
     print("GET ALL EVENTS");
     setState(() {
+      state = "all";
+
       eventsWidgetList.clear();
       eventsList.clear();
 
@@ -67,7 +71,7 @@ class _EventsPageState extends State<EventsPage> {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
-          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
+          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
             print("NOT ATTENDED");
             statusColor = Colors.red;
             await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
@@ -178,6 +182,8 @@ class _EventsPageState extends State<EventsPage> {
 
   Future<void> getPracticeEvents() async {
     setState(() {
+      state = "practice";
+
       eventsWidgetList.clear();
       eventsList.clear();
 
@@ -210,7 +216,7 @@ class _EventsPageState extends State<EventsPage> {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
-          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
+          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
             statusColor = Colors.red;
             await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
               print(response.body);
@@ -314,6 +320,8 @@ class _EventsPageState extends State<EventsPage> {
 
   Future<void> getOutreachEvents() async {
     setState(() {
+      state = "outreach";
+
       eventsWidgetList.clear();
       eventsList.clear();
 
@@ -346,7 +354,7 @@ class _EventsPageState extends State<EventsPage> {
           print(response.body);
           var responseJson = jsonDecode(response.body);
           Color statusColor;
-          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0) {
+          if (responseJson["message"] != null && event.endTime.compareTo(DateTime.now()) < 0 && event.type == "practice") {
             statusColor = Colors.red;
             await http.get("$dbHost/users/${currUser.id}/attendance/excused", headers: {"Authentication": "Bearer $apiKey"}).then((response) {
               print(response.body);
@@ -477,7 +485,11 @@ class _EventsPageState extends State<EventsPage> {
                     elevation: allElevation,
                     child: new FlatButton(
                       child: new Text("All", style: TextStyle(color: allTextColor)),
-                      onPressed: getEvents
+                      onPressed: () {
+                        if (state != "all") {
+                          getEvents();
+                        }
+                      }
                     ),
                   ),
                 ),
@@ -488,7 +500,11 @@ class _EventsPageState extends State<EventsPage> {
                     elevation: practiceElevation,
                     child: new FlatButton(
                         child: new Text("Practice", style: TextStyle(color: practiceTextColor)),
-                        onPressed: getPracticeEvents
+                        onPressed: () {
+                          if (state != "practice") {
+                            getPracticeEvents();
+                          }
+                        }
                     ),
                   ),
                 ),
@@ -499,7 +515,11 @@ class _EventsPageState extends State<EventsPage> {
                     elevation: outreachElevation,
                     child: new FlatButton(
                         child: new Text("Outreach", style: TextStyle(color: outreachTextColor)),
-                        onPressed: getOutreachEvents
+                        onPressed: () {
+                          if (state != "outreach") {
+                            getOutreachEvents();
+                          }
+                        }
                     ),
                   ),
                 ),
@@ -507,13 +527,17 @@ class _EventsPageState extends State<EventsPage> {
             ),
             new Padding(padding: EdgeInsets.all(4.0)),
             new Visibility(
-              visible: (eventsWidgetList.length > 0),
-              child: new Column(
-                children: eventsWidgetList,
+              visible: eventsList.isNotEmpty,
+              child: new Expanded(
+                child: new SingleChildScrollView(
+                  child: new Column(
+                    children: eventsWidgetList,
+                  ),
+                ),
               ),
             ),
             new Visibility(
-              visible: (eventsWidgetList.length == 0),
+              visible: eventsList.isEmpty,
               child: new Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(32.0),

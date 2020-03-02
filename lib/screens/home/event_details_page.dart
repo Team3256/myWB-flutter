@@ -99,6 +99,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
           placeholder: "Reason for absence",
           autocorrect: true,
           autofocus: true,
+//          style: TextStyle(color: Colors.white),
           onChanged: (input) {
             reason = input;
           },
@@ -218,7 +219,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
                     color: Colors.red,
                     borderRadius: BorderRadius.all(Radius.circular(16.0)),
                     onPressed: () {
-                      checkOut(now);
+                      confirmCheckOut(now);
                     },
                   ),
                 );
@@ -324,7 +325,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
             );
           });
         }
-        else if (selectedEvent.endTime.compareTo(DateTime.now()) < 0) {
+        else if (selectedEvent.endTime.compareTo(DateTime.now()) < 0 && selectedEvent.type == "practice") {
           setState(() {
             fabWidget = new Container(
               height: 80.0,
@@ -399,12 +400,21 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
             }
           });
         }
-        else {
+        else if (selectedEvent.startTime.compareTo(DateTime.now()) > 0) {
           setState(() {
             fabWidget = new Container(
               height: 50.0,
               width: MediaQuery.of(context).size.width - 16,
               child: Center(child: new Text("This event has not started yet.")),
+            );
+          });
+        }
+        else {
+          setState(() {
+            fabWidget = new Container(
+              height: 50.0,
+              width: MediaQuery.of(context).size.width - 16,
+              child: Center(child: new Text("You did not attend this event\n(dw, it wasn't mandatory for all members)", textAlign: TextAlign.center,)),
             );
           });
         }
@@ -497,7 +507,7 @@ class _EventsDetailsPageState extends State<EventsDetailsPage> {
                     padding: EdgeInsets.only(top: 4.0, bottom: 4.0, right: 8.0, left: 8.0),
                   ),
                 ),
-                new Text("${DateFormat("LLLL d, yyyy").format(selectedEvent.date)}")
+                new Text("${DateFormat("EEEE LLLL d, yyyy").format(selectedEvent.date)}")
               ],
             ),
             new Padding(padding: EdgeInsets.all(4.0)),

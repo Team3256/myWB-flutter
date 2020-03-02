@@ -10,6 +10,7 @@ import 'package:mywb_flutter/screens/home/announcements_page.dart';
 import 'package:mywb_flutter/screens/home/attendance_page.dart';
 import 'package:mywb_flutter/screens/home/event_details_page.dart';
 import 'package:mywb_flutter/screens/home/events_page.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_controller.dart';
 import 'package:mywb_flutter/screens/settings/settings_about_page.dart';
 import 'package:mywb_flutter/screens/settings/settings_help_page.dart';
 import 'package:mywb_flutter/tab_bar_controller.dart';
@@ -47,6 +48,11 @@ void main() {
   }));
   router.define('/attendance', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new AttendancePage();
+  }));
+
+  // SCOUTING ROUTES
+  router.define('/scouting/controller', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingController();
   }));
 
   // SETTINGS ROUTES
