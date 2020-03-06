@@ -49,7 +49,7 @@ class _ScoutingControllerState extends State<ScoutingController> {
                 child: new Text("Yes"),
                 isDestructiveAction: true,
                 onPressed: () {
-                  databaseRef.child("regionals").child(currRegional.id).child("currMatches").child(currMatch.id).remove();
+                  databaseRef.child("regionals").child(currRegional.id).child("currMatches").child("${currMatch.id}-${currMatch.matchData.teamID}").remove();
                   stopwatch.stop();
                   stopwatch.reset();
                   router.pop(context);
@@ -73,7 +73,7 @@ class _ScoutingControllerState extends State<ScoutingController> {
   void initState() {
     super.initState();
     stopwatch.reset();
-//    stopwatch.start();
+    stopwatch.start();
     _timer = new Timer.periodic(new Duration(milliseconds: 100), getTimer);
   }
 
@@ -96,13 +96,19 @@ class _ScoutingControllerState extends State<ScoutingController> {
         print("MATCH OVER!");
         setState(() {
           state = "end";
-          doneButton = new FloatingActionButton.extended(
-            icon: new Text(""),
-            label: new Text("Review ", style: TextStyle(color: Colors.white),),
-            onPressed: () {
-//              print("${matchEventList.length + 1} EVENTS DETECTED");
-              router.navigateTo(context, '/scouting/breakdown', transition: TransitionType.native);
-            },
+          doneButton = Container(
+            width: MediaQuery.of(context).size.width - 16,
+            child: new CupertinoButton(
+              color: mainColor,
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+              child: new Text("Review"),
+              onPressed: () {
+                databaseRef.child("regionals").child(currRegional.id).child("currMatches").child("${currMatch.id}-${currMatch.matchData.teamID}").remove();
+                stopwatch.stop();
+                stopwatch.reset();
+                router.navigateTo(context, '/scouting/breakdown', transition: TransitionType.native);
+              },
+            ),
           );
         });
       }
@@ -131,6 +137,7 @@ class _ScoutingControllerState extends State<ScoutingController> {
           ),
         ),
         floatingActionButton: doneButton,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         backgroundColor: currBackgroundColor,
         body: new Container(
           child: new Column(

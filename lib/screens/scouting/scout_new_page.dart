@@ -74,18 +74,20 @@ class _ScoutNewPageState extends State<ScoutNewPage> {
                           errVisible = false;
                         });
                       }
-                      else if (currRegional.teamsList.contains(currMatch.matchData.teamID)) {
-                        setState(() {
-                          errColor = Colors.greenAccent;
-                          errVisible = true;
-                          errText = "Valid Team";
-                        });
-                      }
                       else {
                         setState(() {
                           errColor = Colors.redAccent;
                           errVisible = true;
                           errText = "Invalid Team";
+                        });
+                        currRegional.teamsList.forEach((t) {
+                          if (t.id == currMatch.matchData.teamID) {
+                            setState(() {
+                              errColor = Colors.greenAccent;
+                              errVisible = true;
+                              errText = "Valid Team";
+                            });
+                          }
                         });
                       }
                     },

@@ -42,6 +42,7 @@ dependencies:
   google_maps_flutter: ^0.5.21+15
   location: ^2.3.5
   pull_to_refresh: ^1.5.7
+  qr_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:

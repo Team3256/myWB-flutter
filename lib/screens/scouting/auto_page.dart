@@ -79,7 +79,7 @@ class _AutoPageState extends State<AutoPage> {
       child: new Column(
         children: <Widget>[
           new Visibility(
-            visible: stopwatch.elapsedMilliseconds <= 15000,
+            visible: stopwatch.elapsedMilliseconds <= 18000,
             child: new ListTile(
               title: new Text("Crossed Initiation-Line?", style: TextStyle(color: currTextColor),),
               trailing: Container(
@@ -113,34 +113,37 @@ class _AutoPageState extends State<AutoPage> {
               ),
             ),
           ),
-          new AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: currMatch.matchData.auto.crossed ? 60 : 0,
-            child: new ListTile(
-              title: new Text("Trench Auto?", style: TextStyle(color: currTextColor),),
-              trailing: Container(
-                child: new Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    new IconButton(
-                      icon: new Image.asset('images/no.png', color: currMatch.matchData.auto.trench ? currDividerColor : mainColor,),
-                      onPressed: () {
-                        setState(() {
-                          currMatch.matchData.auto.trench = false;
-                        });
-                        print(currMatch.matchData.auto);
-                      },
-                    ),
-                    new IconButton(
-                      icon: new Image.asset('images/yes.png', color: currMatch.matchData.auto.trench ? mainColor : currDividerColor,),
-                      onPressed: () {
-                        setState(() {
-                          currMatch.matchData.auto.trench = true;
-                        });
-                        print(currMatch.matchData.auto);
-                      },
-                    )
-                  ],
+          new Visibility(
+            visible: stopwatch.elapsedMilliseconds <= 18000,
+            child: new AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: currMatch.matchData.auto.crossed ? 60 : 0,
+              child: new ListTile(
+                title: new Text("Trench Auto?", style: TextStyle(color: currTextColor),),
+                trailing: Container(
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new IconButton(
+                        icon: new Image.asset('images/no.png', color: currMatch.matchData.auto.trench ? currDividerColor : mainColor,),
+                        onPressed: () {
+                          setState(() {
+                            currMatch.matchData.auto.trench = false;
+                          });
+                          print(currMatch.matchData.auto);
+                        },
+                      ),
+                      new IconButton(
+                        icon: new Image.asset('images/yes.png', color: currMatch.matchData.auto.trench ? mainColor : currDividerColor,),
+                        onPressed: () {
+                          setState(() {
+                            currMatch.matchData.auto.trench = true;
+                          });
+                          print(currMatch.matchData.auto);
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -373,6 +376,64 @@ class _AutoPageState extends State<AutoPage> {
           new Visibility(
             visible: stopwatch.elapsedMilliseconds >= 15000,
             child: new ListTile(
+              title: new Text("CW Rotation", style: TextStyle(color: currTextColor),),
+              trailing: Container(
+                child: new Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new IconButton(
+                      icon: new Image.asset('images/no.png', color: currMatch.matchData.spin.rotation ? currDividerColor : mainColor,),
+                      onPressed: () {
+                        setState(() {
+                          currMatch.matchData.spin.rotation = false;
+                        });
+                      },
+                    ),
+                    new IconButton(
+                      icon: new Image.asset('images/yes.png', color: !currMatch.matchData.spin.rotation ? currDividerColor : mainColor,),
+                      onPressed: () {
+                        setState(() {
+                          currMatch.matchData.spin.rotation = true;
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          new Visibility(
+            visible: stopwatch.elapsedMilliseconds >= 15000,
+            child: new ListTile(
+              title: new Text("CW Position", style: TextStyle(color: currTextColor),),
+              trailing: Container(
+                child: new Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new IconButton(
+                      icon: new Image.asset('images/no.png', color: currMatch.matchData.spin.position ? currDividerColor : mainColor,),
+                      onPressed: () {
+                        setState(() {
+                          currMatch.matchData.spin.position = false;
+                        });
+                      },
+                    ),
+                    new IconButton(
+                      icon: new Image.asset('images/yes.png', color: !currMatch.matchData.spin.position ? currDividerColor : mainColor,),
+                      onPressed: () {
+                        setState(() {
+                          currMatch.matchData.spin.position = true;
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          new Visibility(
+            visible: stopwatch.elapsedMilliseconds >= 15000,
+            child: new ListTile(
               title: new Text("Parked?", style: TextStyle(color: currTextColor),),
               trailing: Container(
                 child: new Row(
@@ -528,6 +589,7 @@ class _AutoPageState extends State<AutoPage> {
               ],
             ),
           ),
+          new Divider(indent: 8, endIndent: 8, color: currDividerColor,),
           new ListTile(
             title: new Text("Robot Disconnect", style: TextStyle(color: dcState ? mainColor : currTextColor),),
             trailing: Container(

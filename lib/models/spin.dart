@@ -1,12 +1,23 @@
 class Spin {
   String matchID = "";
   String teamID = "";
-  String dropLocation = "";
-  double startTime = 0.0;
-  double cycleTime = 0.0;
+  double rotationTime = 0.0;
+  bool rotation = false;
+  double positionTime = 0.0;
+  bool position = false;
 
   @override
   String toString() {
     return "";
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'matchID': matchID,
+        'teamID': teamID,
+        'rotationTime': rotationTime,
+        'rotation': rotation,
+        'positionTime': positionTime,
+        'position': position
+      };
 }

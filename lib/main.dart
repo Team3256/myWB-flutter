@@ -10,7 +10,12 @@ import 'package:mywb_flutter/screens/home/announcements_page.dart';
 import 'package:mywb_flutter/screens/home/attendance_page.dart';
 import 'package:mywb_flutter/screens/home/event_details_page.dart';
 import 'package:mywb_flutter/screens/home/events_page.dart';
+import 'package:mywb_flutter/screens/scouting/filter_regional_page.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_breakdown_page.dart';
 import 'package:mywb_flutter/screens/scouting/scouting_controller.dart';
+import 'package:mywb_flutter/screens/scouting/scouting_offline_page.dart';
+import 'package:mywb_flutter/screens/scouting/teams/scouting_teams_page.dart';
+import 'package:mywb_flutter/screens/scouting/teams/team_details_page.dart';
 import 'package:mywb_flutter/screens/settings/settings_about_page.dart';
 import 'package:mywb_flutter/screens/settings/settings_help_page.dart';
 import 'package:mywb_flutter/tab_bar_controller.dart';
@@ -51,8 +56,23 @@ void main() {
   }));
 
   // SCOUTING ROUTES
+  router.define('/scouting/offline', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new OfflineScoutingPage();
+  }));
+  router.define('/scouting/filter-regional', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new FilterRegionalPage();
+  }));
   router.define('/scouting/controller', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return new ScoutingController();
+  }));
+  router.define('/scouting/breakdown', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingBreakdownPage();
+  }));
+  router.define('/scouting/teams', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new ScoutingTeamsPage();
+  }));
+  router.define('/scouting/teams/details', handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return new TeamDetailsPage();
   }));
 
   // SETTINGS ROUTES

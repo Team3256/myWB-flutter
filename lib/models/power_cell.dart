@@ -9,4 +9,13 @@ class PowerCell {
   String toString() {
     return "$teamID SHOT POWER CELL INTO $dropLocation @ $pickupTime IN $cycleTime";
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'matchID': matchID,
+        'teamID': teamID,
+        'dropLocation': dropLocation,
+        'pickupTime': pickupTime,
+        'cycleTime': cycleTime,
+      };
 }

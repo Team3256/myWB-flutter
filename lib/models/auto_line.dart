@@ -10,4 +10,14 @@ class AutoLine {
   String toString() {
     return "$teamID ${crossed?"CROSSED":"DIDN'T CROSS"} – $crossTime FROM $startPosition";
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'matchID': matchID,
+        'teamID': teamID,
+        'startPosition': startPosition,
+        'crossed': crossed,
+        'crossTime': crossTime,
+        'trench': trench,
+      };
 }

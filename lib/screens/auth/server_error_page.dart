@@ -177,6 +177,13 @@ class _ServerErrorPageState extends State<ServerErrorPage> {
                   ),
                 ),
                 new Padding(padding: EdgeInsets.all(16.0)),
+                new FlatButton(
+                  child: new Text("OFFLINE MODE", style: TextStyle(color: mainColor),),
+                  onPressed: () {
+                    offlineMode = true;
+                    router.navigateTo(context, '/scouting/offline', replace: true);
+                  },
+                ),
                 Image.asset(
                   'images/wblogo.png',
                   height: 35.0,

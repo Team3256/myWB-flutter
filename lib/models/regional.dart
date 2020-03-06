@@ -1,3 +1,5 @@
+import 'package:mywb_flutter/models/team.dart';
+
 class Regional {
   String id;
   String city;
@@ -7,20 +9,24 @@ class Regional {
   String name;
   String shortName;
   DateTime startDate;
-  String year;
+  int year;
 
-  List<String> teamsList = new List();
+  List<Team> teamsList = new List();
 
   Regional(Map<String, dynamic> json) {
     this.city = json["city"];
     this.country = json["country"];
-    this.endDate = DateTime.parse(json["end_date"]);
-    this.eventCode = json["event_dode"];
+    this.endDate = DateTime.parse(json["endDate"]);
+    this.eventCode = json["eventCode"];
     this.id = json["id"];
     this.name = json["name"];
-    this.shortName = json["short_name"];
-    this.startDate = DateTime.parse(json["start_date"]);
+    this.shortName = json["shortName"];
+    this.startDate = DateTime.parse(json["startDate"]);
     this.year = json["year"];
+
+    for (int i = 0; i < json["teams"].length; i++) {
+      teamsList.add(new Team(json["teams"][i]));
+    }
   }
 
 }

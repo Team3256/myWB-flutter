@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mywb_flutter/models/curr_match.dart';
 import 'package:mywb_flutter/models/regional.dart';
+import 'package:mywb_flutter/models/spin.dart';
 import 'package:mywb_flutter/screens/scouting/scout_new_page.dart';
 import 'package:mywb_flutter/user_info.dart';
 import 'package:mywb_flutter/utils/config.dart';
@@ -27,7 +28,6 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
   var currMatchChangeSub;
   var currMatchRemoveSub;
 
-  double refreshErrorHeight = 0;
   bool refreshErrorVisible = false;
 
   @override
@@ -47,38 +47,21 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
     super.dispose();
   }
 
-  _ScoutingPageState() {
+  @override
+  void initState() {
+    super.initState();
     // Instantiate Data-Types for Firebase Listeners
     currMatchAddSub = databaseRef.child("fake").onChildAdded.listen((event) {});
     currMatchChangeSub = databaseRef.child("fake").onChildAdded.listen((event) {});
     currMatchRemoveSub = databaseRef.child("fake").onChildAdded.listen((event) {});
-    databaseRef.child("currRegional").once().then((snapshot) {
-        setState(() {
-          currRegional = new Regional({
-            "id": snapshot.value,
-            "city": "Victoria",
-            "country": "Canada",
-            "end_date": "2020-03-07",
-            "event_code": "bcvi",
-            "short_name": "Canada Pacific",
-            "name": "Canadian Pacific Regional",
-            "start_date": "2020-03-04",
-            "state_prov": "BC",
-            "year": "2020"
-          });
-        });
-        print("Current Regional: ${currRegional.id}");
-        onRefresh();
-    });
+    onRefresh();
   }
 
   Future<void> onRefresh() async {
     print("Refreshing");
     setState(() {
       refreshErrorVisible = false;
-      refreshErrorHeight = 0.0;
     });
-    await getTeamsList(currRegional.id);
     setState(() {
       currMatchList.clear();
     });
@@ -86,30 +69,76 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
     currMatchAddSub.cancel();
     currMatchChangeSub.cancel();
     currMatchRemoveSub.cancel();
-    // Populate Current Match List
-    currMatchAddSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildAdded.listen((Event event) {
-      setState(() {
-        currMatchList.add(new CurrMatch(event.snapshot));
+    // check for current
+    if (currRegional == null) {
+      print("getting default regional");
+      databaseRef.child("currRegional").once().then((snapshot) {
+        // TODO: replace with default regional
+        print(snapshot.value);
+        setState(() {
+          currRegional = new Regional({
+            "id": snapshot.value,
+            "city": "Victoria",
+            "country": "Canada",
+            "startDate": "2020-03-04",
+            "endDate": "2020-03-07",
+            "year": 2020,
+            "shortName": "Canadian Pacific",
+            "name": "Canadian Pacific Regional",
+            "eventCode": "bcvi",
+            "teams": []
+          });
+        });
       });
-    });
-    currMatchChangeSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildChanged.listen((Event event) {
-      var oldValue = currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
-      setState(() {
-        currMatchList[currMatchList.indexOf(oldValue)] = new CurrMatch(event.snapshot);
+    }
+    // Update Regionals
+    try {
+      await http.get("$dbHost/scouting/regionals").then((response) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          var regionalJson = jsonDecode(response.body);
+          regionalList.clear();
+          for (int i = 0; i < regionalJson.length; i++) {
+            setState(() {
+              regionalList.add(new Regional(regionalJson[i]));
+              if (currRegional != null && regionalJson[i]["id"] == currRegional.id) {
+                currRegional = new Regional(regionalJson[i]);
+              }
+            });
+          }
+        }
+        else {
+          setState(() {
+            refreshErrorVisible = true;
+          });
+        }
       });
-    });
-    currMatchRemoveSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildRemoved.listen((Event event) {
-      var oldValue =
-      currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
+    } catch (e) {
       setState(() {
-        currMatchList.removeAt(currMatchList.indexOf(oldValue));
+        refreshErrorVisible = true;
       });
-    });
-    getRecentMatches(currRegional.id);
-  }
-
-  Future getTeamsList(String regionalKey) async {
-    // TODO: Get endpoint from BK and add shit here
+    }
+    if (currRegional != null) {
+      // Populate Current Match List
+      currMatchAddSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildAdded.listen((Event event) {
+        setState(() {
+          currMatchList.add(new CurrMatch(event.snapshot));
+        });
+      });
+      currMatchChangeSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildChanged.listen((Event event) {
+        var oldValue = currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
+        setState(() {
+          currMatchList[currMatchList.indexOf(oldValue)] = new CurrMatch(event.snapshot);
+        });
+      });
+      currMatchRemoveSub = databaseRef.child("regionals").child(currRegional.id).child("currMatches").onChildRemoved.listen((Event event) {
+        var oldValue =
+        currMatchList.singleWhere((entry) => entry.key == event.snapshot.key);
+        setState(() {
+          currMatchList.removeAt(currMatchList.indexOf(oldValue));
+        });
+      });
+    }
   }
 
   Future getRecentMatches(String regionalKey) async {
@@ -148,17 +177,27 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
                 child: new Text("SCOUT", style: TextStyle(color: mainColor),),
                 onPressed: () {
                   if (currMatch.matchData.alliance != "" && currMatch.matchData.teamID != "" && currMatch.matchNum != 0 && (currMatch.id.contains("p") || currMatch.id.contains("qm"))) {
-//                    if (currRegional.teamsList.contains(currMatch.matchData.teamID)) {
-                    if (true) {
-                      String unid = databaseRef.push().key;
+                    bool found = false;
+                    currRegional.teamsList.forEach((t) {
+                      if (t.id == currMatch.matchData.teamID) {
+                        found = true;
+                      }
+                    });
+                    if (found) {
+//                    if (true) {
+                      currMatch.id += ("-" + currRegional.id);
+                      currMatch.regionalID = currRegional.id;
+                      currMatch.matchData.matchID = currMatch.id;
+                      currMatch.matchData.scouterID = currUser.id;
                       currMatch.matchData.auto.matchID = currMatch.id;
                       currMatch.matchData.auto.teamID = currMatch.matchData.teamID;
-                      databaseRef.child("regionals").child(currRegional.id).child("currMatches").child(unid).set({
+                      databaseRef.child("regionals").child(currRegional.id).child("currMatches").child("${currMatch.id}-${currMatch.matchData.teamID}").set({
                         "team": currMatch.matchData.teamID,
                         "alliance": currMatch.matchData.alliance,
                         "match": currMatch.matchNum,
                         "scoutedBy": currUser.firstName,
                       });
+                      currMatch.matchData.spin = new Spin();
                       router.pop(context);
                       router.navigateTo(context, '/scouting/controller', transition: TransitionType.native);
                     }
@@ -173,7 +212,7 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    if (currRegional.id == "off") {
+    if (currRegional == null) {
       return CustomScrollView(
         slivers: <Widget>[
           new CupertinoSliverNavigationBar(
@@ -240,23 +279,38 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
                 padding: EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.bounceIn,
-                height: refreshErrorHeight,
+                height: refreshErrorVisible ? 124 : 0,
                 child: new Card(
                   color: Colors.black.withOpacity(0.65),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  elevation: 6,
                   child: new Container(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(16.0),
                       child: Row(
                         children: <Widget>[
                           new Visibility(visible: refreshErrorVisible, child: new Icon(Icons.error_outline, color: Colors.red,)),
-                          new Padding(padding: EdgeInsets.all(4.0)),
-                          new Visibility(visible: refreshErrorVisible, child: Container(width: MediaQuery.of(context).size.width - 100, child: new Text("Ruh-roh! It looks like we were unable to fetch the list of teams from this regional. Please refresh before scouting.", style: TextStyle(color: Colors.white),))),
+                          new Padding(padding: EdgeInsets.all(8.0)),
+                          new Visibility(visible: refreshErrorVisible, child: Container(width: MediaQuery.of(context).size.width - 100, child: Column(
+                            children: <Widget>[
+                              new Text("Ruh-roh! It looks like we were unable to fetch the list of teams from this regional. Please refresh before scouting.", style: TextStyle(color: Colors.white),),
+                              new Padding(padding: EdgeInsets.all(4.0)),
+                              Row(
+                                children: <Widget>[
+                                  new Text("No internet? No problem.", style: TextStyle(color: Colors.white),),
+                                  new Padding(padding: EdgeInsets.all(2.0)),
+                                  new InkWell(child: new Text("Go Offline", style: TextStyle(color: CupertinoColors.activeBlue),), onTap: () {
+                                    offlineMode = true;
+                                    router.navigateTo(context, '/scouting/offline', replace: true);
+                                  },),
+                                ],
+                              ),
+                            ],
+                          ))),
                         ],
                       )
                   ),
                 ),
               ),
-              new Visibility(visible: refreshErrorVisible, child: new Padding(padding: EdgeInsets.all(8.0))),
               Container(
                 padding: EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
                 child: new Row(
@@ -268,7 +322,7 @@ class _ScoutingPageState extends State<ScoutingPage> with RouteAware {
                     ),
                     new GestureDetector(
                       onTap: () {
-                        router.navigateTo(context, '/filter-regional', transition: TransitionType.nativeModal);
+                        router.navigateTo(context, '/scouting/filter-regional', transition: TransitionType.nativeModal);
                       },
                       child: new Card(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
